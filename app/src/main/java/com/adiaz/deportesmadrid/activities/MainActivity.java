@@ -1,7 +1,6 @@
 package com.adiaz.deportesmadrid.activities;
 
-import android.content.ContentValues;
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,19 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.adiaz.deportesmadrid.DistrictActivity;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
-import com.adiaz.deportesmadrid.db.DbContract.CompetitionEntry;
+import com.adiaz.deportesmadrid.db.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
+import com.adiaz.deportesmadrid.utils.RecyclerElement;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<CompetitionRetrofitEntity>> {
+public class MainActivity extends AppCompatActivity implements Callback<List<CompetitionRetrofitEntity>>,CompetitionAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.progressBar)
@@ -42,13 +42,12 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     @BindView(R.id.view_result)
     View vResults;
 
-    @BindView(R.id.tv_competitions)
-    TextView tvCompetitionsText;
-
     @BindView(R.id.rv_sports)
     RecyclerView rvCompetitions;
 
-    Cursor mCursor;
+    private List<Competition> mCompetitionsList;
+
+    private List<RecyclerElement> elementsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         ButterKnife.bind(this);
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.INVISIBLE);
-        mCursor = getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, null, null, null);
-        if (mCursor.getCount()==0) {
+        mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
+        if (mCompetitionsList.size()==0) {
             syncCompetitions();
         } else {
             fillRecyclerview();
@@ -92,19 +91,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
 
     @Override
     public void onResponse(Call<List<CompetitionRetrofitEntity>> call, Response<List<CompetitionRetrofitEntity>> response) {
-        Log.d(TAG, "onResponse: response.body() -->" + response.body().size());
-        List<ContentValues> contentValues = new ArrayList<>();
-        for (CompetitionRetrofitEntity competitionRetrofitEntity : response.body()) {
-            ContentValues cv = CompetitionEntry.retrofitEntityToContentValue(competitionRetrofitEntity);
-            contentValues.add(cv);
-        }
-        ContentValues[] array = contentValues.toArray(new ContentValues[contentValues.size()]);
-
-        //before insert it is necessary to delete all.
-        getContentResolver().delete(CompetitionEntry.CONTENT_URI, null, null);
-        getContentResolver().bulkInsert(CompetitionEntry.CONTENT_URI, array);
+        CompetitionsDAO.insertCompetitions(this, response.body());
         //select all
-        mCursor = getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, null, null, null);
+        mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
         fillRecyclerview();
     }
 
@@ -114,20 +103,42 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     }
 
     private void fillRecyclerview() {
-        Set<String> sportsSet = new HashSet<>();
-        while (mCursor.moveToNext()) {
-            sportsSet.add(mCursor.getString(CompetitionEntry.INDEX_DEPORTE));
-        }
-        List<String> sportsList = new ArrayList<>();
-        sportsList.addAll(sportsSet);
-        tvCompetitionsText.setText("competitions found: " + mCursor.getCount());
+        elementsList = initElementsList(mCompetitionsList);
+        getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, sportsList);
+        CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, elementsList);
         rvCompetitions.setHasFixedSize(true);
         rvCompetitions.setLayoutManager(layoutManager);
         rvCompetitions.setAdapter(competitionAdapter);
         competitionAdapter.notifyDataSetChanged();
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.VISIBLE);
+    }
+
+    private List<RecyclerElement> initElementsList(List<Competition> competitions) {
+        List<RecyclerElement> listElements = new ArrayList<>();
+        HashMap<String, Integer> map = new HashMap<>();
+        for (Competition competition : competitions) {
+            Integer count = map.get(competition.deporte());
+            if (count==null) {
+                count = 0;
+            }
+            map.put(competition.deporte(), count + 1);
+        }
+        for (String s : map.keySet()) {
+            RecyclerElement recyclerElement = new RecyclerElement(s, map.get(s));
+            listElements.add(recyclerElement);
+        }
+        return listElements;
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent intent = new Intent(this, DistrictActivity.class);
+        String sportName = elementsList.get(clickedItemIndex).getName();
+        Integer sportCount = elementsList.get(clickedItemIndex).getCount();
+        intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportName);
+        intent.putExtra(Constants.EXTRA_SPORT_SELECTED_COUNT, sportCount);
+        startActivity(intent);
     }
 }

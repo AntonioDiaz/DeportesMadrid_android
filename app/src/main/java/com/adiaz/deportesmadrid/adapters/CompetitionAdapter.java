@@ -8,23 +8,26 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
+import com.adiaz.deportesmadrid.utils.RecyclerElement;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.ViewHolder>{
-
+public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.ViewHolder> {
 
     Context mContext;
-    List<String> mSportsList;
+    List<RecyclerElement> sportsList;
+    private final ListItemClickListener mOnClickListener;
 
-    public CompetitionAdapter(Context mContext, List<String> sportsList) {
+    public CompetitionAdapter(Context mContext, ListItemClickListener listItemClickListener, List<RecyclerElement> sportsList) {
         this.mContext = mContext;
-        this.mSportsList = sportsList;
+        this.mOnClickListener = listItemClickListener;
+        this.sportsList = sportsList;
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,23 +38,38 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvCompetitionTitle.setText(mSportsList.get(position));
+        String str = sportsList.get(position).getName() + " - " + sportsList.get(position).getCount();
+        holder.tvCompetitionTitle.setText(str);
+        //holder.tvCompetitionCount.setText(sportCount);
     }
 
     @Override
     public int getItemCount() {
-        return mSportsList.size();
+        return sportsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
 
-        @BindView(R.id.tv_competition_title)
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.tv_sport_title)
         TextView tvCompetitionTitle;
+
+        /*        @BindView(R.id.tv_sport_count)
+        TextView tvCompetitionCount;*/
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            mOnClickListener.onListItemClick(position);
         }
     }
 }

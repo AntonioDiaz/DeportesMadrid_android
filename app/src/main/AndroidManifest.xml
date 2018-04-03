@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".DistrictActivity">
+
+        </activity>
+
         <provider
             android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"

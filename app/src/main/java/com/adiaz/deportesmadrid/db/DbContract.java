@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 
 /**
@@ -78,8 +79,22 @@ public class DbContract {
             return cv;
         }
 
-        public static CompetitionEntry cursorToEntry(Cursor cursor) {
-            return null;
+        public static Competition cursorToEntity(Cursor cursor) {
+            //Competition competition
+            Competition competition = Competition.builder()
+                    .id(cursor.getInt(INDEX_ID))
+                    .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
+                    .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))
+                    .codFase(cursor.getInt(INDEX_COD_FASE))
+                    .codGrupo(cursor.getInt(INDEX_COD_GRUPO))
+                    .nomTemporada(cursor.getString(INDEX_NOM_TEMPORADA))
+                    .nomCompeticion(cursor.getString(INDEX_NOM_COMPETICION))
+                    .nomFase(cursor.getString(INDEX_NOM_FASE))
+                    .nomGrupo(cursor.getString(INDEX_NOM_GRUPO))
+                    .deporte(cursor.getString(INDEX_DEPORTE))
+                    .distrito(cursor.getString(INDEX_DISTRITO))
+                    .build();
+            return competition;
         }
     }
 

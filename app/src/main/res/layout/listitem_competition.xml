@@ -6,9 +6,18 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tv_competition_title"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_sport_title"
+        android:layout_width="0px"
         android:layout_height="match_parent"
-        android:text="TextView"
+        android:layout_weight="4"
+        android:text="Sport name"
         android:padding="8dp"/>
+
+<!--    <TextView
+        android:id="@+id/tv_sport_count"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="122"
+        android:padding="8dp"/>-->
 </LinearLayout>

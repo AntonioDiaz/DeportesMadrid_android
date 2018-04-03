@@ -1,44 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adiaz.deportesmadrid.activities.MainActivity">
+    android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/pb_loading_districts"
         style="?android:attr/progressBarStyle"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/view_result"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_districts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_sports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
-<!--
-
--->
-
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
