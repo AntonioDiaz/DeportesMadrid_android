@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        // TODO: 5/4/18 chapu: fix spaces add margin between icon and title.
+        getSupportActionBar().setTitle("    " + getString(R.string.app_name));
+
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.INVISIBLE);
         mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
@@ -103,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
 
     private void fillRecyclerview() {
         elementsList = initElementsList(mCompetitionsList);
-        getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
+        //getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, elementsList);
         rvCompetitions.setHasFixedSize(true);

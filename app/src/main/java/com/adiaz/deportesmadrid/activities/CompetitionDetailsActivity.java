@@ -50,10 +50,9 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         String codCompetition = getIntent().getStringExtra(Constants.COD_COMPETITION);
         String nameCompetition = getIntent().getStringExtra(Constants.NAME_COMPETITION);
-        getSupportActionBar().setSubtitle("Competición: " + nameCompetition);
+        getSupportActionBar().setSubtitle(nameCompetition);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tvDetails.setText("Competición: " + codCompetition);
-
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
