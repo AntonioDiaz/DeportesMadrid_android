@@ -1,11 +1,11 @@
 package com.adiaz.deportesmadrid.utils;
 
-public class RecyclerElement {
+public class ListItem {
 
     String name;
-    Integer count;
+    String count;
 
-    public RecyclerElement(String n, Integer i) {
+    public ListItem(String n, String i) {
         name = n;
         count = i;
     }
@@ -18,11 +18,11 @@ public class RecyclerElement {
         this.name = name;
     }
 
-    public Integer getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(String count) {
         this.count = count;
     }
 }

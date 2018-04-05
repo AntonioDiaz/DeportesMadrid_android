@@ -33,7 +33,6 @@ public class CompetitionsDAO {
         List<Competition> competitions = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, null, null, null);
         while (cursor.moveToNext()) {
-            //CompetitionEntry.
             competitions.add(CompetitionEntry.cursorToEntity(cursor));
         }
         return competitions;
@@ -43,6 +42,30 @@ public class CompetitionsDAO {
         List<Competition> competitions = new ArrayList<>();
         String selection = CompetitionEntry.COLUMN_DEPORTE + "=?";
         String[] selectionArgs = new String[]{sportName};
+        Cursor cursor = context.getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, selection, selectionArgs, null);
+        while (cursor.moveToNext()) {
+            competitions.add(CompetitionEntry.cursorToEntity(cursor));
+        }
+        return competitions;
+    }
+    public final static List<Competition> queryCompetitionsBySportAndDistrict(Context context, String sportName, String district) {
+        List<Competition> competitions = new ArrayList<>();
+        String selection = CompetitionEntry.COLUMN_DEPORTE + "=?";
+        selection += "and " + CompetitionEntry.COLUMN_DISTRITO + "=?";
+        String[] selectionArgs = new String[]{sportName, district};
+        Cursor cursor = context.getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, selection, selectionArgs, null);
+        while (cursor.moveToNext()) {
+            competitions.add(CompetitionEntry.cursorToEntity(cursor));
+        }
+        return competitions;
+    }
+
+    public final static List<Competition> queryCompetitionsBySportAndDistrictAndCategory(Context context, String sportName, String district, String category) {
+        List<Competition> competitions = new ArrayList<>();
+        String selection = CompetitionEntry.COLUMN_DEPORTE + "=?";
+        selection += "and " + CompetitionEntry.COLUMN_DISTRITO + "=?";
+        selection += "and " + CompetitionEntry.COLUMN_CATEGORIA + "=?";
+        String[] selectionArgs = new String[]{sportName, district, category};
         Cursor cursor = context.getContentResolver().query(CompetitionEntry.CONTENT_URI, CompetitionEntry.PROJECTION, selection, selectionArgs, null);
         while (cursor.moveToNext()) {
             //CompetitionEntry.

@@ -12,20 +12,16 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".DistrictActivity">
-
-        </activity>
-
+        <activity android:name=".activities.DistrictActivity"></activity>
+        <activity android:name=".activities.CategoriesActivity"></activity>
+        <activity android:name=".activities.GroupsActivity"></activity>
+        <activity android:name=".activities.CompetitionDetailsActivity"></activity>
         <provider
             android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"
             android:exported="false"/>
-
     </application>
-
 </manifest>

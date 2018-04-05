@@ -17,7 +17,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "deportesMadrid.db";
     public static final String REFRESH_BROADCAST = "REFRESH_COMPETITIONS_BROADCAST";
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     private Context mContext;
 
 
@@ -41,7 +41,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         CompetitionEntry.COLUMN_NOM_FASE + " TEXT, " +
                         CompetitionEntry.COLUMN_NOM_GRUPO + " TEXT, " +
                         CompetitionEntry.COLUMN_DEPORTE + " TEXT, " +
-                        CompetitionEntry.COLUMN_DISTRITO + " TEXT " +
+                        CompetitionEntry.COLUMN_DISTRITO + " TEXT, " +
+                        CompetitionEntry.COLUMN_CATEGORIA + " TEXT " +
                         ") ";
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_COMPETITIONS);
     }

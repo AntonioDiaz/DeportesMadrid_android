@@ -1,11 +1,10 @@
 
-package com.adiaz.deportesmadrid.retrofit.competitions;
+package com.adiaz.deportesmadrid.retrofit.classification;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-public class CompetitionRetrofitEntity {
+public class Competition {
 
     @SerializedName("id")
     @Expose
@@ -138,11 +137,6 @@ public class CompetitionRetrofitEntity {
 
     public void setDistrito(String distrito) {
         this.distrito = distrito;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("codTemporada", codTemporada).append("codCompeticion", codCompeticion).append("codFase", codFase).append("codGrupo", codGrupo).append("nombreTemporada", nombreTemporada).append("nombreCompeticion", nombreCompeticion).append("nombreFase", nombreFase).append("nombreGrupo", nombreGrupo).append("deporte", deporte).append("distrito", distrito).toString();
     }
 
 }

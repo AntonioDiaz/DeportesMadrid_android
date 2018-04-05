@@ -4,13 +4,15 @@ import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
 
+import butterknife.BindView;
+
 /**
  * Created by adiaz on 22/3/18.
  */
 @AutoValue
 public abstract class Competition implements Parcelable {
 
-    public abstract Integer id();
+    public abstract String id();
     public abstract Integer codTemporada();
     public abstract Integer codCompeticion();
     public abstract Integer codFase();
@@ -21,6 +23,7 @@ public abstract class Competition implements Parcelable {
     public abstract String nomGrupo();
     public abstract String deporte();
     public abstract String distrito();
+    public abstract String categoria();
 
     public static Builder builder() {
         return new AutoValue_Competition.Builder();
@@ -28,7 +31,7 @@ public abstract class Competition implements Parcelable {
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder id(Integer id);
+        public abstract Builder id(String id);
         public abstract Builder codTemporada(Integer codTemporada);
         public abstract Builder codCompeticion(Integer codCompeticion);
         public abstract Builder codFase(Integer codFase);
@@ -39,6 +42,7 @@ public abstract class Competition implements Parcelable {
         public abstract Builder nomGrupo(String nomGrupo);
         public abstract Builder deporte(String deporte);
         public abstract Builder distrito(String distrito);
+        public abstract Builder categoria(String categoria);
         public abstract Competition build();
     }
 }

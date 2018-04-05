@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.adiaz.deportesmadrid.DistrictActivity;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
 import com.adiaz.deportesmadrid.db.CompetitionsDAO;
@@ -19,7 +18,7 @@ import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
-import com.adiaz.deportesmadrid.utils.RecyclerElement;
+import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
 
     private List<Competition> mCompetitionsList;
 
-    private List<RecyclerElement> elementsList;
+    private List<ListItem> elementsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         vResults.setVisibility(View.VISIBLE);
     }
 
-    private List<RecyclerElement> initElementsList(List<Competition> competitions) {
-        List<RecyclerElement> listElements = new ArrayList<>();
+    private List<ListItem> initElementsList(List<Competition> competitions) {
+        List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
         for (Competition competition : competitions) {
             Integer count = map.get(competition.deporte());
@@ -126,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
             map.put(competition.deporte(), count + 1);
         }
         for (String s : map.keySet()) {
-            RecyclerElement recyclerElement = new RecyclerElement(s, map.get(s));
-            listElements.add(recyclerElement);
+            ListItem listItem = new ListItem(s, map.get(s).toString());
+            listElements.add(listItem);
         }
         return listElements;
     }
@@ -136,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this, DistrictActivity.class);
         String sportName = elementsList.get(clickedItemIndex).getName();
-        Integer sportCount = elementsList.get(clickedItemIndex).getCount();
+        String count = elementsList.get(clickedItemIndex).getCount();
         intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportName);
-        intent.putExtra(Constants.EXTRA_SPORT_SELECTED_COUNT, sportCount);
+        intent.putExtra(Constants.EXTRA_COUNT, count);
         startActivity(intent);
     }
 }

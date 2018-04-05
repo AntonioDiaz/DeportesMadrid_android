@@ -9,5 +9,9 @@ public class Constants {
     public static final String SERVER_URL = "https://munisports-web.appspot.com";
 
     public static final String EXTRA_SPORT_SELECTED_NAME = "EXTRA_SPORT_SELECTED_NAME";
-    public static final String EXTRA_SPORT_SELECTED_COUNT = "EXTRA_SPORT_SELECTED_COUNT";
+    public static final String EXTRA_DISTRICT_SELECTED_NAME = "EXTRA_DISTRICT_SELECTED_NAME";
+    public static final String EXTRA_CATEGORY_SELECTED_NAME = "EXTRA_CATEGORY_SELECTED_COUNT";
+    public static final String EXTRA_COUNT = "EXTRA_COUNT";
+    public static final String COD_COMPETITION = "COD_COMPETITION";
+    public static final String NAME_COMPETITION = "NAME_COMPETITION";
 }

@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.utils.RecyclerElement;
+import com.adiaz.deportesmadrid.utils.ListItem;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +18,10 @@ import butterknife.ButterKnife;
 public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.ViewHolder> {
 
     Context mContext;
-    List<RecyclerElement> sportsList;
+    List<ListItem> sportsList;
     private final ListItemClickListener mOnClickListener;
 
-    public CompetitionAdapter(Context mContext, ListItemClickListener listItemClickListener, List<RecyclerElement> sportsList) {
+    public CompetitionAdapter(Context mContext, ListItemClickListener listItemClickListener, List<ListItem> sportsList) {
         this.mContext = mContext;
         this.mOnClickListener = listItemClickListener;
         this.sportsList = sportsList;

@@ -3,21 +3,23 @@ package com.adiaz.deportesmadrid.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.utils.Utils;
 
 /**
  * Created by adiaz on 22/3/18.
  */
 
 public class DbContract {
-
+    //private static final String TAG = DbContract.class.getSimpleName();
     public static final String AUTHORITY = "com.adiaz.deportesmadrid";
     public static final Uri BASE_CONTENT = Uri.parse("content://" + AUTHORITY);
 
     public static final String PATH_COMPETITIONS = "competitions";
+    //public static final String PATH_MATCHES = "matches";
 
 
     public static final class CompetitionEntry {
@@ -36,6 +38,7 @@ public class DbContract {
         public static final String COLUMN_NOM_GRUPO = "NOM_GRUPO";
         public static final String COLUMN_DEPORTE = "DEPORTE";
         public static final String COLUMN_DISTRITO = "DISTRITO";
+        public static final String COLUMN_CATEGORIA = "CATEGORIA";
 
         public static final String[] PROJECTION = {
                 COLUMN_ID,
@@ -48,7 +51,8 @@ public class DbContract {
                 COLUMN_NOM_FASE,
                 COLUMN_NOM_GRUPO,
                 COLUMN_DEPORTE,
-                COLUMN_DISTRITO
+                COLUMN_DISTRITO,
+                COLUMN_CATEGORIA
         };
 
         public static final int INDEX_ID = 0;
@@ -62,6 +66,7 @@ public class DbContract {
         public static final int INDEX_NOM_GRUPO = 8;
         public static final int INDEX_DEPORTE = 9;
         public static final int INDEX_DISTRITO = 10;
+        public static final int INDEX_CATEGORIA = 11;
 
         public static ContentValues retrofitEntityToContentValue(CompetitionRetrofitEntity competitionRetrofitEntity) {
             ContentValues cv = new ContentValues();
@@ -74,15 +79,16 @@ public class DbContract {
             cv.put(COLUMN_NOM_COMPETICION, competitionRetrofitEntity.getNombreCompeticion());
             cv.put(COLUMN_NOM_FASE, competitionRetrofitEntity.getNombreFase());
             cv.put(COLUMN_NOM_GRUPO, competitionRetrofitEntity.getNombreGrupo());
-            cv.put(COLUMN_DEPORTE, competitionRetrofitEntity.getDeporte());
-            cv.put(COLUMN_DISTRITO, competitionRetrofitEntity.getDistrito());
+            cv.put(COLUMN_DEPORTE, Utils.normalizeString(competitionRetrofitEntity.getDeporte()));
+            cv.put(COLUMN_DISTRITO, Utils.normalizeString(competitionRetrofitEntity.getDistrito()));
+            cv.put(COLUMN_CATEGORIA, Utils.normalizeString(competitionRetrofitEntity.getCategoria()));
             return cv;
         }
 
         public static Competition cursorToEntity(Cursor cursor) {
             //Competition competition
-            Competition competition = Competition.builder()
-                    .id(cursor.getInt(INDEX_ID))
+            return Competition.builder()
+                    .id(cursor.getString(INDEX_ID))
                     .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
                     .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))
                     .codFase(cursor.getInt(INDEX_COD_FASE))
@@ -93,9 +99,92 @@ public class DbContract {
                     .nomGrupo(cursor.getString(INDEX_NOM_GRUPO))
                     .deporte(cursor.getString(INDEX_DEPORTE))
                     .distrito(cursor.getString(INDEX_DISTRITO))
+                    .categoria(cursor.getString(INDEX_CATEGORIA))
                     .build();
-            return competition;
         }
     }
+    /*
+    public static final class MatchEntry {
+        public static final Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_MATCHES).build();
+        //table
+        public static final String TABLE_NAME = "MATCHES";
+        //columns
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_COD_COMPETITION = "COD_COMPETITION";
+        public static final String COLUMN_COD_TEAM_LOCAL = "COD_TEAM_LOCAL";
+        public static final String COLUMN_COD_TEAM_VISITOR = "COD_TEAM_VISITOR";
+        public static final String COLUMN_COD_PLACE = "COD_PLACE";
+        public static final String COLUMN_NUM_WEEK = "NUM_WEEK";
+        public static final String COLUMN_NUM_MATCH = "NUM_MATCH";
+        public static final String COLUMN_SCORE_LOCAL = "SCORE_LOCAL";
+        public static final String COLUMN_SCORE_VISITOR = "SCORE_VISITOR";
+        public static final String COLUMN_STATE = "STATE";
+        public static final String COLUMN_DATE = "DATE";
+
+
+        public static final String[] PROJECTION = {
+                COLUMN_ID,
+                COLUMN_COD_COMPETITION,
+                COLUMN_COD_TEAM_LOCAL,
+                COLUMN_COD_TEAM_VISITOR,
+                COLUMN_COD_PLACE,
+                COLUMN_NUM_WEEK,
+                COLUMN_NUM_MATCH,
+                COLUMN_SCORE_LOCAL,
+                COLUMN_SCORE_VISITOR,
+                COLUMN_STATE,
+                COLUMN_DATE
+        };
+
+        public static final int INDEX_ID = 0;
+        public static final int INDEX_COD_COMPETITION = 1;
+        public static final int INDEX_COD_TEAM_LOCAL = 2;
+        public static final int INDEX_COD_TEAM_VISITOR = 3;
+        public static final int INDEX_COD_PLACE = 4;
+        public static final int INDEX_NUM_WEEK = 5;
+        public static final int INDEX_NUM_MATCH = 6;
+        public static final int INDEX_SCORE_LOCAL = 7;
+        public static final int INDEX_SCORE_VISITOR = 8;
+        public static final int INDEX_STATE = 9;
+        public static final int INDEX_DATE = 10;
+
+
+        public static ContentValues retrofitEntityToContentValue(MatchRetrofitEntity matchRetrofitEntity) {
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_ID, matchRetrofitEntity.getId());
+            cv.put(COLUMN_COD_COMPETITION, matchRetrofitEntity.getIdCompetition());
+            cv.put(COLUMN_COD_TEAM_LOCAL, matchRetrofitEntity.getIdTeamLocal());
+            cv.put(COLUMN_COD_TEAM_VISITOR, matchRetrofitEntity.getIdTeamVisitor());
+            cv.put(COLUMN_COD_PLACE, matchRetrofitEntity.getIdPlace());
+            cv.put(COLUMN_NUM_WEEK, matchRetrofitEntity.getNumWeek());
+            cv.put(COLUMN_NUM_MATCH, matchRetrofitEntity.getNumMatch());
+            cv.put(COLUMN_SCORE_LOCAL, matchRetrofitEntity.getScoreLocal());
+            cv.put(COLUMN_SCORE_VISITOR, matchRetrofitEntity.getScoreVisitor());
+            cv.put(COLUMN_STATE, matchRetrofitEntity.getState());
+            cv.put(COLUMN_DATE, matchRetrofitEntity.getDate());
+
+            return cv;
+        }
+
+        public static Match cursorToEntity(Cursor cursor) {
+            //Competition competition
+            return Competition.builder()
+                    .id(cursor.getString(INDEX_ID))
+                    .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
+                    .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))
+                    .codFase(cursor.getInt(INDEX_COD_FASE))
+                    .codGrupo(cursor.getInt(INDEX_COD_GRUPO))
+                    .nomTemporada(cursor.getString(INDEX_NOM_TEMPORADA))
+                    .nomCompeticion(cursor.getString(INDEX_NOM_COMPETICION))
+                    .nomFase(cursor.getString(INDEX_NOM_FASE))
+                    .nomGrupo(cursor.getString(INDEX_NOM_GRUPO))
+                    .deporte(cursor.getString(INDEX_DEPORTE))
+                    .distrito(cursor.getString(INDEX_DISTRITO))
+                    .categoria(cursor.getString(INDEX_CATEGORIA))
+                    .build();
+        }
+    }
+    */
+
 
 }

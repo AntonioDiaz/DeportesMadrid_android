@@ -1,25 +1,25 @@
-package com.adiaz.deportesmadrid;
+package com.adiaz.deportesmadrid.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
 import com.adiaz.deportesmadrid.db.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
-import com.adiaz.deportesmadrid.utils.RecyclerElement;
+import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 public class DistrictActivity extends AppCompatActivity implements CompetitionAdapter.ListItemClickListener {
 
 
-    private static final String TAG = DistrictActivity.class.getSimpleName();
+    //private static final String TAG = DistrictActivity.class.getSimpleName();
 
     @BindView(R.id.pb_loading_districts)
     ProgressBar pbLoadingDistricts;
@@ -36,20 +36,21 @@ public class DistrictActivity extends AppCompatActivity implements CompetitionAd
     RecyclerView rvDistricts;
 
 
-    List<RecyclerElement> elementsList;
+    String sportSelected;
+    List<ListItem> elementsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_district);
-        String sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
-        Integer sportSelectedCount = getIntent().getIntExtra(Constants.EXTRA_SPORT_SELECTED_COUNT, 0);
+        setContentView(R.layout.activity_list);
+        sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
+        String sportSelectedCount = getIntent().getStringExtra(Constants.EXTRA_COUNT);
         String subTitle = sportSelected + " - " + sportSelectedCount;
+        getSupportActionBar().setSubtitle(subTitle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         showLoading();
-        getSupportActionBar().setSubtitle(subTitle);
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
-        Log.d(TAG, "onCreate: " + competitions.size());
         elementsList = initElementsList(competitions);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, elementsList);
@@ -58,11 +59,19 @@ public class DistrictActivity extends AppCompatActivity implements CompetitionAd
         rvDistricts.setAdapter(competitionAdapter);
         competitionAdapter.notifyDataSetChanged();
         hideLoading();
-
     }
 
-    private List<RecyclerElement> initElementsList(List<Competition> competitions) {
-        List<RecyclerElement> listElements = new ArrayList<>();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private List<ListItem> initElementsList(List<Competition> competitions) {
+        List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
         for (Competition competition : competitions) {
             Integer count = map.get(competition.distrito());
@@ -72,8 +81,9 @@ public class DistrictActivity extends AppCompatActivity implements CompetitionAd
             map.put(competition.distrito(), count + 1);
         }
         for (String s : map.keySet()) {
-            RecyclerElement recyclerElement = new RecyclerElement(s, map.get(s));
-            listElements.add(recyclerElement);
+            //String value = map.get(s).toString();
+            ListItem listItem = new ListItem(s, map.get(s).toString());
+            listElements.add(listItem);
         }
         return listElements;
     }
@@ -90,6 +100,12 @@ public class DistrictActivity extends AppCompatActivity implements CompetitionAd
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Toast.makeText(this, "clickedItemIndex " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CategoriesActivity.class);
+        String districtName = elementsList.get(clickedItemIndex).getName();
+        String count = elementsList.get(clickedItemIndex).getCount();
+        intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportSelected);
+        intent.putExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME, districtName);
+        intent.putExtra(Constants.EXTRA_COUNT, count);
+        startActivity(intent);
     }
 }
