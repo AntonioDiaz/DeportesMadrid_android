@@ -18,7 +18,10 @@
         <activity android:name=".activities.DistrictActivity"></activity>
         <activity android:name=".activities.CategoriesActivity"></activity>
         <activity android:name=".activities.GroupsActivity"></activity>
-        <activity android:name=".activities.CompetitionDetailsActivity"></activity>
+        <activity android:name=".activities.CompetitionDetailsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
         <provider
             android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"

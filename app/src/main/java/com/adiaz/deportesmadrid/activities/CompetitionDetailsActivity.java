@@ -3,19 +3,25 @@ package com.adiaz.deportesmadrid.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.adiaz.deportesmadrid.R;
+import com.adiaz.deportesmadrid.adapters.CompetitionFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.fragments.TabCalendar;
+import com.adiaz.deportesmadrid.fragments.TabClassification;
+import com.adiaz.deportesmadrid.fragments.TabTeams;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,31 +34,53 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompetitionDetailsActivity extends AppCompatActivity {
 
-    @BindView(R.id.tv_details)
-    TextView tvDetails;
-
-    @BindView(R.id.pb_loading_competition)
-    ProgressBar pbCompetition;
+    private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
 
     @BindView(R.id.view_competition)
     View mainView;
 
-    @BindView(R.id.sv_details)
-    ScrollView svDetails;
+    @BindView(R.id.tb_competition_details)
+    Toolbar toolbar;
 
-    List<ClassificationRetrofitEntity> classificationList;
-    List<MatchRetrofitEntity> matchesList;
+    @BindView(R.id.tl_competition_details)
+    TabLayout tabLayout;
+
+    @BindView(R.id.vp_competition_details)
+    ViewPager viewPager;
+
+    @BindView(R.id.ll_progress_competition_details)
+    LinearLayout llLoadingCompetition;
+
+    public static List<ClassificationRetrofitEntity> classificationList;
+    public static List<MatchRetrofitEntity> matchesList;
+    CompetitionFragmentStatePagerAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competition);
         ButterKnife.bind(this);
+
         String codCompetition = getIntent().getStringExtra(Constants.COD_COMPETITION);
         String nameCompetition = getIntent().getStringExtra(Constants.NAME_COMPETITION);
-        getSupportActionBar().setSubtitle(nameCompetition);
+
+        classificationList = new ArrayList<>();
+        matchesList = new ArrayList<>();
+
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tvDetails.setText("Competición: " + codCompetition);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.app_name));
+        getSupportActionBar().setSubtitle(nameCompetition);
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        adapter = new CompetitionFragmentStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabCalendar(), "Calendario");
+        adapter.addFragment(new TabClassification(), "Clasificación");
+        adapter.addFragment(new TabTeams(), "Equipos");
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
@@ -62,27 +90,24 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
         callMatches.enqueue(new CallbackMatchesRequest());
         callClassification.enqueue(new CallbackClassificationRequest());
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
+        //hideLoading();
     }
 
     private void showLoading() {
-        pbCompetition.setVisibility(View.VISIBLE);
-        svDetails.setVisibility(View.INVISIBLE);
+        llLoadingCompetition.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.INVISIBLE);
     }
 
     private void hideLoading() {
-        pbCompetition.setVisibility(View.INVISIBLE);
-        svDetails.setVisibility(View.VISIBLE);
+        llLoadingCompetition.setVisibility(View.INVISIBLE);
+        viewPager.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     private void matchesLoaded(List<MatchRetrofitEntity> matchesList) {
         this.matchesList = matchesList;
@@ -96,15 +121,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
 
     private void reloadView() {
         if (matchesList!=null && classificationList!=null) {
-            tvDetails.append("\nPartidos " + matchesList.size());
-            tvDetails.append("\nClasificación: " + classificationList.size());
-            if (matchesList != null) {
-                for (MatchRetrofitEntity matchRetrofitEntity : matchesList) {
-                    if (matchRetrofitEntity != null && matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamVisitor() != null) {
-                        tvDetails.append("\n" + matchRetrofitEntity.getTeamLocal().getName() + " vs " + matchRetrofitEntity.getTeamVisitor().getName());
-                    }
-                }
-            }
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
             hideLoading();
         }
     }
