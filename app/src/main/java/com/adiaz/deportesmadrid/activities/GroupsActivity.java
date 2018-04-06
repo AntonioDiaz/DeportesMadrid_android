@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
-import com.adiaz.deportesmadrid.db.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
@@ -90,7 +90,7 @@ public class GroupsActivity extends AppCompatActivity implements CompetitionAdap
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this, CompetitionDetailsActivity.class);
-        intent.putExtra(Constants.COD_COMPETITION, competitionsList.get(clickedItemIndex).getCount());
+        intent.putExtra(Constants.ID_COMPETITION, competitionsList.get(clickedItemIndex).getCount());
         intent.putExtra(Constants.NAME_COMPETITION, competitionsList.get(clickedItemIndex).getName());
         startActivity(intent);
     }

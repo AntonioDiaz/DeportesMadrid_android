@@ -13,8 +13,10 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
-import com.adiaz.deportesmadrid.db.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
@@ -123,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     private List<ListItem> initElementsList(List<Competition> competitions) {
         List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
+        List<Favorite> favorites = FavoritesDAO.queryFavorites(this);
+        listElements.add(new ListItem("Favoritos", Integer.toString(favorites.size())));
         for (Competition competition : competitions) {
             Integer count = map.get(competition.deporte());
             if (count==null) {
@@ -134,16 +138,22 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
             ListItem listItem = new ListItem(s, map.get(s).toString());
             listElements.add(listItem);
         }
+
         return listElements;
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(this, DistrictActivity.class);
-        String sportName = elementsList.get(clickedItemIndex).getName();
-        String count = elementsList.get(clickedItemIndex).getCount();
-        intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportName);
-        intent.putExtra(Constants.EXTRA_COUNT, count);
-        startActivity(intent);
+        if (clickedItemIndex==0) {
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, DistrictActivity.class);
+            String sportName = elementsList.get(clickedItemIndex).getName();
+            String count = elementsList.get(clickedItemIndex).getCount();
+            intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportName);
+            intent.putExtra(Constants.EXTRA_COUNT, count);
+            startActivity(intent);
+        }
     }
 }

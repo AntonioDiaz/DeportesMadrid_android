@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.adiaz.deportesmadrid.db.DbHelper;
 import com.adiaz.deportesmadrid.db.DbContract;
 import com.adiaz.deportesmadrid.db.DbContract.CompetitionEntry;
+import com.adiaz.deportesmadrid.db.DbContract.FavoritesEntry;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 
 /**
@@ -20,17 +22,19 @@ import com.adiaz.deportesmadrid.db.entities.Competition;
 
 public class CompetitionsProvider extends ContentProvider {
 
-    private static final String TAG = CompetitionsProvider.class.getSimpleName();
+    //private static final String TAG = CompetitionsProvider.class.getSimpleName();
 
     private DbHelper mDbHelper;
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    //private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     private static final int COMPETITIONS = 100;
+    private static final int FAVORITES = 200;
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(DbContract.AUTHORITY, DbContract.PATH_COMPETITIONS, COMPETITIONS);
+        uriMatcher.addURI(DbContract.AUTHORITY, DbContract.PATH_FAVORITES, FAVORITES);
         return uriMatcher;
     }
 
@@ -75,6 +79,9 @@ public class CompetitionsProvider extends ContentProvider {
             case COMPETITIONS:
                 cursor = db.query(CompetitionEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, orderBy);
                 break;
+            case FAVORITES:
+                cursor = db.query(FavoritesEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, orderBy);
+                break;
             default:
                 throw new UnsupportedOperationException("error " + uri);
         }
@@ -93,7 +100,22 @@ public class CompetitionsProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        Uri returnedUri;
+        switch (buildUriMatcher().match(uri)) {
+            case FAVORITES:
+                long idNew = db.insert(FavoritesEntry.TABLE_NAME, null, contentValues);
+                if (idNew>0) {
+                    returnedUri = FavoritesEntry.buildFavoritesUri(idNew);
+                } else {
+                    throw new SQLException("error on insert" + uri);
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("error " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnedUri;
     }
 
     @Override
@@ -103,6 +125,9 @@ public class CompetitionsProvider extends ContentProvider {
         switch (buildUriMatcher().match(uri)) {
             case COMPETITIONS:
                 deletedItems = db.delete(CompetitionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case FAVORITES:
+                deletedItems = db.delete(FavoritesEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("error " + uri);

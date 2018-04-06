@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DistrictActivity"></activity>
+        <activity android:name=".activities.FavoritesActivity"></activity>
         <activity android:name=".activities.CategoriesActivity"></activity>
         <activity android:name=".activities.GroupsActivity"></activity>
         <activity android:name=".activities.CompetitionDetailsActivity"

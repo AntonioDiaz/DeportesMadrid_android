@@ -3,8 +3,10 @@ package com.adiaz.deportesmadrid.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Utils;
@@ -19,6 +21,7 @@ public class DbContract {
     public static final Uri BASE_CONTENT = Uri.parse("content://" + AUTHORITY);
 
     public static final String PATH_COMPETITIONS = "competitions";
+    public static final String PATH_FAVORITES = "favorites";
     //public static final String PATH_MATCHES = "matches";
 
 
@@ -103,6 +106,42 @@ public class DbContract {
                     .build();
         }
     }
+
+    public static final class FavoritesEntry implements BaseColumns {
+        public static final Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_FAVORITES).build();
+
+        public static final Uri buildFavoritesUri(Long id) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(id.toString())
+                    .build();
+        }
+
+        public static final String TABLE_NAME = "Favorites";
+        public static final String COLUMN_ID_COMPETITION = "id_competition";
+        public static final String COLUMN_ID_TEAM = "id_team";
+
+        public static final String[] PROJECTION = {_ID, COLUMN_ID_COMPETITION, COLUMN_ID_TEAM};
+        public static final int INDEX_ID = 0;
+        public static final int INDEX_ID_COMPETITION = 1;
+        public static final int INDEX_ID_TEAM = 2;
+
+
+        public static Favorite initEntity(Cursor cursor) {
+            return Favorite.builder()
+                    .id(cursor.getLong(INDEX_ID))
+                    .idCompetition(cursor.getString(INDEX_ID_COMPETITION))
+                    .idTeam(cursor.getString(INDEX_ID_TEAM)).build();
+        }
+
+        public static ContentValues entityToContentValues(Favorite favorite) {
+            ContentValues cv = new ContentValues();
+            cv.put(_ID, favorite.id());
+            cv.put(COLUMN_ID_COMPETITION, favorite.idCompetition());
+            cv.put(COLUMN_ID_TEAM, favorite.idTeam());
+            return cv;
+        }
+    }
+
     /*
     public static final class MatchEntry {
         public static final Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_MATCHES).build();
@@ -110,7 +149,7 @@ public class DbContract {
         public static final String TABLE_NAME = "MATCHES";
         //columns
         public static final String COLUMN_ID = "ID";
-        public static final String COLUMN_COD_COMPETITION = "COD_COMPETITION";
+        public static final String COLUMN_COD_COMPETITION = "ID_COMPETITION";
         public static final String COLUMN_COD_TEAM_LOCAL = "COD_TEAM_LOCAL";
         public static final String COLUMN_COD_TEAM_VISITOR = "COD_TEAM_VISITOR";
         public static final String COLUMN_COD_PLACE = "COD_PLACE";
