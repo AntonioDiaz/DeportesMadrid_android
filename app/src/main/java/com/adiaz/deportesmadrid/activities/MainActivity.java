@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         }
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
         if (mCompetitionsList.size()==0) {
             syncCompetitions();

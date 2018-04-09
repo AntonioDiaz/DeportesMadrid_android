@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -45,9 +46,12 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         categorySelected = getIntent().getStringExtra(Constants.EXTRA_CATEGORY_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subtitle = sportSelected + " > " + districtSelected + " > " + categorySelected + ": " + count;
-        getSupportActionBar().setSubtitle(subtitle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String subtitle = sportSelected + " > " + districtSelected + " > " + categorySelected + " (" + count + ")";
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle(getString(R.string.title_grupo));
+            getSupportActionBar().setSubtitle(subtitle);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         showLoading();
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
         competitionsList = initElementsList(competitions);
@@ -61,10 +65,21 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -81,9 +81,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.app_name));
-            getSupportActionBar().setSubtitle(nameCompetition);
-        }
+            getSupportActionBar().setTitle(nameCompetition);
+       }
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new CompetitionFragmentStatePagerAdapter(getSupportFragmentManager());

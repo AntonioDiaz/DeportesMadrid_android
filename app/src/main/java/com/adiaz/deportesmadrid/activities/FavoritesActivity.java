@@ -10,15 +10,14 @@ import android.view.MenuItem;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
-import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.utils.Constants;
-import com.adiaz.deportesmadrid.utils.ListItem;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,11 +64,20 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(this, CompetitionDetailsActivity.class);
-        String idCompetition = mFavoriteList.get(clickedItemIndex).idCompetition();
-        Competition competition = CompetitionsDAO.queryCompetitionsById(this, idCompetition);
-        intent.putExtra(Constants.ID_COMPETITION, idCompetition);
-        intent.putExtra(Constants.NAME_COMPETITION, competition.nomGrupo());
-        startActivity(intent);
+        Favorite favorite = mFavoriteList.get(clickedItemIndex);
+        String idCompetition = favorite.idCompetition();
+        String teamName = favorite.idTeam();
+        if (StringUtils.isNotBlank(teamName)) {
+            Intent intent = new Intent(this, TeamDetailsActivity.class);
+            intent.putExtra(Constants.ID_COMPETITION, idCompetition);
+            intent.putExtra(Constants.ID_TEAM, teamName);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, CompetitionDetailsActivity.class);
+            Competition competition = CompetitionsDAO.queryCompetitionsById(this, idCompetition);
+            intent.putExtra(Constants.ID_COMPETITION, idCompetition);
+            intent.putExtra(Constants.NAME_COMPETITION, competition.nomGrupo());
+            startActivity(intent);
+        }
     }
 }

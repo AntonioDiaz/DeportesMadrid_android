@@ -35,8 +35,9 @@ public class TabClassification extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (CompetitionDetailsActivity.classificationList!=null) {
             for (ClassificationRetrofitEntity classificationRetrofitEntity : CompetitionDetailsActivity.classificationList) {
+                String teamName =  classificationRetrofitEntity.getTeam()==null?" - ":classificationRetrofitEntity.getTeam().getName();
                 tvClassification.append(classificationRetrofitEntity.getPosition().toString());
-                tvClassification.append("- " + classificationRetrofitEntity.getTeam().getName());
+                tvClassification.append(" - " + teamName);
                 tvClassification.append("\n");
             }
         }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -45,9 +46,12 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         setContentView(R.layout.activity_list);
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         String sportSelectedCount = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subTitle = sportSelected + " - " + sportSelectedCount;
-        getSupportActionBar().setSubtitle(subTitle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String subTitle = sportSelected + " (" + sportSelectedCount + ")";
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle(getString(R.string.title_district));
+            getSupportActionBar().setSubtitle(subTitle);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         ButterKnife.bind(this);
         showLoading();
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
@@ -62,10 +66,22 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_home:
+                Intent i=new Intent(this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

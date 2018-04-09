@@ -12,4 +12,11 @@
     <string name="type_team">Equipo</string>
     <string name="type_competicion">Competición</string>
     <string name="fake_text_team_name">Atletico de Madrid</string>
+
+    <string name="title_district">Selección de distrito</string>
+    <string name="title_category">Selección de categoría</string>
+    <string name="title_grupo">Selección de grupo</string>
+
+    <string name="menu_home">Volver Inicio</string>
+
 </resources>

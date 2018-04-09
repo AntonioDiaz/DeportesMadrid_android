@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -47,8 +48,9 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subTitle = sportSelected + " > " + districtSelected + " -> " + count;
+        String subTitle = sportSelected + " > " + districtSelected + " (" + count + ")";
         if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle(getString(R.string.title_category));
             getSupportActionBar().setSubtitle(subTitle);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -65,10 +67,22 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

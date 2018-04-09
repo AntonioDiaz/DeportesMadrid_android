@@ -13,5 +13,6 @@ public class Constants {
     public static final String EXTRA_CATEGORY_SELECTED_NAME = "EXTRA_CATEGORY_SELECTED_COUNT";
     public static final String EXTRA_COUNT = "EXTRA_COUNT";
     public static final String ID_COMPETITION = "ID_COMPETITION";
+    public static final String ID_TEAM = "ID_TEAM";
     public static final String NAME_COMPETITION = "NAME_COMPETITION";
 }

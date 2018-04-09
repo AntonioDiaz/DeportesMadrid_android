@@ -19,6 +19,7 @@
         <activity android:name=".activities.FavoritesActivity"></activity>
         <activity android:name=".activities.CategoriesActivity"></activity>
         <activity android:name=".activities.GroupsActivity"></activity>
+        <activity android:name=".activities.TeamDetailsActivity"></activity>
         <activity android:name=".activities.CompetitionDetailsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
 

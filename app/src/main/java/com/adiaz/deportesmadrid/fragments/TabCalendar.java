@@ -33,12 +33,12 @@ public class TabCalendar extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (CompetitionDetailsActivity.matchesList!=null) {
             for (MatchRetrofitEntity matchRetrofitEntity : CompetitionDetailsActivity.matchesList) {
-                if (matchRetrofitEntity.getTeamLocal()!=null && matchRetrofitEntity.getTeamVisitor()!=null) {
-                    tvCalendar.append(matchRetrofitEntity.getTeamLocal().getName());
-                    tvCalendar.append(" - ");
-                    tvCalendar.append(matchRetrofitEntity.getTeamVisitor().getName());
-                    tvCalendar.append("\n");
-                }
+                String teamLocal = matchRetrofitEntity.getTeamLocal()==null?" - ":matchRetrofitEntity.getTeamLocal().getName();
+                String teamVisitor = matchRetrofitEntity.getTeamVisitor()==null?" - ":matchRetrofitEntity.getTeamVisitor().getName();
+                tvCalendar.append(teamLocal);
+                tvCalendar.append(" - ");
+                tvCalendar.append(teamVisitor);
+                tvCalendar.append("\n");
             }
         }
     }
