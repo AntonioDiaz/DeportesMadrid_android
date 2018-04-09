@@ -15,13 +15,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.ViewHolder> {
+public class GenericAdapter extends RecyclerView.Adapter<GenericAdapter.ViewHolder> {
 
     Context mContext;
     List<ListItem> sportsList;
     private final ListItemClickListener mOnClickListener;
 
-    public CompetitionAdapter(Context mContext, ListItemClickListener listItemClickListener, List<ListItem> sportsList) {
+    public GenericAdapter(Context mContext, ListItemClickListener listItemClickListener, List<ListItem> sportsList) {
         this.mContext = mContext;
         this.mOnClickListener = listItemClickListener;
         this.sportsList = sportsList;

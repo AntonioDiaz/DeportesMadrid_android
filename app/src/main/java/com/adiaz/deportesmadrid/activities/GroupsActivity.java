@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
+import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupsActivity extends AppCompatActivity implements CompetitionAdapter.ListItemClickListener {
+public class GroupsActivity extends AppCompatActivity implements GenericAdapter.ListItemClickListener {
 
     String sportSelected;
     String districtSelected;
@@ -52,11 +52,11 @@ public class GroupsActivity extends AppCompatActivity implements CompetitionAdap
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
         competitionsList = initElementsList(competitions);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, competitionsList);
+        GenericAdapter genericAdapter = new GenericAdapter(this, this, competitionsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(competitionAdapter);
-        competitionAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(genericAdapter);
+        genericAdapter.notifyDataSetChanged();
         hideLoading();
     }
 

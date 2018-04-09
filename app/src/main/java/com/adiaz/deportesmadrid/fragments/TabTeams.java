@@ -3,6 +3,8 @@ package com.adiaz.deportesmadrid.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,12 @@ import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
+import com.adiaz.deportesmadrid.adapters.GenericAdapter;
+import com.adiaz.deportesmadrid.adapters.TeamsAdapter;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.utils.ListItem;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +26,8 @@ import butterknife.ButterKnife;
 
 public class TabTeams extends Fragment {
 
-    @BindView(R.id.tv_teams)
-    TextView tvTeams;
+    @BindView(R.id.rv_teams)
+    RecyclerView rvTeams;
 
     @Nullable
     @Override
@@ -43,8 +49,11 @@ public class TabTeams extends Fragment {
                 teamsSet.add(matchRetrofitEntity.getTeamVisitor().getName());
             }
         }
-        for (String s : teamsSet) {
-            tvTeams.append("Team :" + s + "\n");
-        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        TeamsAdapter genericAdapter = new TeamsAdapter(this.getContext(), CompetitionDetailsActivity.mIdCompetition, new ArrayList<>(teamsSet));
+        rvTeams.setHasFixedSize(true);
+        rvTeams.setLayoutManager(layoutManager);
+        rvTeams.setAdapter(genericAdapter);
+        genericAdapter.notifyDataSetChanged();
     }
 }

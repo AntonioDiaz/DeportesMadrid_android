@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
+import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DistrictActivity extends AppCompatActivity implements CompetitionAdapter.ListItemClickListener {
+public class DistrictActivity extends AppCompatActivity implements GenericAdapter.ListItemClickListener {
 
 
     //private static final String TAG = DistrictActivity.class.getSimpleName();
@@ -53,11 +53,11 @@ public class DistrictActivity extends AppCompatActivity implements CompetitionAd
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
         elementsList = initElementsList(competitions);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, elementsList);
+        GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
         rvDistricts.setHasFixedSize(true);
         rvDistricts.setLayoutManager(layoutManager);
-        rvDistricts.setAdapter(competitionAdapter);
-        competitionAdapter.notifyDataSetChanged();
+        rvDistricts.setAdapter(genericAdapter);
+        genericAdapter.notifyDataSetChanged();
         hideLoading();
     }
 

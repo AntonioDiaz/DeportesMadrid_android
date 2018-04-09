@@ -44,6 +44,7 @@ public class FavoritesDAO {
     public static Favorite queryFavoritesCompetition(Context context, String idCompetition) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_COMPETITION + "=?";
+        where += "and " + FavoritesEntry.COLUMN_ID_TEAM + " is null";
         String[] selectionArgs = new String[]{idCompetition};
         Cursor cursor = null;
         try {
@@ -60,10 +61,11 @@ public class FavoritesDAO {
         return favoriteFound;
     }
 
-    public static Favorite queryFavoritesTeam(Context context, String idTeam) {
+    public static Favorite queryFavoritesTeam(Context context, String idCompetition, String idTeam) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_TEAM + "=?";
-        String[] selectionArgs = new String[]{idTeam};
+        where += "AND " + FavoritesEntry.COLUMN_ID_COMPETITION + "=?";
+        String[] selectionArgs = new String[]{idTeam, idCompetition};
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(FavoritesEntry.CONTENT_URI,

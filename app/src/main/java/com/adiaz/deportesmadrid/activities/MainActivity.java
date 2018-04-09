@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.CompetitionAdapter;
+import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
@@ -21,6 +21,7 @@ import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +35,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<CompetitionRetrofitEntity>>,CompetitionAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity implements Callback<List<CompetitionRetrofitEntity>>,GenericAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    @BindView(R.id.main_view)
+    View mainView;
+
     @BindView(R.id.progressBar)
     ProgressBar pb;
 
@@ -55,12 +60,13 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        // TODO: 5/4/18 chapu: fix spaces add margin between icon and title.
-        getSupportActionBar().setTitle("    " + getString(R.string.app_name));
-
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+            getSupportActionBar().setDisplayUseLogoEnabled(true);
+            // TODO: 5/4/18 chapu: fix spaces add margin between icon and title.
+            getSupportActionBar().setTitle("    " + getString(R.string.app_name));
+        }
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.INVISIBLE);
         mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
@@ -98,10 +104,14 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
 
     @Override
     public void onResponse(Call<List<CompetitionRetrofitEntity>> call, Response<List<CompetitionRetrofitEntity>> response) {
-        CompetitionsDAO.insertCompetitions(this, response.body());
-        //select all
-        mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
-        fillRecyclerview();
+        if (response.body()==null) {
+            Utils.showSnack(mainView, getString(R.string.error_getting_data));
+        } else {
+            CompetitionsDAO.insertCompetitions(this, response.body());
+            //select all
+            mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
+            fillRecyclerview();
+        }
     }
 
     @Override
@@ -113,11 +123,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         elementsList = initElementsList(mCompetitionsList);
         //getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        CompetitionAdapter competitionAdapter = new CompetitionAdapter(this, this, elementsList);
+        GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
         rvCompetitions.setHasFixedSize(true);
         rvCompetitions.setLayoutManager(layoutManager);
-        rvCompetitions.setAdapter(competitionAdapter);
-        competitionAdapter.notifyDataSetChanged();
+        rvCompetitions.setAdapter(genericAdapter);
+        genericAdapter.notifyDataSetChanged();
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.VISIBLE);
     }

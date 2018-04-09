@@ -43,7 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompetitionDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
+    //private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
 
     @BindView(R.id.view_competition)
     View mainView;
@@ -63,7 +63,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
     public static List<ClassificationRetrofitEntity> classificationList;
     public static List<MatchRetrofitEntity> matchesList;
     CompetitionFragmentStatePagerAdapter adapter;
-    String mIdCompetition;
+    public static String mIdCompetition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,10 +78,12 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
         matchesList = new ArrayList<>();
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.app_name));
-        getSupportActionBar().setSubtitle(nameCompetition);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.app_name));
+            getSupportActionBar().setSubtitle(nameCompetition);
+        }
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new CompetitionFragmentStatePagerAdapter(getSupportFragmentManager());
@@ -132,7 +134,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
                 Favorite favorite = FavoritesDAO.queryFavoritesCompetition(this, mIdCompetition);
                 if (favorite != null) {
                     FavoritesDAO.deleteFavorite(this, favorite.id());
-                    drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite);
+                    drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
                     Toast.makeText(this, R.string.favorites_competition_removed, Toast.LENGTH_SHORT).show();
                 } else {
                     Favorite newFavorite = Favorite.builder().idCompetition(mIdCompetition).build();
