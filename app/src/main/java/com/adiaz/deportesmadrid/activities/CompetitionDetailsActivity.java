@@ -19,11 +19,13 @@ import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
+import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
-import com.adiaz.deportesmadrid.fragments.TabCalendar;
-import com.adiaz.deportesmadrid.fragments.TabClassification;
-import com.adiaz.deportesmadrid.fragments.TabTeams;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionClassification;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionTeams;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
@@ -41,7 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompetitionDetailsActivity extends AppCompatActivity {
+public class CompetitionDetailsActivity extends AppCompatActivity implements ClassificationCallback, CalendarCallback {
 
     //private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
 
@@ -60,8 +62,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
     @BindView(R.id.ll_progress_competition_details)
     LinearLayout llLoadingCompetition;
 
-    public static List<ClassificationRetrofitEntity> classificationList;
-    public static List<MatchRetrofitEntity> matchesList;
+    List<ClassificationRetrofitEntity> classificationList;
+    List<MatchRetrofitEntity> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
     public static String mIdCompetition;
 
@@ -86,9 +88,9 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabCalendar(), "Calendario");
-        adapter.addFragment(new TabClassification(), "Clasificación");
-        adapter.addFragment(new TabTeams(), "Equipos");
+        adapter.addFragment(new TabCompetitionCalendar(), "Calendario");
+        adapter.addFragment(new TabCompetitionClassification(), "Clasificación");
+        adapter.addFragment(new TabCompetitionTeams(), "Equipos");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -184,6 +186,16 @@ public class CompetitionDetailsActivity extends AppCompatActivity {
             tabLayout.setupWithViewPager(viewPager);
             hideLoading();
         }
+    }
+
+    @Override
+    public List<ClassificationRetrofitEntity> queryClassificationList() {
+        return this.classificationList;
+    }
+
+    @Override
+    public List<MatchRetrofitEntity> queryMatchesList() {
+        return this.matchesList;
     }
 
     class CallbackMatchesRequest implements Callback<List<MatchRetrofitEntity>> {

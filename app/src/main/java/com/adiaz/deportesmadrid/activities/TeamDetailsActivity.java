@@ -14,9 +14,12 @@ import android.widget.LinearLayout;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
 import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
+import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Match;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamCalendar;
 import com.adiaz.deportesmadrid.fragments.TabTeamClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamInfo;
@@ -37,7 +40,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TeamDetailsActivity extends AppCompatActivity {
+public class TeamDetailsActivity extends AppCompatActivity implements ClassificationCallback {
 
     @BindView(R.id.main_view)
     View mainView;
@@ -58,9 +61,9 @@ public class TeamDetailsActivity extends AppCompatActivity {
 
     String mIdCompetition;
     String mIdTeam;
-    public static List<ClassificationRetrofitEntity> classificationList;
-    public static List<MatchRetrofitEntity> matchesList;
-    List<Match> matches;
+    List<ClassificationRetrofitEntity> classificationList;
+    List<MatchRetrofitEntity> matchesList;
+    public static List<Match> matches = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,14 +78,13 @@ public class TeamDetailsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            String subTitle = competition.deporte() + " > " + competition.distrito() + " > " + competition.categoria();
             getSupportActionBar().setTitle(mIdTeam);
-            getSupportActionBar().setSubtitle(subTitle);
+            getSupportActionBar().setSubtitle(competition.nomGrupo());
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabTeamCalendar(), "Calendario");
-        adapter.addFragment(new TabTeamClassification(), "Clasificación");
+        adapter.addFragment(new TabCompetitionClassification(), "Clasificación");
         adapter.addFragment(new TabTeamInfo(), "Información");
 
         viewPager.setAdapter(adapter);
@@ -119,17 +121,17 @@ public class TeamDetailsActivity extends AppCompatActivity {
     }
 
     public void matchesLoaded(List<MatchRetrofitEntity> matchesList) {
-        TeamDetailsActivity.matchesList =new ArrayList<>();
+        this.matchesList =new ArrayList<>();
         if (matchesList!=null) {
-            TeamDetailsActivity.matchesList = matchesList;
+            this.matchesList = matchesList;
         }
         reloadView();
     }
 
     public void classificationLoaded(List<ClassificationRetrofitEntity> classificationList) {
-        TeamDetailsActivity.classificationList = new ArrayList<>();
+        this.classificationList = new ArrayList<>();
         if (classificationList!=null) {
-            TeamDetailsActivity.classificationList = classificationList;
+            this.classificationList = classificationList;
         }
         reloadView();
     }
@@ -154,8 +156,15 @@ public class TeamDetailsActivity extends AppCompatActivity {
                     matches.add(match);
                 }
             }
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
             hideLoading();
         }
+    }
+
+    @Override
+    public List<ClassificationRetrofitEntity> queryClassificationList() {
+        return this.classificationList;
     }
 
     class CallbackMatchesRequest implements Callback<List<MatchRetrofitEntity>> {
