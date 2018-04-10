@@ -7,12 +7,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompetitionFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+public class DeportesMadridFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
     private final List<Fragment> mFragmentList;
     private final List<String> mFragmentTitleList;
 
-    public CompetitionFragmentStatePagerAdapter(FragmentManager fm) {
+    public DeportesMadridFragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);
         mFragmentList = new ArrayList<>();
         mFragmentTitleList = new ArrayList<>();

@@ -1,14 +1,12 @@
-<RelativeLayout
-    android:id="@+id/view_competition"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.CompetitionDetailsActivity">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_competition_details"
+        android:id="@+id/tb_team_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -19,30 +17,31 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tl_competition_details"
+        android:id="@+id/tl_team_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_competition_details"
+        android:layout_below="@+id/tb_team_details"
         android:background="@color/colorPrimary"
         android:elevation="6dp"
         android:minHeight="?android:attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_competition_details"
+        android:id="@+id/vp_team_details"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/tl_competition_details"
+        android:layout_below="@id/tl_team_details"
         android:visibility="invisible">
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:id="@+id/ll_progress_competition_details"
+        android:id="@+id/ll_progress_team_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
-        android:layout_below="@+id/tl_competition_details"
+        android:layout_below="@+id/tl_team_details"
         android:orientation="vertical"
         android:visibility="invisible">
         <ProgressBar
