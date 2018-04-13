@@ -7,22 +7,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
+import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
 import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
+import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TabCompetitionCalendar extends Fragment {
 
-    @BindView(R.id.tv_calendar)
-    TextView tvCalendar;
+    @BindView(R.id.expandableListView_calendar)
+    ExpandableListView expandableListViewCalendar;
 
     CalendarCallback mCalendarCallback;
 
@@ -48,15 +54,25 @@ public class TabCompetitionCalendar extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Map<Integer, List<Match>> calendarMap = new HashMap<>();
         if (mCalendarCallback.queryMatchesList()!=null) {
             for (MatchRetrofitEntity matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
+                Integer weekNum = matchRetrofitEntity.getNumWeek() - 1;
+                List<Match> matchesOnWeek = calendarMap.get(weekNum);
+                if (matchesOnWeek==null) {
+                    matchesOnWeek = new ArrayList<>();
+                    calendarMap.put(weekNum, matchesOnWeek);
+                }
                 String teamLocal = matchRetrofitEntity.getTeamLocal()==null?" - ":matchRetrofitEntity.getTeamLocal().getName();
                 String teamVisitor = matchRetrofitEntity.getTeamVisitor()==null?" - ":matchRetrofitEntity.getTeamVisitor().getName();
-                tvCalendar.append(teamLocal);
-                tvCalendar.append(" - ");
-                tvCalendar.append(teamVisitor);
-                tvCalendar.append("\n");
+                Match match = Match.builder()
+                        .teamLocal(teamLocal)
+                        .teamVisitor(teamVisitor).build();
+                matchesOnWeek.add(match);
             }
+            CalendarAdapter calendarAdapter = new CalendarAdapter(this.getContext(), calendarMap);
+            expandableListViewCalendar.setAdapter(calendarAdapter);
+            calendarAdapter.notifyDataSetChanged();
         }
     }
 }
