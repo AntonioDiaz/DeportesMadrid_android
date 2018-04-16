@@ -105,6 +105,8 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this, CompetitionDetailsActivity.class);
+
+
         intent.putExtra(Constants.ID_COMPETITION, competitionsList.get(clickedItemIndex).getCount());
         intent.putExtra(Constants.NAME_COMPETITION, competitionsList.get(clickedItemIndex).getName());
         startActivity(intent);

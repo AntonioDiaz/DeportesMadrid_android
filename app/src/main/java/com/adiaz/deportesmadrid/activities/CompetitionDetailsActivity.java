@@ -21,7 +21,9 @@ import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
 import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
 import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
+import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
+import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionClassification;
@@ -79,11 +81,15 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
         classificationList = new ArrayList<>();
         matchesList = new ArrayList<>();
 
+        Competition competition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
+        String subtitle = competition.deporte() + " > " + competition.distrito() + " > " + competition.categoria();
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle(nameCompetition);
+            getSupportActionBar().setSubtitle(subtitle);
        }
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
