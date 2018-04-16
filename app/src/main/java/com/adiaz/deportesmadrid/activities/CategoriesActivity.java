@@ -19,6 +19,7 @@ import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
             ListItem listItem = new ListItem(s, map.get(s).toString());
             listElements.add(listItem);
         }
+        Collections.sort(listElements, new ListItem.ListItemCompartor());
         return listElements;
     }
 
