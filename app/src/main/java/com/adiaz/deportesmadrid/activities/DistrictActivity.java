@@ -19,6 +19,8 @@ import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -101,6 +103,15 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
             ListItem listItem = new ListItem(s, map.get(s).toString());
             listElements.add(listItem);
         }
+        Collections.sort(listElements, new Comparator<ListItem>() {
+            @Override
+            public int compare(ListItem item01, ListItem item02) {
+                if (item01==null || item02==null) {
+                    return 0;
+                }
+                return item01.getName().compareTo(item02.getName());
+            }
+        });
         return listElements;
     }
 

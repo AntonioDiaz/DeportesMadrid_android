@@ -78,7 +78,7 @@ public class CalendarAdapter extends BaseExpandableListAdapter {
             view = layoutInflater.inflate(R.layout.listitem_calendar_head, null);
         }
         ButterKnife.bind(this, view);
-        tvCalendarTitle.setText("Jornada " + groupPosition);
+        tvCalendarTitle.setText("Jornada " + (groupPosition + 1));
         return view;
     }
 

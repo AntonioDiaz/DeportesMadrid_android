@@ -20,6 +20,7 @@ import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,7 +65,9 @@ public class TabCompetitionTeams extends Fragment {
             }
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        TeamsAdapter genericAdapter = new TeamsAdapter(this.getContext(), CompetitionDetailsActivity.mIdCompetition, new ArrayList<>(teamsSet));
+        ArrayList<String> teamsNamesList = new ArrayList<>(teamsSet);
+        Collections.sort(teamsNamesList);
+        TeamsAdapter genericAdapter = new TeamsAdapter(this.getContext(), CompetitionDetailsActivity.mIdCompetition, teamsNamesList);
         rvTeams.setHasFixedSize(true);
         rvTeams.setLayoutManager(layoutManager);
         rvTeams.setAdapter(genericAdapter);
