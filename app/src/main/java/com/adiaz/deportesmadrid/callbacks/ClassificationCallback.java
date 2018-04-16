@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ClassificationCallback {
     List<ClassificationRetrofitEntity> queryClassificationList();
+    String underlineTeam();
 
 }

@@ -19,5 +19,14 @@
     <string name="title_grupo">Selección de grupo</string>
 
     <string name="menu_home">Volver Inicio</string>
+    
+    <string name="classification_header_team">Equipo</string>
+    <string name="classification_header_matches">PJ</string>
+    <string name="classification_header_matches_won">PG</string>
+    <string name="classification_header_matches_drawn">PE</string>
+    <string name="classification_header_matches_lost">PP</string>
+    <string name="classification_header_goals_favor">TF</string>
+    <string name="classification_header_goals_against">TC</string>
+    <string name="classification_header_points">PT</string>
 
 </resources>

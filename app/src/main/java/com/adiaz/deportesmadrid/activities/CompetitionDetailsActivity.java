@@ -26,7 +26,7 @@ import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionClassification;
+import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionTeams;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
@@ -95,7 +95,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabCompetitionCalendar(), "Calendario");
-        adapter.addFragment(new TabCompetitionClassification(), "Clasificación");
+        adapter.addFragment(new TabClassification(), "Clasificación");
         adapter.addFragment(new TabCompetitionTeams(), "Equipos");
 
         viewPager.setAdapter(adapter);
@@ -197,6 +197,11 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
     @Override
     public List<ClassificationRetrofitEntity> queryClassificationList() {
         return this.classificationList;
+    }
+
+    @Override
+    public String underlineTeam() {
+        return null;
     }
 
     @Override

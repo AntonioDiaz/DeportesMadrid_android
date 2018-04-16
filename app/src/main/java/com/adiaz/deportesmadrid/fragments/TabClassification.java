@@ -4,13 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
+import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
+import com.adiaz.deportesmadrid.adapters.ClassificationAdapter;
 import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
 import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
@@ -20,10 +26,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TabCompetitionClassification extends Fragment {
+public class TabClassification extends Fragment {
 
-    @BindView(R.id.tv_classification)
-    TextView tvClassification;
+    @BindView(R.id.rv_classification)
+    RecyclerView rvClassification;
 
     ClassificationCallback mClassificationCallback;
 
@@ -49,13 +55,17 @@ public class TabCompetitionClassification extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mClassificationCallback.queryClassificationList()!=null) {
-            for (ClassificationRetrofitEntity classificationRetrofitEntity : mClassificationCallback.queryClassificationList()) {
-                String teamName =  classificationRetrofitEntity.getTeam()==null?" - ":classificationRetrofitEntity.getTeam().getName();
-                tvClassification.append(classificationRetrofitEntity.getPosition().toString());
-                tvClassification.append(" - " + teamName);
-                tvClassification.append("\n");
-            }
+        List<ClassificationRetrofitEntity> classificationList = mClassificationCallback.queryClassificationList();
+        String team = mClassificationCallback.underlineTeam();
+        if (classificationList !=null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+            ClassificationAdapter classificationAdapter = new ClassificationAdapter(this.getContext(), classificationList, team);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClassification.getContext(), layoutManager.getOrientation());
+            rvClassification.setHasFixedSize(true);
+            rvClassification.setLayoutManager(layoutManager);
+            rvClassification.setAdapter(classificationAdapter);
+            rvClassification.addItemDecoration(dividerItemDecoration);
+            classificationAdapter.notifyDataSetChanged();
         }
     }
 }

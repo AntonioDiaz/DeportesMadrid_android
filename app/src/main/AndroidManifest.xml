@@ -20,11 +20,9 @@
         <activity android:name=".activities.CategoriesActivity"></activity>
         <activity android:name=".activities.GroupsActivity"></activity>
         <activity android:name=".activities.TeamDetailsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity android:name=".activities.CompetitionDetailsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <provider
             android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,15 +12,12 @@ import android.widget.LinearLayout;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
-import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
 import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Match;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionClassification;
+import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamCalendar;
-import com.adiaz.deportesmadrid.fragments.TabTeamClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamInfo;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
@@ -84,7 +80,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabTeamCalendar(), "Calendario");
-        adapter.addFragment(new TabCompetitionClassification(), "Clasificación");
+        adapter.addFragment(new TabClassification(), "Clasificación");
         adapter.addFragment(new TabTeamInfo(), "Información");
 
         viewPager.setAdapter(adapter);
@@ -147,8 +143,8 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
             for (MatchRetrofitEntity matchRetrofitEntity : matchesList) {
                 if ((matchRetrofitEntity.getTeamLocal()!=null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
                         || (matchRetrofitEntity.getTeamVisitor()!=null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
-                    String teamLocalName = matchRetrofitEntity.getTeamLocal()==null?"-":matchRetrofitEntity.getTeamLocal().getName();
-                    String teamVisitorName = matchRetrofitEntity.getTeamVisitor()==null?"-":matchRetrofitEntity.getTeamVisitor().getName();
+                    String teamLocalName = matchRetrofitEntity.getTeamLocal()==null? "-" : matchRetrofitEntity.getTeamLocal().getName();
+                    String teamVisitorName = matchRetrofitEntity.getTeamVisitor()==null ? "-" : matchRetrofitEntity.getTeamVisitor().getName();
                     Match match = Match.builder()
                             .teamLocal(teamLocalName)
                             .teamVisitor(teamVisitorName)
@@ -165,6 +161,11 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
     @Override
     public List<ClassificationRetrofitEntity> queryClassificationList() {
         return this.classificationList;
+    }
+
+    @Override
+    public String underlineTeam() {
+        return mIdTeam;
     }
 
     class CallbackMatchesRequest implements Callback<List<MatchRetrofitEntity>> {
