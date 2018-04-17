@@ -64,7 +64,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
 
         @Override
         public void onClick(View view) {
-            mListItemClickListener.onListItemClick(getAdapterPosition() - 1);
+            mListItemClickListener.onListItemClick(getAdapterPosition());
         }
     }
 
