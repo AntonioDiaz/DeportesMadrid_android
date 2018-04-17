@@ -24,11 +24,13 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
     Context mContext;
     String idCompetition;
     List<String> teamsList;
+    private final ListItemClickListener mListItemClickListener;
 
-    public TeamsAdapter(Context context, String idCompetition, ArrayList<String> teamsList) {
+    public TeamsAdapter(Context context, String idCompetition, ArrayList<String> teamsList, ListItemClickListener listItemClickListener) {
         this.mContext = context;
         this.idCompetition = idCompetition;
         this.teamsList = teamsList;
+        this.mListItemClickListener = listItemClickListener;
     }
 
     @Override
@@ -42,32 +44,6 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final String teamName = teamsList.get(position);
         holder.tvTeamName.setText(teamName);
-        holder.ivHearth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Favorite favoriteTeam = FavoritesDAO.queryFavorite(mContext, idCompetition, teamName);
-                if (favoriteTeam==null) {
-                    holder.ivHearth.setImageResource(R.drawable.ic_favorite_fill);
-                    Favorite favorite = Favorite.builder()
-                            .idCompetition(idCompetition)
-                            .idTeam(teamName)
-                            .build();
-
-                    FavoritesDAO.insertFavorite(mContext, favorite);
-                    Toast.makeText(mContext, mContext.getString(R.string.favorites_team_added), Toast.LENGTH_SHORT).show();
-                } else {
-                    holder.ivHearth.setImageResource(R.drawable.ic_favorite_empty);
-                    FavoritesDAO.deleteFavorite(mContext, favoriteTeam.id());
-                    Toast.makeText(mContext, mContext.getString(R.string.favorites_team_removed), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        if (FavoritesDAO.queryFavorite(mContext, idCompetition, teamName)!=null) {
-            holder.ivHearth.setImageResource(R.drawable.ic_favorite_fill);
-        } else {
-            holder.ivHearth.setImageResource(R.drawable.ic_favorite_empty);
-        }
-
     }
 
     @Override
@@ -75,18 +51,24 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
         return teamsList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_team_name)
         TextView tvTeamName;
 
-        @BindView(R.id.iv_hearth)
-        ImageView ivHearth;
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            mListItemClickListener.onListItemClick(getAdapterPosition() - 1);
+        }
+    }
+
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
     }
 }

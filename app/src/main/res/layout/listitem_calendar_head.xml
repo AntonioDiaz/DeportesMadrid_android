@@ -15,8 +15,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:padding="16dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        tools:text="Jornada 12"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="16dp" />
