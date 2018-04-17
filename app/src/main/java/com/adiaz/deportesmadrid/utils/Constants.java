@@ -15,4 +15,7 @@ public class Constants {
     public static final String ID_COMPETITION = "ID_COMPETITION";
     public static final String ID_TEAM = "ID_TEAM";
     public static final String NAME_COMPETITION = "NAME_COMPETITION";
+
+    public static final java.lang.String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+    public static final String FIELD_EMPTY = "-";
 }

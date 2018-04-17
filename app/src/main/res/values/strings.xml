@@ -28,5 +28,6 @@
     <string name="classification_header_goals_favor">TF</string>
     <string name="classification_header_goals_against">TC</string>
     <string name="classification_header_points">PT</string>
+    <string name="RESTING">(descansa)</string>
 
 </resources>

@@ -52,25 +52,22 @@ public class TabCompetitionCalendar extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Map<Integer, List<Match>> calendarMap = new HashMap<>();
+        Map<Integer, List<MatchRetrofit>> calendarMap = new HashMap<>();
         if (mCalendarCallback.queryMatchesList()!=null) {
             for (MatchRetrofit matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
                 Integer weekNum = matchRetrofitEntity.getNumWeek() - 1;
-                List<Match> matchesOnWeek = calendarMap.get(weekNum);
+                List<MatchRetrofit> matchesOnWeek = calendarMap.get(weekNum);
                 if (matchesOnWeek==null) {
                     matchesOnWeek = new ArrayList<>();
                     calendarMap.put(weekNum, matchesOnWeek);
                 }
-                String teamLocal = matchRetrofitEntity.getTeamLocal()==null?" - ":matchRetrofitEntity.getTeamLocal().getName();
-                String teamVisitor = matchRetrofitEntity.getTeamVisitor()==null?" - ":matchRetrofitEntity.getTeamVisitor().getName();
-                Match match = Match.builder()
-                        .teamLocal(teamLocal)
-                        .teamVisitor(teamVisitor).build();
-                matchesOnWeek.add(match);
+                matchesOnWeek.add(matchRetrofitEntity);
             }
             CalendarAdapter calendarAdapter = new CalendarAdapter(this.getContext(), calendarMap);
             expandableListViewCalendar.setAdapter(calendarAdapter);
             calendarAdapter.notifyDataSetChanged();
         }
     }
+
+
 }
