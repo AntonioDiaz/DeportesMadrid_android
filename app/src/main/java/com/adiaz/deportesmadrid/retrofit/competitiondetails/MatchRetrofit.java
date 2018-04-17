@@ -1,10 +1,10 @@
 
-package com.adiaz.deportesmadrid.retrofit.matches;
+package com.adiaz.deportesmadrid.retrofit.competitiondetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MatchRetrofitEntity {
+public class MatchRetrofit {
 
     @SerializedName("id")
     @Expose
@@ -21,9 +21,6 @@ public class MatchRetrofitEntity {
     @SerializedName("idPlace")
     @Expose
     private Integer idPlace;
-    @SerializedName("competition")
-    @Expose
-    private Competition competition;
     @SerializedName("teamLocal")
     @Expose
     private TeamLocal teamLocal;
@@ -93,14 +90,6 @@ public class MatchRetrofitEntity {
 
     public void setIdPlace(Integer idPlace) {
         this.idPlace = idPlace;
-    }
-
-    public Competition getCompetition() {
-        return competition;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
     }
 
     public TeamLocal getTeamLocal() {

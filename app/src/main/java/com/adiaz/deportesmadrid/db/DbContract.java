@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 /**
@@ -89,7 +88,7 @@ public class DbContract {
         }
 
         public static Competition cursorToEntity(Cursor cursor) {
-            //Competition competition
+            //CompetitionRetrofit competition
             return Competition.builder()
                     .id(cursor.getString(INDEX_ID))
                     .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
@@ -205,9 +204,9 @@ public class DbContract {
             return cv;
         }
 
-        public static Match cursorToEntity(Cursor cursor) {
-            //Competition competition
-            return Competition.builder()
+        public static MatchRetrofit cursorToEntity(Cursor cursor) {
+            //CompetitionRetrofit competition
+            return CompetitionRetrofit.builder()
                     .id(cursor.getString(INDEX_ID))
                     .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
                     .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))

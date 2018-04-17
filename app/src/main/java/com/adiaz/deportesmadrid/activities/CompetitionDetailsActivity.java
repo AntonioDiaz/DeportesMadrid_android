@@ -29,8 +29,9 @@ import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionTeams;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
-import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -64,8 +65,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
     @BindView(R.id.ll_progress_competition_details)
     LinearLayout llLoadingCompetition;
 
-    List<ClassificationRetrofitEntity> classificationList;
-    List<MatchRetrofitEntity> matchesList;
+    List<ClassificationRetrofit> classificationList;
+    List<MatchRetrofit> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
     public static String mIdCompetition;
 
@@ -104,20 +105,18 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
         CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
-        Call<List<MatchRetrofitEntity>> callMatches = retrofitApi.queryMatches(mIdCompetition);
-        Call<List<ClassificationRetrofitEntity>> callClassification = retrofitApi.queryClassification(mIdCompetition);
-        callMatches.enqueue(new CallbackMatchesRequest());
-        callClassification.enqueue(new CallbackClassificationRequest());
+        Call<CompetitionDetailsRetrofit> callCompetitionDetails = retrofitApi.findCompetition(mIdCompetition);
+        callCompetitionDetails.enqueue(new CallbackRequest());
 
         //hideLoading();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_competition, menu);
+        getMenuInflater().inflate(R.menu.menu_favorites, menu);
         for (int i = 0; i < menu.size(); i++) {
             if (menu.getItem(i).getItemId() == R.id.action_favorites) {
-                Favorite favorite = FavoritesDAO.queryFavoritesCompetition(this, mIdCompetition);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition);
                 if (favorite!=null) {
                     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                     Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
@@ -138,7 +137,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
             case R.id.action_favorites:
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                 Drawable drawable;
-                Favorite favorite = FavoritesDAO.queryFavoritesCompetition(this, mIdCompetition);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition);
                 if (favorite != null) {
                     FavoritesDAO.deleteFavorite(this, favorite.id());
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
@@ -176,26 +175,16 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
         return true;
     }
 
-    private void matchesLoaded(List<MatchRetrofitEntity> matchesList) {
-        this.matchesList = matchesList;
-        reloadView();
-    }
-
-    private void classificationLoaded (List<ClassificationRetrofitEntity> classificationList) {
-        this.classificationList = classificationList;
-        reloadView();
-    }
-
-    private void reloadView() {
-        if (matchesList!=null && classificationList!=null) {
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-            hideLoading();
-        }
+    private void dataReceived (CompetitionDetailsRetrofit competitionDetailsRetrofit) {
+        this.matchesList = competitionDetailsRetrofit.getMatchRetrofits();
+        this.classificationList = competitionDetailsRetrofit.getClassificationRetrofit();
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        hideLoading();
     }
 
     @Override
-    public List<ClassificationRetrofitEntity> queryClassificationList() {
+    public List<ClassificationRetrofit> queryClassificationList() {
         return this.classificationList;
     }
 
@@ -205,33 +194,24 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
     }
 
     @Override
-    public List<MatchRetrofitEntity> queryMatchesList() {
+    public List<MatchRetrofit> queryMatchesList() {
         return this.matchesList;
     }
 
-    class CallbackMatchesRequest implements Callback<List<MatchRetrofitEntity>> {
+
+    class CallbackRequest implements Callback<CompetitionDetailsRetrofit> {
+
         @Override
-        public void onResponse(Call<List<MatchRetrofitEntity>> call, Response<List<MatchRetrofitEntity>> response) {
-            matchesLoaded(response.body());
+        public void onResponse(Call<CompetitionDetailsRetrofit> call, Response<CompetitionDetailsRetrofit> response) {
+            dataReceived(response.body());
         }
 
         @Override
-        public void onFailure(Call<List<MatchRetrofitEntity>> call, Throwable t) {
+        public void onFailure(Call<CompetitionDetailsRetrofit> call, Throwable t) {
             hideLoading();
-            Utils.showSnack(mainView, "error en al obtener los partidos.");
+            Utils.showSnack(mainView, getString(R.string.error_getting_data));
         }
     }
 
-    class CallbackClassificationRequest implements Callback<List<ClassificationRetrofitEntity>> {
-        @Override
-        public void onResponse(Call<List<ClassificationRetrofitEntity>> call, Response<List<ClassificationRetrofitEntity>> response) {
-            classificationLoaded(response.body());
-        }
 
-        @Override
-        public void onFailure(Call<List<ClassificationRetrofitEntity>> call, Throwable t) {
-            hideLoading();
-            Utils.showSnack(mainView, "error en al obtener la classificacion.");
-        }
-    }
 }

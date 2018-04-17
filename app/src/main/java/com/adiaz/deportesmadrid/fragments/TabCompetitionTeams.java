@@ -9,15 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
-import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.adapters.TeamsAdapter;
 import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
-import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,12 +53,12 @@ public class TabCompetitionTeams extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Set<String> teamsSet = new HashSet<>();
-        for (MatchRetrofitEntity matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
-            if (matchRetrofitEntity.getTeamLocal()!=null) {
-                teamsSet.add(matchRetrofitEntity.getTeamLocal().getName());
+        for (MatchRetrofit matchRetrofit : mCalendarCallback.queryMatchesList()) {
+            if (matchRetrofit.getTeamLocal()!=null) {
+                teamsSet.add(matchRetrofit.getTeamLocal().getName());
             }
-            if (matchRetrofitEntity.getTeamVisitor()!=null) {
-                teamsSet.add(matchRetrofitEntity.getTeamVisitor().getName());
+            if (matchRetrofit.getTeamVisitor()!=null) {
+                teamsSet.add(matchRetrofit.getTeamVisitor().getName());
             }
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());

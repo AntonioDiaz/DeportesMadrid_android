@@ -45,7 +45,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
         holder.ivHearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Favorite favoriteTeam = FavoritesDAO.queryFavoritesTeam(mContext, idCompetition, teamName);
+                Favorite favoriteTeam = FavoritesDAO.queryFavorite(mContext, idCompetition, teamName);
                 if (favoriteTeam==null) {
                     holder.ivHearth.setImageResource(R.drawable.ic_favorite_fill);
                     Favorite favorite = Favorite.builder()
@@ -62,7 +62,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder>{
                 }
             }
         });
-        if (FavoritesDAO.queryFavoritesTeam(mContext, idCompetition, teamName)!=null) {
+        if (FavoritesDAO.queryFavorite(mContext, idCompetition, teamName)!=null) {
             holder.ivHearth.setImageResource(R.drawable.ic_favorite_fill);
         } else {
             holder.ivHearth.setImageResource(R.drawable.ic_favorite_empty);

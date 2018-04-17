@@ -10,16 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
-import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
 import com.adiaz.deportesmadrid.adapters.ClassificationAdapter;
 import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
-import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
 
 import java.util.List;
 
@@ -55,7 +50,7 @@ public class TabClassification extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<ClassificationRetrofitEntity> classificationList = mClassificationCallback.queryClassificationList();
+        List<ClassificationRetrofit> classificationList = mClassificationCallback.queryClassificationList();
         String team = mClassificationCallback.underlineTeam();
         if (classificationList !=null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());

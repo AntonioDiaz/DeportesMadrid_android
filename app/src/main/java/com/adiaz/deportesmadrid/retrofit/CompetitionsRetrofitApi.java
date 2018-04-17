@@ -1,14 +1,14 @@
 package com.adiaz.deportesmadrid.retrofit;
 
-import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -20,10 +20,14 @@ public interface CompetitionsRetrofitApi {
     Call<List<CompetitionRetrofitEntity>> queryAllCompetition();
 
     @GET("/server/findClassification/")
-    Call<List<ClassificationRetrofitEntity>> queryClassification(@Query("cod_competicion")String idCompetition);
+    Call<List<ClassificationRetrofit>> queryClassification(@Query("cod_competicion")String idCompetition);
 
     @GET("/server/findMatches/")
-    Call<List<MatchRetrofitEntity>> queryMatches(@Query("cod_competicion")String idCompetition);
+    Call<List<MatchRetrofit>> queryMatches(@Query("cod_competicion")String idCompetition);
+
+    @GET("/server/findCompetition/")
+    Call<CompetitionDetailsRetrofit> findCompetition(@Query("cod_competicion")String idCompetition);
+
 
 
 }

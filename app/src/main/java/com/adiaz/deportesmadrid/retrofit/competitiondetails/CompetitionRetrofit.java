@@ -1,10 +1,10 @@
 
-package com.adiaz.deportesmadrid.retrofit.matches;
+package com.adiaz.deportesmadrid.retrofit.competitiondetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Competition {
+public class CompetitionRetrofit {
 
     @SerializedName("id")
     @Expose

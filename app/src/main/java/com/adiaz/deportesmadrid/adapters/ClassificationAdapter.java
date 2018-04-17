@@ -1,9 +1,9 @@
 package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import butterknife.ButterKnife;
 public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAdapter.ViewHolder> {
 
     Context mContext;
-    List<ClassificationRetrofitEntity> mClassificationList;
+    List<ClassificationRetrofit> mClassificationList;
     String mIdTeam;
 
-    public ClassificationAdapter(Context mContext, List<ClassificationRetrofitEntity> mClassificationList, String idTeam) {
+    public ClassificationAdapter(Context mContext, List<ClassificationRetrofit> mClassificationList, String idTeam) {
         this.mContext = mContext;
         this.mClassificationList = mClassificationList;
         this.mIdTeam = idTeam;
@@ -53,7 +53,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
             int color = ContextCompat.getColor(mContext, R.color.colorPrimaryDark);
             holder.clClassification.setBackgroundColor(color);
         } else {
-            ClassificationRetrofitEntity entity = mClassificationList.get(position - 1);
+            ClassificationRetrofit entity = mClassificationList.get(position - 1);
             if (entity != null) {
                 holder.tvPosition.setText(entity.getPosition().toString());
                 if (entity.getTeam() != null && entity.getTeam().getName() != null) {
@@ -69,6 +69,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
                 if (entity.getTeam() != null && entity.getTeam().getName() != null && entity.getTeam().getName().equals(mIdTeam)) {
                     int color = ContextCompat.getColor(mContext, R.color.colorAccent);
                     holder.clClassification.setBackgroundColor(color);
+                    holder.tvTeam.setTypeface(null, Typeface.BOLD);
                 }
             }
         }

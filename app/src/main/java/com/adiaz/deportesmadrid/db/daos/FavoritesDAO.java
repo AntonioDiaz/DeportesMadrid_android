@@ -41,7 +41,7 @@ public class FavoritesDAO {
         return favorites;
     }
 
-    public static Favorite queryFavoritesCompetition(Context context, String idCompetition) {
+    public static Favorite queryFavorite(Context context, String idCompetition) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_COMPETITION + "=?";
         where += "and " + FavoritesEntry.COLUMN_ID_TEAM + " is null";
@@ -61,7 +61,7 @@ public class FavoritesDAO {
         return favoriteFound;
     }
 
-    public static Favorite queryFavoritesTeam(Context context, String idCompetition, String idTeam) {
+    public static Favorite queryFavorite(Context context, String idCompetition, String idTeam) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_TEAM + "=?";
         where += "AND " + FavoritesEntry.COLUMN_ID_COMPETITION + "=?";

@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
 import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
 import com.adiaz.deportesmadrid.db.entities.Match;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +54,7 @@ public class TabCompetitionCalendar extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Map<Integer, List<Match>> calendarMap = new HashMap<>();
         if (mCalendarCallback.queryMatchesList()!=null) {
-            for (MatchRetrofitEntity matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
+            for (MatchRetrofit matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
                 Integer weekNum = matchRetrofitEntity.getNumWeek() - 1;
                 List<Match> matchesOnWeek = calendarMap.get(weekNum);
                 if (matchesOnWeek==null) {

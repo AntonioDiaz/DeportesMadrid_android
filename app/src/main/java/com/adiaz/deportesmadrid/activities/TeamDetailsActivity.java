@@ -1,27 +1,38 @@
 package com.adiaz.deportesmadrid.activities;
 
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.callbacks.CalendarTeamCallback;
 import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamCalendar;
 import com.adiaz.deportesmadrid.fragments.TabTeamInfo;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
-import com.adiaz.deportesmadrid.retrofit.classification.ClassificationRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.matches.MatchRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -36,7 +47,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TeamDetailsActivity extends AppCompatActivity implements ClassificationCallback {
+public class TeamDetailsActivity extends AppCompatActivity implements ClassificationCallback, CalendarTeamCallback {
 
     @BindView(R.id.main_view)
     View mainView;
@@ -57,9 +68,9 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
 
     String mIdCompetition;
     String mIdTeam;
-    List<ClassificationRetrofitEntity> classificationList;
-    List<MatchRetrofitEntity> matchesList;
-    public static List<Match> matches = new ArrayList<>();
+    List<ClassificationRetrofit> classificationRetrofitList;
+    List<MatchRetrofit> matchesRetrofitList;
+    List<Match> matches;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,15 +97,59 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         showLoading();
-        classificationList = null;
-        matchesList = null;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
         CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
-        Call<List<MatchRetrofitEntity>> callMatches = retrofitApi.queryMatches(mIdCompetition);
-        Call<List<ClassificationRetrofitEntity>> callClassification = retrofitApi.queryClassification(mIdCompetition);
-        callMatches.enqueue(new TeamDetailsActivity.CallbackMatchesRequest());
-        callClassification.enqueue(new TeamDetailsActivity.CallbackClassificationRequest());
+        Call<CompetitionDetailsRetrofit> callCompetitionDetails = retrofitApi.findCompetition(mIdCompetition);
+        callCompetitionDetails.enqueue(new CallbackRequest());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_favorites, menu);
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.getItem(i).getItemId() == R.id.action_favorites) {
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition, mIdTeam);
+                if (favorite!=null) {
+                    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+                    Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
+                    menu.getItem(i).setIcon(drawable);
+                }
+                Drawable icon = menu.getItem(i).getIcon();
+                int colorWhite = ContextCompat.getColor(this, R.color.colorWhite);
+                final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(colorWhite, PorterDuff.Mode.SRC_IN);
+                icon.setColorFilter(colorFilter);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorites:
+                AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+                Drawable drawable;
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition, mIdTeam);
+                if (favorite != null) {
+                    FavoritesDAO.deleteFavorite(this, favorite.id());
+                    drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
+                    Toast.makeText(this, R.string.favorites_team_removed, Toast.LENGTH_SHORT).show();
+                } else {
+                    Favorite newFavorite = Favorite.builder().idCompetition(mIdCompetition).idTeam(mIdTeam).build();
+                    FavoritesDAO.insertFavorite(this, newFavorite);
+                    drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
+                    Toast.makeText(this, R.string.favorites_team_added, Toast.LENGTH_SHORT).show();
+                }
+                int colorWhite = ContextCompat.getColor(this, R.color.colorWhite);
+                final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(colorWhite, PorterDuff.Mode.SRC_IN);
+                drawable.setColorFilter(colorFilter);
+                item.setIcon(drawable);
+                break;
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void hideLoading() {
@@ -107,44 +162,16 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
         viewPager.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void matchesLoaded(List<MatchRetrofitEntity> matchesList) {
-        this.matchesList =new ArrayList<>();
-        if (matchesList!=null) {
-            this.matchesList = matchesList;
-        }
-        reloadView();
-    }
-
-    public void classificationLoaded(List<ClassificationRetrofitEntity> classificationList) {
-        this.classificationList = new ArrayList<>();
-        if (classificationList!=null) {
-            this.classificationList = classificationList;
-        }
-        reloadView();
-    }
-
-    public void failLoading(String errorDesc) {
-        hideLoading();
-        Utils.showSnack(mainView, errorDesc);
-    }
-
-    private void reloadView() {
-        if (matchesList!=null && classificationList!=null) {
+    private void dataReceived(CompetitionDetailsRetrofit competitionDetailsRetrofit) {
+        this.matchesRetrofitList = new ArrayList<>();
+        if (competitionDetailsRetrofit.getMatchRetrofits() != null) {
+            this.matchesRetrofitList = competitionDetailsRetrofit.getMatchRetrofits();
             matches = new ArrayList<>();
-            for (MatchRetrofitEntity matchRetrofitEntity : matchesList) {
-                if ((matchRetrofitEntity.getTeamLocal()!=null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
-                        || (matchRetrofitEntity.getTeamVisitor()!=null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
-                    String teamLocalName = matchRetrofitEntity.getTeamLocal()==null? "-" : matchRetrofitEntity.getTeamLocal().getName();
-                    String teamVisitorName = matchRetrofitEntity.getTeamVisitor()==null ? "-" : matchRetrofitEntity.getTeamVisitor().getName();
+            for (MatchRetrofit matchRetrofitEntity : competitionDetailsRetrofit.getMatchRetrofits()) {
+                if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
+                        || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
+                    String teamLocalName = matchRetrofitEntity.getTeamLocal() == null ? "-" : matchRetrofitEntity.getTeamLocal().getName();
+                    String teamVisitorName = matchRetrofitEntity.getTeamVisitor() == null ? "-" : matchRetrofitEntity.getTeamVisitor().getName();
                     Match match = Match.builder()
                             .teamLocal(teamLocalName)
                             .teamVisitor(teamVisitorName)
@@ -152,15 +179,19 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
                     matches.add(match);
                 }
             }
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-            hideLoading();
         }
+        this.classificationRetrofitList = new ArrayList<>();
+        if (competitionDetailsRetrofit.getClassificationRetrofit() != null) {
+            this.classificationRetrofitList = competitionDetailsRetrofit.getClassificationRetrofit();
+        }
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        hideLoading();
     }
 
     @Override
-    public List<ClassificationRetrofitEntity> queryClassificationList() {
-        return this.classificationList;
+    public List<ClassificationRetrofit> queryClassificationList() {
+        return this.classificationRetrofitList;
     }
 
     @Override
@@ -168,28 +199,22 @@ public class TeamDetailsActivity extends AppCompatActivity implements Classifica
         return mIdTeam;
     }
 
-    class CallbackMatchesRequest implements Callback<List<MatchRetrofitEntity>> {
-        @Override
-        public void onResponse(Call<List<MatchRetrofitEntity>> call, Response<List<MatchRetrofitEntity>> response) {
-            matchesLoaded(response.body());
-        }
-
-        @Override
-        public void onFailure(Call<List<MatchRetrofitEntity>> call, Throwable t) {
-            failLoading("Error al obtener los partidos.");
-        }
+    @Override
+    public List<Match> queryTeamMatches() {
+        return matches;
     }
 
-    class CallbackClassificationRequest implements Callback<List<ClassificationRetrofitEntity>> {
+    class CallbackRequest implements Callback<CompetitionDetailsRetrofit> {
+
         @Override
-        public void onResponse(Call<List<ClassificationRetrofitEntity>> call, Response<List<ClassificationRetrofitEntity>> response) {
-            classificationLoaded(response.body());
+        public void onResponse(Call<CompetitionDetailsRetrofit> call, Response<CompetitionDetailsRetrofit> response) {
+            dataReceived(response.body());
         }
 
         @Override
-        public void onFailure(Call<List<ClassificationRetrofitEntity>> call, Throwable t) {
-            failLoading("Error al obtener la classificación.");
+        public void onFailure(Call<CompetitionDetailsRetrofit> call, Throwable t) {
+            hideLoading();
+            Utils.showSnack(mainView, getString(R.string.error_getting_data));
         }
     }
-
 }
