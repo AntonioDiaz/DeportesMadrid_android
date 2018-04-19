@@ -58,4 +58,10 @@
         <item name="cardElevation">5dp</item>
     </style>
 
+    <style name="TextDetails">
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>

@@ -20,6 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="12" />
 
     <TextView
@@ -31,12 +32,11 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:gravity="left|center_vertical"
-        android:maxLines="1"
-        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_matches"
         app:layout_constraintStart_toEndOf="@+id/tv_classification_position"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="Atletico de Madrid" />
 
 
@@ -50,6 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_matches_won"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="pj" />
 
     <TextView
@@ -62,6 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_matches_drawn"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="pg" />
 
     <TextView
@@ -74,6 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_matches_lost"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="pe" />
 
     <TextView
@@ -86,6 +89,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_goals_for"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="pp" />
 
     <me.grantland.widget.AutofitTextView
@@ -100,6 +104,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_classification_goals_against"
         app:layout_constraintTop_toTopOf="parent"
         autofit:minTextSize="8sp"
+        style="@style/TextDetails"
         tools:text="1099" />
 
     <me.grantland.widget.AutofitTextView
@@ -114,6 +119,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:maxLines="1"
         autofit:minTextSize="8sp"
+        style="@style/TextDetails"
         tools:text="gf" />
 
     <TextView
@@ -125,6 +131,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextDetails"
         tools:text="pt" />
 
 
