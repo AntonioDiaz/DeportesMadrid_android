@@ -18,6 +18,8 @@ import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.Utils;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +51,10 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         setContentView(R.layout.activity_list);
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         String sportSelectedCount = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subTitle = sportSelected + " (" + sportSelectedCount + ")";
+        String subTitle = sportSelected;
+        if (UtilsPreferences.isShowCompetitionsNumber(this)) {
+            subTitle += " (" + sportSelectedCount + ")";
+        }
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_district));
             getSupportActionBar().setSubtitle(subTitle);

@@ -17,6 +17,7 @@ import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,10 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         categorySelected = getIntent().getStringExtra(Constants.EXTRA_CATEGORY_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subtitle = sportSelected + " > " + districtSelected + " > " + categorySelected + " (" + count + ")";
+        String subtitle = sportSelected + " > " + districtSelected + " > " + categorySelected;
+        if (UtilsPreferences.isShowCompetitionsNumber(this)) {
+            subtitle += " (" + count + ")";
+        }
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_grupo));
             getSupportActionBar().setSubtitle(subtitle);

@@ -96,8 +96,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId== R.id.action_sync) {
-            syncCompetitions();
+        switch (itemId) {
+            case R.id.action_sync:
+                syncCompetitions();
+                break;
+            case R.id.action_preferences:
+                Intent intentSettings = new Intent(this, SettingsActivity.class);
+                startActivity(intentSettings);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -17,6 +17,7 @@ import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,10 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subTitle = sportSelected + " > " + districtSelected + " (" + count + ")";
+        String subTitle = sportSelected + " > " + districtSelected;
+        if (UtilsPreferences.isShowCompetitionsNumber(this)) {
+            subTitle += " (" + count + ")";
+        }
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_category));
             getSupportActionBar().setSubtitle(subTitle);

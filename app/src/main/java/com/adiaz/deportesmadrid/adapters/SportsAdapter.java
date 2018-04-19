@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.List;
 
@@ -60,7 +61,9 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.ViewHolder
             String sportTag = Utils.normalizaSportName(sportName);
             String sportImage = Utils.getStringResourceByName(mContext, sportTag + "_IMG");
             String sportLocated = Utils.getStringResourceByName(mContext, sportTag);
-            sportLocated += " (" +  mListItems.get(position-1).getCount() + ")";
+            if (UtilsPreferences.isShowCompetitionsNumber(mContext)) {
+                sportLocated += " (" +  mListItems.get(position-1).getCount() + ")";
+            }
             holder.mSportName.setText(sportLocated);
             holder.mIvSport.setColorFilter(colorPrimaryDark, PorterDuff.Mode.SRC_IN);
             try {

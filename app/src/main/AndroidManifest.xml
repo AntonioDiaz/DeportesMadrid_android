@@ -23,6 +23,15 @@
             android:theme="@style/AppThemeNoActionBar"></activity>
         <activity android:name=".activities.CompetitionDetailsActivity"
             android:theme="@style/AppThemeNoActionBar"></activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/action_preferences"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
         <provider
             android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"

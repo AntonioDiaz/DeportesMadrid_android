@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.List;
 
@@ -37,7 +38,10 @@ public class GenericAdapter extends RecyclerView.Adapter<GenericAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String str = sportsList.get(position).getName() + " (" + sportsList.get(position).getCount() + ")";
+        String str = sportsList.get(position).getName();
+        if (UtilsPreferences.isShowCompetitionsNumber(mContext)) {
+            str += " (" + sportsList.get(position).getCount() + ")";
+        }
         holder.tvCompetitionTitle.setText(str);
         //holder.tvCompetitionCount.setText(sportCount);
     }
