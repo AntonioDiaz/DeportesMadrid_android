@@ -1,6 +1,7 @@
 package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.listitem_favorites_team, parent, false);
+        View view = layoutInflater.inflate(R.layout.listitem_favorites, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,10 +67,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         @BindView(R.id.tv_favorite_name)
         TextView tvFavoriteName;
 
+        @BindView(R.id.cv_favorites)
+        CardView cvFavorites;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+            cvFavorites.setOnClickListener(this);
         }
 
         @Override

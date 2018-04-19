@@ -9,5 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        tools:listitem="@layout/listitem_competition"/>
+        tools:listitem="@layout/listitem_favorites"/>
 </android.support.constraint.ConstraintLayout>
+
+

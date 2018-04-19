@@ -3,6 +3,7 @@ package com.adiaz.deportesmadrid.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
+import com.adiaz.deportesmadrid.adapters.SportsAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
@@ -24,6 +26,7 @@ import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +38,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<CompetitionRetrofitEntity>>,GenericAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity
+        implements Callback<List<CompetitionRetrofitEntity>>, SportsAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setTheme(R.style.AppTheme);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -127,12 +132,12 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     private void fillRecyclerview() {
         elementsList = initElementsList(mCompetitionsList);
         //getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        SportsAdapter sportsAdapter = new SportsAdapter(this, this, elementsList);
         rvCompetitions.setHasFixedSize(true);
         rvCompetitions.setLayoutManager(layoutManager);
-        rvCompetitions.setAdapter(genericAdapter);
-        genericAdapter.notifyDataSetChanged();
+        rvCompetitions.setAdapter(sportsAdapter);
+        sportsAdapter.notifyDataSetChanged();
         pb.setVisibility(View.INVISIBLE);
         vResults.setVisibility(View.VISIBLE);
     }
@@ -140,8 +145,6 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
     private List<ListItem> initElementsList(List<Competition> competitions) {
         List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
-        List<Favorite> favorites = FavoritesDAO.queryFavorites(this);
-        listElements.add(new ListItem("Favoritos", Integer.toString(favorites.size())));
         for (Competition competition : competitions) {
             Integer count = map.get(competition.deporte());
             if (count==null) {
@@ -153,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
             ListItem listItem = new ListItem(s, map.get(s).toString());
             listElements.add(listItem);
         }
-
+        Collections.sort(listElements, new ListItem.ListItemCompartor());
         return listElements;
     }
 
@@ -164,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Com
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, DistrictActivity.class);
-            String sportName = elementsList.get(clickedItemIndex).getName();
-            String count = elementsList.get(clickedItemIndex).getCount();
+            String sportName = elementsList.get(clickedItemIndex - 1).getName();
+            String count = elementsList.get(clickedItemIndex - 1).getCount();
             intent.putExtra(Constants.EXTRA_SPORT_SELECTED_NAME, sportName);
             intent.putExtra(Constants.EXTRA_COUNT, count);
             startActivity(intent);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -58,7 +59,8 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         showLoading();
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
         elementsList = initElementsList(competitions);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
         rvDistricts.setHasFixedSize(true);
         rvDistricts.setLayoutManager(layoutManager);

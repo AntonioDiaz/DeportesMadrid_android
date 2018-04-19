@@ -3,7 +3,7 @@
     <string name="loading_competition">cargando</string>
     <string name="loading_team">cargando</string>
     <string name="template_text">On July 16, 1969, the Apollo 11 spacecraft launched from the Kennedy Space Center in Florida. Its mission was to go where no human being had gone before—the moon! The crew consisted of Neil Armstrong, Michael Collins, and Buzz Aldrin. The spacecraft landed on the moon in the Sea of Tranquility, a basaltic flood plain, on July 20, 1969. The moonwalk took place the following day. On July 21, 1969, at precisely 10:56 EDT, Commander Neil Armstrong emerged from the Lunar Module and took his famous first step onto the moon’s surface. He declared, “That’s one small step for man, one giant leap for mankind.” It was a monumental moment in human history!</string>
-    <string name="favorites">favorito</string>
+    <string name="favorites">Favoritos</string>
     <string name="favorites_subtitle">Favoritos</string>
     <string name="favorites_competition_added">Se añadió la competición a la lista de favoritos.</string>
     <string name="favorites_competition_removed">Se eliminó la competición de la lista de favoritos.</string>
@@ -14,9 +14,9 @@
     <string name="type_competicion">Competición</string>
     <string name="fake_text_team_name">Atletico de Madrid</string>
 
-    <string name="title_district">Selección de distrito</string>
-    <string name="title_category">Selección de categoría</string>
-    <string name="title_grupo">Selección de grupo</string>
+    <string name="title_district">Distritos</string>
+    <string name="title_category">Categorías</string>
+    <string name="title_grupo">Grupos</string>
 
     <string name="menu_home">Volver Inicio</string>
     
@@ -29,5 +29,33 @@
     <string name="classification_header_goals_against">TC</string>
     <string name="classification_header_points">PT</string>
     <string name="RESTING">(descansa)</string>
+
+
+    <string name="BALONCESTO">Baloncesto</string>
+    <string name="BALONMANO">Balonmano</string>
+    <string name="BEISBOL">Beisbol</string>
+    <string name="FUTBOL">Futbol</string>
+    <string name="FUTBOL_SALA">Futbol Sala</string>
+    <string name="FUTBOL_7">Futbol 7</string>
+    <string name="HOCKEY">Hockey</string>
+    <string name="MINIBALONCESTO">MiniBaloncesto</string>
+    <string name="RUGBY">Rugby</string>
+    <string name="VOLEIBOL">Voleibol</string>
+    <string name="WATERPOLO">Waterpolo</string>
+
+    <string name="BALONCESTO_IMG">ball_basketball</string>
+    <string name="BALONMANO_IMG">ball_handball</string>
+    <string name="BEISBOL_IMG">ball_baseball</string>
+    <string name="FUTBOL_IMG">ball_football</string>
+    <string name="FUTBOL_SALA_IMG">ball_football</string>
+    <string name="FUTBOL_7_IMG">ball_football</string>
+    <string name="HOCKEY_IMG">ball_hockey</string>
+    <string name="MINIBALONCESTO_IMG">ball_basketball</string>
+    <string name="RUGBY_IMG">ball_rugby</string>
+    <string name="VOLEIBOL_IMG">ball_voleibol</string>
+    <string name="WATERPOLO_IMG">ball_waterpolo</string>
+
+
+
 
 </resources>

@@ -51,7 +51,16 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
             holder.tvGoalsAgainst.setText(mContext.getString(R.string.classification_header_goals_against));
             holder.tvPoints.setText(mContext.getString(R.string.classification_header_points));
             int color = ContextCompat.getColor(mContext, R.color.colorPrimaryDark);
+            int colorWhite = ContextCompat.getColor(mContext, R.color.colorWhite);
             holder.clClassification.setBackgroundColor(color);
+            holder.tvTeam.setTextColor(colorWhite);
+            holder.tvMatches.setTextColor(colorWhite);
+            holder.tvMatchesWon.setTextColor(colorWhite);
+            holder.tvMatchesDrawn.setTextColor(colorWhite);
+            holder.tvMatchesLost.setTextColor(colorWhite);
+            holder.tvGoalsFor.setTextColor(colorWhite);
+            holder.tvGoalsAgainst.setTextColor(colorWhite);
+            holder.tvPoints.setTextColor(colorWhite);
         } else {
             ClassificationRetrofit entity = mClassificationList.get(position - 1);
             if (entity != null) {

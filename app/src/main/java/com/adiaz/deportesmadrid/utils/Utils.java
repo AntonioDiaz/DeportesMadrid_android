@@ -4,12 +4,15 @@ package com.adiaz.deportesmadrid.utils;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 
 public class Utils {
+
+    private static final String TAG = Utils.class.getSimpleName();
 
     /**
      * If input is null or empty return "-"
@@ -37,4 +40,21 @@ public class Utils {
         });
         snackbar.show();
     }
+
+    public static String getStringResourceByName(Context context, String aString) {
+        String packageName = context.getPackageName();
+        String strResource = aString;
+        try {
+            int resId = context.getResources().getIdentifier(aString, "string", packageName);
+            strResource = context.getString(resId);
+        } catch (Exception e) {
+            Log.d(TAG, "resource not found at getStringResourceByName: " + aString);
+        }
+        return strResource;
+    }
+
+    public static String normalizaSportName(String sportNameOriginal) {
+        return sportNameOriginal.replace(" ", "_").replace("-", "_").toUpperCase();
+    }
+    
 }

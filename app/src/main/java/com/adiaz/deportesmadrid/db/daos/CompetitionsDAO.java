@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
+import com.adiaz.deportesmadrid.utils.Constants;
 
 import static com.adiaz.deportesmadrid.db.DbContract.CompetitionEntry;
 
@@ -18,6 +19,9 @@ public class CompetitionsDAO {
     public static void insertCompetitions(Context context, List<CompetitionRetrofitEntity> competitionsList) {
         List<ContentValues> contentValues = new ArrayList<>();
         for (CompetitionRetrofitEntity competitionRetrofitEntity : competitionsList) {
+            if (competitionRetrofitEntity.getDistrito().equalsIgnoreCase(Constants.DGD)) {
+                competitionRetrofitEntity.setDistrito(Constants.DISTRITO_UNICO);
+            }
             ContentValues cv = CompetitionEntry.retrofitEntityToContentValue(competitionRetrofitEntity);
             contentValues.add(cv);
         }

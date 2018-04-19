@@ -18,4 +18,7 @@ public class Constants {
 
     public static final java.lang.String DATE_FORMAT = "dd/MM/yyyy HH:mm";
     public static final String FIELD_EMPTY = "-";
+
+    public static final String DGD = "Dgd";
+    public static final String DISTRITO_UNICO = "Distrito Único";
 }
