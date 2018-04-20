@@ -19,14 +19,13 @@ import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
-import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
-import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
+import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
+import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
 import com.adiaz.deportesmadrid.fragments.TabCompetitionTeams;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
@@ -46,7 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompetitionDetailsActivity extends AppCompatActivity implements ClassificationCallback, CalendarCallback {
+public class CompetitionDetailsActivity extends AppCompatActivity implements CompetitionCallback {
 
     //private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
 
@@ -68,6 +67,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
     List<ClassificationRetrofit> classificationList;
     List<MatchRetrofit> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
+    Competition mCompetition;
+
     public static String mIdCompetition;
 
     @Override
@@ -82,8 +83,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
         classificationList = new ArrayList<>();
         matchesList = new ArrayList<>();
 
-        Competition competition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
-        String subtitle = competition.deporte() + " > " + competition.distrito() + " > " + competition.categoria();
+        mCompetition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
+        String subtitle = mCompetition.deporte() + " > " + mCompetition.distrito() + " > " + mCompetition.categoria();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
@@ -189,7 +190,12 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Cla
     }
 
     @Override
-    public String underlineTeam() {
+    public Competition queryCompetition() {
+        return mCompetition ;
+    }
+
+    @Override
+    public String queryTeam() {
         return null;
     }
 

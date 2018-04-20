@@ -11,8 +11,7 @@ import android.widget.ExpandableListView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
-import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
-import com.adiaz.deportesmadrid.db.entities.Match;
+import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 
 import java.util.ArrayList;
@@ -28,16 +27,16 @@ public class TabCompetitionCalendar extends Fragment {
     @BindView(R.id.expandableListView_calendar)
     ExpandableListView expandableListViewCalendar;
 
-    CalendarCallback mCalendarCallback;
+    CompetitionCallback mCompetitionCallback;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCalendarCallback = (CalendarCallback)context;
+            mCompetitionCallback = (CompetitionCallback) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement CalendarCallback");
+            throw new ClassCastException(context.toString() + " must implement CompetitionCallback");
         }
     }
 
@@ -53,8 +52,8 @@ public class TabCompetitionCalendar extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Map<Integer, List<MatchRetrofit>> calendarMap = new HashMap<>();
-        if (mCalendarCallback.queryMatchesList()!=null) {
-            for (MatchRetrofit matchRetrofitEntity : mCalendarCallback.queryMatchesList()) {
+        if (mCompetitionCallback.queryMatchesList()!=null) {
+            for (MatchRetrofit matchRetrofitEntity : mCompetitionCallback.queryMatchesList()) {
                 Integer weekNum = matchRetrofitEntity.getNumWeek() - 1;
                 List<MatchRetrofit> matchesOnWeek = calendarMap.get(weekNum);
                 if (matchesOnWeek==null) {

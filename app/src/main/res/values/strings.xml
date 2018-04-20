@@ -69,4 +69,15 @@
     <string name="pref_notifications_summary_off">No mostrar</string>
     <string name="pref_notifications_summary_on">Mostrar</string>
 
+    <string name="team_details_tab_information">Información</string>
+    <string name="team_details_tab_calendar">Calendario</string>
+    <string name="team_details_tab_classification">Clasificación</string>
+
+    <string name="team_details_info_district">Distrito</string>
+    <string name="team_details_info_categoria">Categoría</string>
+    <string name="team_details_info_sport">Deporte</string>
+
+    <string name="team_details_last_match">Último partido</string>
+    <string name="team_details_next_match">Próximo partido</string>
+
 </resources>

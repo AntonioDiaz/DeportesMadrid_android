@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.activities.TeamDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
-import com.adiaz.deportesmadrid.callbacks.CalendarTeamCallback;
-import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
+import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.entities.Match;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 
 import java.util.List;
 
@@ -27,15 +26,15 @@ public class TabTeamCalendar extends Fragment {
     @BindView(R.id.rv_team_matches)
     RecyclerView rvTeamMatches;
 
-    CalendarTeamCallback mCalendarTeamCallback;
+    CompetitionCallback mCompetitionCallback;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCalendarTeamCallback = (CalendarTeamCallback) context;
+            mCompetitionCallback = (CompetitionCallback) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement CalendarTeamCallback");
+            throw new ClassCastException(context.toString() + " must implement CompetitionCallback");
         }
     }
 
@@ -50,10 +49,10 @@ public class TabTeamCalendar extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<Match> teamMatches = mCalendarTeamCallback.queryTeamMatches();
+        List<MatchRetrofit> teamMatches = mCompetitionCallback.queryMatchesList();
         if (teamMatches!=null) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCalendarTeamCallback.queryTeamMatches());
+            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList());
             rvTeamMatches.setHasFixedSize(true);
             rvTeamMatches.setLayoutManager(linearLayoutManager);
             rvTeamMatches.setAdapter(teamMatchesAdapter);

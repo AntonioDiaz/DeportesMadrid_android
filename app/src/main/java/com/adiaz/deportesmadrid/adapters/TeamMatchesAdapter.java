@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.entities.Match;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.utils.Constants;
 
 import java.util.List;
 
@@ -18,9 +20,9 @@ import butterknife.ButterKnife;
 public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.ViewHolder> {
 
     Context mContext;
-    List<Match> mMatchList;
+    List<MatchRetrofit> mMatchList;
 
-    public TeamMatchesAdapter(Context context, List<Match> matchList) {
+    public TeamMatchesAdapter(Context context, List<MatchRetrofit> matchList) {
         this.mContext = context;
         this.mMatchList = matchList;
     }
@@ -34,8 +36,17 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvTeamLocal.setText(mMatchList.get(position).teamLocal());
-        holder.tvTeamVisitor.setText(mMatchList.get(position).teamVisitor());
+        MatchRetrofit matchRetrofit = mMatchList.get(position);
+        String teamLocal = Constants.FIELD_EMPTY;
+        if (matchRetrofit.getTeamLocal()!=null) {
+            teamLocal = matchRetrofit.getTeamLocal().getName();
+        }
+        String teamVisitor = Constants.FIELD_EMPTY;
+        if (matchRetrofit.getTeamVisitor()!=null) {
+            teamVisitor = matchRetrofit.getTeamVisitor().getName();
+        }
+        holder.tvTeamLocal.setText(teamLocal);
+        holder.tvTeamVisitor.setText(teamVisitor);
     }
 
     @Override

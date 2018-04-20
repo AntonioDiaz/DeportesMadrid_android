@@ -16,7 +16,7 @@ import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
 import com.adiaz.deportesmadrid.activities.TeamDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.TeamsAdapter;
-import com.adiaz.deportesmadrid.callbacks.CalendarCallback;
+import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 
@@ -33,16 +33,16 @@ public class TabCompetitionTeams extends Fragment implements TeamsAdapter.ListIt
     @BindView(R.id.rv_teams)
     RecyclerView rvTeams;
 
-    CalendarCallback mCalendarCallback;
+    CompetitionCallback mCompetitionCallback;
     private ArrayList<String> teamsNamesList;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCalendarCallback = (CalendarCallback)context;
+            mCompetitionCallback = (CompetitionCallback)context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement CalendarCallback");
+            throw new ClassCastException(context.toString() + " must implement CompetitionCallback");
         }
     }
 
@@ -58,7 +58,7 @@ public class TabCompetitionTeams extends Fragment implements TeamsAdapter.ListIt
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Set<String> teamsSet = new HashSet<>();
-        for (MatchRetrofit matchRetrofit : mCalendarCallback.queryMatchesList()) {
+        for (MatchRetrofit matchRetrofit : mCompetitionCallback.queryMatchesList()) {
             if (matchRetrofit.getTeamLocal()!=null) {
                 teamsSet.add(matchRetrofit.getTeamLocal().getName());
             }

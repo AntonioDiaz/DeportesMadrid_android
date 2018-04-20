@@ -1,23 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="0dp"
+        app:layout_constraintGuide_percent="0.25" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/ttv_label_competition"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Competición"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/team_details" />
+
+    <TextView
+        android:id="@+id/tv_label_sport"
+        style="@style/team_details"
+        android:layout_marginTop="8dp"
+        android:text="@string/team_details_info_sport"
+        app:layout_constraintEnd_toEndOf="@+id/ttv_label_competition"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ttv_label_competition"
+        app:layout_constraintTop_toBottomOf="@+id/tv_grupo_label" />
+
+    <TextView
+        android:id="@+id/tv_label_district"
+        style="@style/team_details"
+        android:layout_marginTop="8dp"
+        android:text="@string/team_details_info_district"
+        app:layout_constraintEnd_toEndOf="@+id/tv_label_sport"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_sport"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_sport" />
+
+    <TextView
+        android:id="@+id/tv_label_category"
+        android:layout_marginTop="8dp"
+        android:text="@string/team_details_info_categoria"
+        app:layout_constraintEnd_toEndOf="@+id/tv_label_district"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_district"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_district"
+        style="@style/team_details"/>
+
+    <TextView
+        android:id="@+id/tv_fase_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fase"
+        app:layout_constraintEnd_toEndOf="@+id/ttv_label_competition"
+        app:layout_constraintStart_toStartOf="@+id/ttv_label_competition"
+        app:layout_constraintTop_toBottomOf="@+id/ttv_label_competition"
+        style="@style/team_details"/>
+
+    <TextView
+        android:id="@+id/tv_grupo_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Grupo"
+        app:layout_constraintEnd_toEndOf="@+id/tv_fase_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_fase_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fase_label"
+        style="@style/team_details"/>
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tv_competition"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="equipo info"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="@+id/ttv_label_competition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/ttv_label_competition"
+        autofit:minTextSize="8sp"
+        tools:text="Campeonato de liga"
+        style="@style/team_details_values" />
+
+    <TextView
+        android:id="@+id/tv_sport"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_sport"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_competition"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_sport"
+        tools:text="Baloncesto"
+        style="@style/team_details_values" />
+
+    <TextView
+        android:id="@+id/tv_district"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_district"
+        app:layout_constraintEnd_toEndOf="@+id/tv_sport"
+        app:layout_constraintStart_toStartOf="@+id/tv_sport"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_district"
+        tools:text="San Blás"
+        style="@style/team_details_values"/>
+
+    <TextView
+        android:id="@+id/tv_category"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label_category"
+        app:layout_constraintEnd_toEndOf="@+id/tv_district"
+        app:layout_constraintStart_toStartOf="@+id/tv_district"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_category"
+        tools:text="Cadete"
+        style="@style/team_details_values"/>
+
+    <TextView
+        android:id="@+id/tv_fase"
+        style="@style/team_details_values"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Fase tikitak"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_fase_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_fase_label" />
+
+
+    <TextView
+        android:id="@+id/tv_grupo"
+        style="@style/team_details_values"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Grupo total"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_grupo_label"
+        app:layout_constraintEnd_toEndOf="@+id/tv_fase"
+        app:layout_constraintStart_toStartOf="@+id/tv_fase"
+        app:layout_constraintTop_toTopOf="@+id/tv_grupo_label" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_category" />
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_listitem"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/main_list_generic">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline_cardview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="0dp"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/tv_next_match_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:gravity="right|center_vertical"
+                android:maxLines="1"
+                android:text="@string/team_details_last_match"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_cardview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_next_match_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:text="(Local)"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_next_match_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_cardview"
+                app:layout_constraintTop_toTopOf="@+id/tv_next_match_label" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.ClassificationAdapter;
-import com.adiaz.deportesmadrid.callbacks.ClassificationCallback;
+import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
 
 import java.util.List;
@@ -26,16 +26,16 @@ public class TabClassification extends Fragment {
     @BindView(R.id.rv_classification)
     RecyclerView rvClassification;
 
-    ClassificationCallback mClassificationCallback;
+    CompetitionCallback mCompetitionCallback;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mClassificationCallback = (ClassificationCallback)context;
+            mCompetitionCallback = (CompetitionCallback) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement ClassificationCallback");
+            throw new ClassCastException(context.toString() + " must implement CompetitionCallback");
         }
     }
 
@@ -50,8 +50,8 @@ public class TabClassification extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<ClassificationRetrofit> classificationList = mClassificationCallback.queryClassificationList();
-        String team = mClassificationCallback.underlineTeam();
+        List<ClassificationRetrofit> classificationList = mCompetitionCallback.queryClassificationList();
+        String team = mCompetitionCallback.queryTeam();
         if (classificationList !=null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
             ClassificationAdapter classificationAdapter = new ClassificationAdapter(this.getContext(), classificationList, team);
