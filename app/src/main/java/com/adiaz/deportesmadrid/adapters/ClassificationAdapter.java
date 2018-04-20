@@ -1,6 +1,7 @@
 package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -79,6 +80,16 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
                     int color = ContextCompat.getColor(mContext, R.color.colorAccent);
                     holder.clClassification.setBackgroundColor(color);
                     holder.tvTeam.setTypeface(null, Typeface.BOLD);
+                    int colorWhite = Color.WHITE;
+                    holder.tvPosition.setTextColor(colorWhite);
+                    holder.tvTeam.setTextColor(colorWhite);
+                    holder.tvMatches.setTextColor(colorWhite);
+                    holder.tvMatchesWon.setTextColor(colorWhite);
+                    holder.tvMatchesDrawn.setTextColor(colorWhite);
+                    holder.tvMatchesLost.setTextColor(colorWhite);
+                    holder.tvGoalsFor.setTextColor(colorWhite);
+                    holder.tvGoalsAgainst.setTextColor(colorWhite);
+                    holder.tvPoints.setTextColor(colorWhite);
                 }
             }
         }

@@ -64,8 +64,12 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         showLoading();
         List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
         elementsList = initElementsList(competitions);
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        LinearLayoutManager layoutManager;
+        if (elementsList.size()>=2) {
+            layoutManager = new GridLayoutManager(this, 2);
+        } else {
+            layoutManager = new LinearLayoutManager(this);
+        }
         GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
         rvDistricts.setHasFixedSize(true);
         rvDistricts.setLayoutManager(layoutManager);
