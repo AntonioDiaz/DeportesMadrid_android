@@ -64,8 +64,6 @@ public class TabTeamInfo extends Fragment {
         tvSport.setText(sportLocated);
         tvDistrict.setText(competition.distrito());
         tvCategory.setText(competition.categoria());
-
-
         return view;
     }
 }

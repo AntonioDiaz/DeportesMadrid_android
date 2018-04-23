@@ -2,6 +2,7 @@ package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
+import com.adiaz.deportesmadrid.utils.StateAnnotation;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,6 +59,9 @@ public class CalendarAdapter extends BaseExpandableListAdapter {
     @BindView(R.id.tv_score_visitor)
     TextView tvScoreVisitor;
 
+    @Nullable
+    @BindView(R.id.tv_state)
+    TextView tvState;
 
     public CalendarAdapter(Context mContext, Map<Integer, List<MatchRetrofit>> calendarMap) {
         this.mContext = mContext;
@@ -154,9 +159,10 @@ public class CalendarAdapter extends BaseExpandableListAdapter {
             tvPlace.setText(placeName);
             tvScoreLocal.setText(scoreLocalStr);
             tvScoreVisitor.setText(scoreVisitorStr);
+            tvState.setText(StateAnnotation.stringKey(match.getState()));
         } else {
-            tvDate.setVisibility(View.INVISIBLE);
-            tvPlace.setVisibility(View.INVISIBLE);
+            tvDate.setText(Constants.FIELD_EMPTY);
+            tvPlace.setText(Constants.FIELD_EMPTY);
             tvScoreVisitor.setVisibility(View.INVISIBLE);
             tvScoreLocal.setVisibility(View.INVISIBLE);
         }

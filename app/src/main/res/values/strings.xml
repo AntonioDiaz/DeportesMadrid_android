@@ -80,4 +80,8 @@
     <string name="team_details_last_match">Último partido</string>
     <string name="team_details_next_match">Próximo partido</string>
 
+    <string name="calendar_date">Fecha</string>
+    <string name="calendar_place">Pista</string>
+    <string name="calendar_state">Estado</string>
+
 </resources>
