@@ -130,11 +130,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="Fase tikitak"
         app:layout_constraintBottom_toBottomOf="@+id/tv_fase_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv_fase_label" />
+        app:layout_constraintTop_toTopOf="@+id/tv_fase_label"
+        tools:text="@string/example_fase"/>
 
 
     <TextView
@@ -164,15 +164,16 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_listitem"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/cv_last_week"
+        style="@style/main_list_generic"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/main_list_generic">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dp">
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline_cardview"
@@ -183,44 +184,84 @@
                 app:layout_constraintGuide_percent="0.5" />
 
             <TextView
-                android:id="@+id/tv_next_match_label"
+                android:id="@+id/tv_last_match_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
-                android:gravity="right|center_vertical"
+                android:gravity="center"
                 android:maxLines="1"
-                android:text="@string/team_details_last_match"
+                android:text="@string/team_details_last_week"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_cardview"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_next_match_value"
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/example_last_week_opponent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_cardview"
+                app:layout_constraintTop_toBottomOf="@+id/tv_last_match_label"
+                autofit:layout_constraintEnd_toEndOf="parent"
+                autofit:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_next_week"
+        style="@style/main_list_generic"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_last_week">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="0dp"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/tv_next_match_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:text="(Local)"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_next_match_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline_cardview"
-                app:layout_constraintTop_toTopOf="@+id/tv_next_match_label" />
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/team_details_next_week"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_next"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
         </android.support.constraint.ConstraintLayout>
-
     </android.support.v7.widget.CardView>
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

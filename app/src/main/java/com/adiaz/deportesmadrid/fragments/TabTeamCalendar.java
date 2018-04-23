@@ -52,7 +52,7 @@ public class TabTeamCalendar extends Fragment {
         List<MatchRetrofit> teamMatches = mCompetitionCallback.queryMatchesList();
         if (teamMatches!=null) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList());
+            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList(), mCompetitionCallback.queryTeam());
             rvTeamMatches.setHasFixedSize(true);
             rvTeamMatches.setLayoutManager(linearLayoutManager);
             rvTeamMatches.setAdapter(teamMatchesAdapter);
