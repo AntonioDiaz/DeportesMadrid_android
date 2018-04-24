@@ -88,6 +88,7 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">left|center_vertical</item>

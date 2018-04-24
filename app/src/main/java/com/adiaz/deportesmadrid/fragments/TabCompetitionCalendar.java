@@ -67,6 +67,4 @@ public class TabCompetitionCalendar extends Fragment {
             calendarAdapter.notifyDataSetChanged();
         }
     }
-
-
 }

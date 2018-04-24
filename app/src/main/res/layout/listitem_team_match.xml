@@ -37,12 +37,14 @@
 
             <TextView
                 android:id="@+id/tv_local_visitor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/team_calendar"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:gravity="left|center_horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_week"
+                app:layout_constraintEnd_toStartOf="@+id/tv_score"
                 app:layout_constraintStart_toEndOf="@+id/tv_week"
                 app:layout_constraintTop_toTopOf="@+id/tv_week"
                 tools:text="Local" />
@@ -63,7 +65,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginStart="8dp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toTopOf="@+id/tv_opponent_label"
@@ -133,22 +134,27 @@
 
             <TextView
                 android:id="@+id/tv_score"
-                android:layout_width="0dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_local_visitor"
                 app:layout_constraintEnd_toStartOf="@+id/iv_thumb_victory"
                 app:layout_constraintTop_toTopOf="@+id/tv_local_visitor"
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorWhite"
                 tools:text="110 - 99" />
 
             <ImageView
                 android:id="@+id/iv_thumb_victory"
                 android:layout_width="23dp"
                 android:layout_height="25dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:tint="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_score"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_score" />

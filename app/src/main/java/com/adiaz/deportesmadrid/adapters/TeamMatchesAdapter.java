@@ -14,6 +14,7 @@ import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.StateAnnotation;
+import com.adiaz.deportesmadrid.utils.Utils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -86,9 +87,10 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
             placeName = match.getPlace().getName();
         }
         holder.tvPlace.setText(placeName);
-        holder.tvState.setText(StateAnnotation.stringKey(match.getState()));
-        if (match.getState()== StateAnnotation.FINALIZADO) {
+        holder.tvState.setText(Utils.getStringResourceByName(mContext, StateAnnotation.stringKey(match.getState())));
+        if (match.getState()== StateAnnotation.FINALIZADO || match.getState() == StateAnnotation.NO_PRESENTADO) {
             holder.tvScore.setText(mContext.getString(R.string.calendar_score, match.getScoreLocal(), match.getScoreVisitor()));
+            holder.tvScore.setVisibility(View.VISIBLE);
             int scoreTeam;
             int scoreTeamOpponent;
             if (isLocal) {
@@ -98,15 +100,18 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
                 scoreTeam = match.getScoreVisitor();
                 scoreTeamOpponent = match.getScoreLocal();
             }
-            if (scoreTeam>scoreTeamOpponent) {
+            holder.ivThumbVictory.setVisibility(View.VISIBLE);
+            if (scoreTeam > scoreTeamOpponent) {
                 holder.ivThumbVictory.setImageResource(R.drawable.ic_thumb_up);
             } else if(scoreTeam<scoreTeamOpponent) {
                 holder.ivThumbVictory.setImageResource(R.drawable.ic_thumb_down);
             } else {
                 holder.ivThumbVictory.setImageResource(R.drawable.ic_thumbs_up_down);
             }
+        } else {
+            holder.tvScore.setVisibility(View.INVISIBLE);
+            holder.ivThumbVictory.setVisibility(View.INVISIBLE);
         }
-
     }
 
     @Override

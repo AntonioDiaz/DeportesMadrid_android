@@ -10,6 +10,9 @@ import android.view.View;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class Utils {
 
     private static final String TAG = Utils.class.getSimpleName();
@@ -56,5 +59,11 @@ public class Utils {
     public static String normalizaSportName(String sportNameOriginal) {
         return sportNameOriginal.replace(" ", "_").replace("-", "_").toUpperCase();
     }
+
+    public static String formatDate(Long dateLong) {
+        DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+        return df.format(dateLong);
+    }
+
     
 }
