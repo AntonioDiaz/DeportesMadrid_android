@@ -21,4 +21,5 @@ public class Constants {
 
     public static final String DGD = "Dgd";
     public static final String DISTRITO_UNICO = "Distrito Único";
+    public static final String DESCANSA = "(descansa)";
 }

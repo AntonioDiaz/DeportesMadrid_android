@@ -26,40 +26,22 @@
         android:minHeight="?android:attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_team_details"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/tl_team_details"
-        android:visibility="invisible">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:layout_below="@id/tl_team_details">
 
-    <LinearLayout
-        android:id="@+id/ll_progress_team_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/tl_team_details"
-        android:orientation="vertical"
-        android:visibility="visible">
-        <ProgressBar
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="@string/loading_competition"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-    </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_team_details"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible">
 
+        </android.support.v4.view.ViewPager>
+
+        <include layout="@layout/loading" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>

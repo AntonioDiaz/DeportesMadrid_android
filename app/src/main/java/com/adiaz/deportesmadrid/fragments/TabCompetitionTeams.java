@@ -2,6 +2,7 @@ package com.adiaz.deportesmadrid.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,20 +16,23 @@ import android.view.ViewGroup;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
 import com.adiaz.deportesmadrid.activities.TeamDetailsActivity;
+import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.adapters.TeamsAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
+import com.adiaz.deportesmadrid.utils.ListItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TabCompetitionTeams extends Fragment implements TeamsAdapter.ListItemClickListener {
+public class TabCompetitionTeams extends Fragment implements GenericAdapter.ListItemClickListener {
 
     @BindView(R.id.rv_teams)
     RecyclerView rvTeams;
@@ -69,13 +73,16 @@ public class TabCompetitionTeams extends Fragment implements TeamsAdapter.ListIt
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         teamsNamesList = new ArrayList<>(teamsSet);
         Collections.sort(teamsNamesList);
-        TeamsAdapter teamsAdapter = new TeamsAdapter(this.getContext(), CompetitionDetailsActivity.mIdCompetition, teamsNamesList, this);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTeams.getContext(), layoutManager.getOrientation());
+        List<ListItem> elements = new ArrayList<>();
+        int i = 0;
+        for (String s : teamsNamesList) {
+            elements.add(new ListItem(s, Integer.toString(i++)));
+        }
+        GenericAdapter genericAdapter = new GenericAdapter(this.getContext(), this, elements);
         rvTeams.setHasFixedSize(true);
         rvTeams.setLayoutManager(layoutManager);
-        rvTeams.setAdapter(teamsAdapter);
-        rvTeams.addItemDecoration(dividerItemDecoration);
-        teamsAdapter.notifyDataSetChanged();
+        rvTeams.setAdapter(genericAdapter);
+        genericAdapter.notifyDataSetChanged();
     }
 
     @Override

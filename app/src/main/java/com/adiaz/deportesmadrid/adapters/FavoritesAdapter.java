@@ -1,6 +1,7 @@
 package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     FavoritesAdapter.ListItemClickListener mListItemClickListener;
     List<Favorite> mFavoritesList;
 
+    private static final Integer TYPE_TEAM = 1;
+    private static final Integer TYPE_GROUP = 2;
+
     public FavoritesAdapter(Context context, ListItemClickListener listItemClickListener, List<Favorite> mFavoritesList) {
         this.mContext = context;
         this.mFavoritesList = mFavoritesList;
@@ -32,24 +36,25 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        int layoutId = R.layout.listitem_favorites_team;
+        if (viewType==TYPE_GROUP) {
+            layoutId = R.layout.listitem_favorites_group;
+        }
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.listitem_favorites, parent, false);
+        View view = layoutInflater.inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mFavoritesList!=null) {
-
             Competition competition = CompetitionsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idCompetition());
-            String competitionName = competition.nomGrupo();
+            holder.tvGroup.setText(competition.nomGrupo());
+            holder.tvFase.setText(competition.nomFase());
+            holder.tvCompetition.setText(competition.nomCompeticion());
             String teamName = mFavoritesList.get(position).idTeam();
             if (teamName!=null) {
-                holder.tvFavoriteType.setText(mContext.getString(R.string.type_team));
-                holder.tvFavoriteName.setText(teamName + "\n" + competitionName);
-            } else {
-                holder.tvFavoriteType.setText(mContext.getString(R.string.type_competicion));
-                holder.tvFavoriteName.setText(competitionName);
+                holder.tvTeam.setText(teamName);
             }
         }
     }
@@ -59,16 +64,35 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         return mFavoritesList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (mFavoritesList.get(position).idTeam()==null) {
+            return TYPE_GROUP;
+        } else {
+            return TYPE_TEAM;
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.tv_favorite_type)
-        TextView tvFavoriteType;
-
-        @BindView(R.id.tv_favorite_name)
-        TextView tvFavoriteName;
 
         @BindView(R.id.cv_favorites)
         CardView cvFavorites;
+
+        @Nullable
+        @BindView(R.id.tv_team)
+        TextView tvTeam;
+
+        @Nullable
+        @BindView(R.id.tv_group)
+        TextView tvGroup;
+
+        @Nullable
+        @BindView(R.id.tv_fase)
+        TextView tvFase;
+
+        @Nullable
+        @BindView(R.id.tv_competition)
+        TextView tvCompetition;
 
         ViewHolder(View itemView) {
             super(itemView);

@@ -37,6 +37,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_classification_position"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/TextDetails"
+        android:textStyle="bold"
         tools:text="Atletico de Madrid" />
 
 

@@ -59,7 +59,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     @BindView(R.id.vp_team_details)
     ViewPager viewPager;
 
-    @BindView(R.id.ll_progress_team_details)
+    @BindView(R.id.ll_progress)
     LinearLayout llLoading;
 
     DeportesMadridFragmentStatePagerAdapter adapter;
@@ -78,7 +78,6 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         mIdCompetition = getIntent().getStringExtra(Constants.ID_COMPETITION);
         mCompetition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
         mIdTeam = getIntent().getStringExtra(Constants.ID_TEAM);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

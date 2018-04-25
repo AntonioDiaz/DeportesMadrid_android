@@ -75,9 +75,12 @@
     <string name="team_details_info_district">Distrito</string>
     <string name="team_details_info_categoria">Categoría</string>
     <string name="team_details_info_sport">Deporte</string>
+    <string name="team_details_info_competition">Competición</string>
+    <string name="team_details_info_fase">Fase</string>
+    <string name="team_details_info_grupo">Grupo</string>
 
     <string name="team_details_next_match">Próximo partido</string>
-    <string name="team_details_next_match_finished">*La competición ha finalizado.</string>
+    <string name="team_details_next_match_finished">*No hay ningún partido pendiente.</string>
 
     <string name="calendar_date">Fecha</string>
     <string name="calendar_place">Pista</string>
@@ -96,6 +99,8 @@
     <string name="example_last_week_opponent">Rival: Villaconejos</string>
     <string name="example_fase">Fase Regular</string>
     <string name="example_team">Atletico de Madrid</string>
+    <string name="example_group">Grupo Sábados Tarde</string>
+    <string name="example_competition">Campeonato Nacional de Liga</string>
     
     <string name="PENDIENTE">Pendiente</string>
     <string name="REPROGRAMADO">Reprogramado</string>
@@ -106,5 +111,9 @@
     <string name="APLAZADO">Aplazado</string>
     <string name="DESCONOCIDO">Desconocido</string>
     <string name="DESCANSA">Descansa</string>
-
+    
+    <string name="label_fase">Fase</string>
+    <string name="label_competition">Competición</string>
+    <string name="label_group">Grupo</string>
+    <string name="label_team">Equipo</string>
 </resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/listitem_favorites_group">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <TextView
+        android:id="@+id/tv_group_label"
+        style="@style/list_labels"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_group"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_group"
+        style="@style/list_values"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/tv_group_label"
+        tools:text="@string/example_group" />
+
+    <TextView
+        android:id="@+id/tv_label_fase"
+        style="@style/list_labels"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_fase"
+        app:layout_constraintEnd_toEndOf="@+id/tv_group_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_group_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_group_label" />
+
+    <TextView
+        android:id="@+id/tv_fase"
+        style="@style/list_values"
+        app:layout_constraintEnd_toEndOf="@+id/tv_group"
+        app:layout_constraintStart_toStartOf="@+id/tv_group"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_fase"
+        tools:text="@string/example_fase" />
+
+    <TextView
+        android:id="@+id/tv_label_competition"
+        style="@style/list_labels"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_label_fase"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_fase"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_fase"
+        tools:text="@string/label_competition" />
+
+    <TextView
+        android:id="@+id/tv_competition"
+        style="@style/list_values"
+        app:layout_constraintEnd_toEndOf="@+id/tv_fase"
+        app:layout_constraintStart_toStartOf="@+id/tv_fase"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_competition"
+        tools:text="@string/example_competition" />
+
+
+</merge>

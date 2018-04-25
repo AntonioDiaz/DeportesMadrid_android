@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
+import com.adiaz.deportesmadrid.adapters.GroupsAdapter;
 import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
 import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.utils.Constants;
@@ -25,12 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupsActivity extends AppCompatActivity implements GenericAdapter.ListItemClickListener {
+public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.ListItemClickListener {
 
     String sportSelected;
     String districtSelected;
     String categorySelected;
-    List<ListItem> competitionsList;
+    List<Competition> competitionsList;
 
     @BindView(R.id.rv_districts)
     RecyclerView recyclerView;
@@ -57,10 +58,9 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         showLoading();
-        List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
-        competitionsList = initElementsList(competitions);
+        competitionsList = CompetitionsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        GenericAdapter genericAdapter = new GenericAdapter(this, this, competitionsList);
+        GroupsAdapter genericAdapter = new GroupsAdapter(this, competitionsList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(genericAdapter);
@@ -87,14 +87,6 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private List<ListItem> initElementsList(List<Competition> competitions) {
-        List<ListItem> listElements = new ArrayList<>();
-        for (Competition competition : competitions) {
-            listElements.add(new ListItem(competition.nomGrupo(), competition.id()));
-        }
-        return listElements;
-    }
     
     private void hideLoading() {
         progressBar.setVisibility(View.INVISIBLE);
@@ -109,10 +101,8 @@ public class GroupsActivity extends AppCompatActivity implements GenericAdapter.
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this, CompetitionDetailsActivity.class);
-
-
-        intent.putExtra(Constants.ID_COMPETITION, competitionsList.get(clickedItemIndex).getCount());
-        intent.putExtra(Constants.NAME_COMPETITION, competitionsList.get(clickedItemIndex).getName());
+        intent.putExtra(Constants.ID_COMPETITION, competitionsList.get(clickedItemIndex).id());
+        intent.putExtra(Constants.NAME_COMPETITION, competitionsList.get(clickedItemIndex).nomGrupo());
         startActivity(intent);
     }
 }

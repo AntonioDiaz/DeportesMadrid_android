@@ -103,7 +103,7 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
-    <style name="team_calendar">
+    <style name="list_values">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">1</item>
@@ -111,8 +111,19 @@
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
     </style>
-    <style name="team_calendar_labels" parent="team_calendar">
+    <style name="list_labels" parent="list_values">
         <item name="android:textColor">@android:color/tertiary_text_light</item>
+    </style>
+
+    <style name="list_headers">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

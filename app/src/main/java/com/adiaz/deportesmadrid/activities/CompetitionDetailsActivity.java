@@ -61,7 +61,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
     @BindView(R.id.vp_competition_details)
     ViewPager viewPager;
 
-    @BindView(R.id.ll_progress_competition_details)
+    @BindView(R.id.ll_progress)
     LinearLayout llLoadingCompetition;
 
     List<ClassificationRetrofit> classificationList;

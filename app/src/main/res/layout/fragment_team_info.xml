@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +25,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Competición"
+        android:text="@string/team_details_info_competition"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="@+id/ttv_label_competition"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/ttv_label_competition"
-        app:layout_constraintTop_toBottomOf="@+id/tv_grupo_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_group_label" />
 
     <TextView
         android:id="@+id/tv_label_district"
@@ -55,25 +59,25 @@
         style="@style/team_details"/>
 
     <TextView
-        android:id="@+id/tv_fase_label"
+        android:id="@+id/tv_competition_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Fase"
+        android:text="@string/team_details_info_fase"
         app:layout_constraintEnd_toEndOf="@+id/ttv_label_competition"
         app:layout_constraintStart_toStartOf="@+id/ttv_label_competition"
         app:layout_constraintTop_toBottomOf="@+id/ttv_label_competition"
         style="@style/team_details"/>
 
     <TextView
-        android:id="@+id/tv_grupo_label"
+        android:id="@+id/tv_group_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Grupo"
-        app:layout_constraintEnd_toEndOf="@+id/tv_fase_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_fase_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fase_label"
+        android:text="@string/team_details_info_grupo"
+        app:layout_constraintEnd_toEndOf="@+id/tv_competition_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_competition_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_competition_label"
         style="@style/team_details"/>
 
     <me.grantland.widget.AutofitTextView
@@ -128,10 +132,10 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_fase_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_competition_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv_fase_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_competition_label"
         tools:text="@string/example_fase"/>
 
 
@@ -141,10 +145,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="Grupo total"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_grupo_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_group_label"
         app:layout_constraintEnd_toEndOf="@+id/tv_fase"
         app:layout_constraintStart_toStartOf="@+id/tv_fase"
-        app:layout_constraintTop_toTopOf="@+id/tv_grupo_label" />
+        app:layout_constraintTop_toTopOf="@+id/tv_group_label" />
 
     <View
         android:id="@+id/divider"
@@ -164,12 +168,14 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cv_next_week"
         style="@style/main_list_generic"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        android:visibility="invisible">
+        app:layout_constraintTop_toBottomOf="@+id/divider">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -196,10 +202,10 @@
 
             <TextView
                 android:id="@+id/tv_next_match_opponent_label"
-                style="@style/team_calendar_labels"
+                style="@style/list_labels"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:gravity="right"
                 android:text="@string/calendar_openent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -216,7 +222,7 @@
 
             <TextView
                 android:id="@+id/tv_next_match_opponent"
-                style="@style/team_calendar"
+                style="@style/list_values"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -228,7 +234,7 @@
 
             <TextView
                 android:id="@+id/tv_next_match_date_label"
-                style="@style/team_calendar_labels"
+                style="@style/list_labels"
                 android:layout_marginTop="8dp"
                 android:gravity="right"
                 android:text="@string/calendar_date"
@@ -238,7 +244,7 @@
 
             <TextView
                 android:id="@+id/tv_next_match_date"
-                style="@style/team_calendar"
+                style="@style/list_values"
                 app:layout_constraintEnd_toEndOf="@+id/tv_next_match_opponent"
                 app:layout_constraintStart_toStartOf="@+id/tv_next_match_opponent"
                 app:layout_constraintTop_toTopOf="@+id/tv_next_match_date_label"
@@ -246,7 +252,7 @@
 
             <TextView
                 android:id="@+id/tv_next_match_place_label"
-                style="@style/team_calendar_labels"
+                style="@style/list_labels"
                 android:layout_marginTop="8dp"
                 android:gravity="right"
                 android:text="@string/calendar_place"
@@ -256,7 +262,7 @@
 
             <TextView
                 android:id="@+id/tv_next_match_place"
-                style="@style/team_calendar"
+                style="@style/list_values"
                 app:layout_constraintEnd_toEndOf="@+id/tv_next_match_date"
                 app:layout_constraintStart_toStartOf="@+id/tv_next_match_date"
                 app:layout_constraintTop_toTopOf="@+id/tv_next_match_place_label"
@@ -270,6 +276,7 @@
         android:id="@+id/cv_next_week_finished"
         style="@style/main_list_generic"
         android:layout_marginTop="16dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -292,8 +299,8 @@
                 android:maxLines="1"
                 android:text="@string/team_details_next_match_finished"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16dp"
                 android:textColor="@color/colorAccent"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -305,3 +312,4 @@
 
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

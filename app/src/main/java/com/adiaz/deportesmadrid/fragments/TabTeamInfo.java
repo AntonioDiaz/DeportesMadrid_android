@@ -96,7 +96,10 @@ public class TabTeamInfo extends Fragment {
             MatchRetrofit match = null;
             long timeInMillis = Calendar.getInstance().getTimeInMillis();
             for (MatchRetrofit matchRetrofit : mCompetitionCallback.queryMatchesList()) {
-                if (matchRetrofit.getDate() > timeInMillis && (match == null || match.getDate() > matchRetrofit.getDate())) {
+                if (matchRetrofit.getDate() > timeInMillis
+                        && (match == null || match.getDate() > matchRetrofit.getDate())
+                        && matchRetrofit.getTeamLocal()!=null && matchRetrofit.getTeamLocal().getName()!=null
+                        && matchRetrofit.getTeamVisitor() != null && matchRetrofit.getTeamVisitor().getName()!=null) {
                     match = matchRetrofit;
                 }
             }
@@ -104,10 +107,10 @@ public class TabTeamInfo extends Fragment {
                 tvNextDate.setText(Utils.formatDate(match.getDate()));
                 tvNextPlace.setText(match.getPlace() != null ? match.getPlace().getName() : Constants.FIELD_EMPTY);
                 String opponent = getContext().getString(R.string.RESTING);
-                if (match.getTeamLocal() != null && !match.getTeamLocal().equals(team)) {
+                if (match.getTeamLocal() != null && !match.getTeamLocal().getName().equals(team)) {
                     opponent = match.getTeamLocal().getName();
                 }
-                if (match.getTeamVisitor() != null && !match.getTeamVisitor().equals(team)) {
+                if (match.getTeamVisitor() != null && !match.getTeamVisitor().getName().equals(team)) {
                     opponent = match.getTeamVisitor().getName();
                 }
                 tvNextOpponent.setText(opponent);

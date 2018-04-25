@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.main_view)
     View mainView;
 
-    @BindView(R.id.progressBar)
-    ProgressBar pb;
+    @BindView(R.id.ll_progress)
+    LinearLayout llLoading;
 
     @BindView(R.id.view_result)
     View vResults;
@@ -72,8 +73,7 @@ public class MainActivity extends AppCompatActivity
             // TODO: 5/4/18 chapu: fix spaces add margin between icon and title.
             getSupportActionBar().setTitle("    " + getString(R.string.app_name));
         }
-        pb.setVisibility(View.INVISIBLE);
-        vResults.setVisibility(View.INVISIBLE);
+        showLoading();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void syncCompetitions() {
-        pb.setVisibility(View.VISIBLE);
+        showLoading();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
         CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
@@ -144,8 +144,7 @@ public class MainActivity extends AppCompatActivity
         rvCompetitions.setLayoutManager(layoutManager);
         rvCompetitions.setAdapter(sportsAdapter);
         sportsAdapter.notifyDataSetChanged();
-        pb.setVisibility(View.INVISIBLE);
-        vResults.setVisibility(View.VISIBLE);
+        hideLoading();
     }
 
     private List<ListItem> initElementsList(List<Competition> competitions) {
@@ -179,5 +178,15 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(Constants.EXTRA_COUNT, count);
             startActivity(intent);
         }
+    }
+
+    private void hideLoading() {
+        llLoading.setVisibility(View.INVISIBLE);
+        vResults.setVisibility(View.VISIBLE);
+    }
+
+    private void showLoading() {
+        llLoading.setVisibility(View.VISIBLE);
+        vResults.setVisibility(View.INVISIBLE);
     }
 }
