@@ -39,6 +39,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,8 +105,22 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         showLoading();
+
+
+        /*        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+                // set your desired log level
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+                OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+                // add your other interceptors …
+
+                // add logging as last interceptor
+                httpClient.addInterceptor(logging);*/
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create())
+                //.client(httpClient.build())
+                .build();
         CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
         Call<CompetitionDetailsRetrofit> callCompetitionDetails = retrofitApi.findCompetition(mIdCompetition);
         callCompetitionDetails.enqueue(new CallbackRequest());

@@ -9,9 +9,9 @@ public class MatchRetrofit {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("idCompetition")
+    @SerializedName("idGroup")
     @Expose
-    private String idCompetition;
+    private String idGroup;
     @SerializedName("idTeamLocal")
     @Expose
     private Integer idTeamLocal;
@@ -60,12 +60,12 @@ public class MatchRetrofit {
         this.id = id;
     }
 
-    public String getIdCompetition() {
-        return idCompetition;
+    public String getIdGroup() {
+        return idGroup;
     }
 
-    public void setIdCompetition(String idCompetition) {
-        this.idCompetition = idCompetition;
+    public void setIdGroup(String idGroup) {
+        this.idGroup = idGroup;
     }
 
     public Integer getIdTeamLocal() {

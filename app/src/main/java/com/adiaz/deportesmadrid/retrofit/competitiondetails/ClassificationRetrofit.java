@@ -9,9 +9,9 @@ public class ClassificationRetrofit {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("idCompetition")
+    @SerializedName("idGroup")
     @Expose
-    private String idCompetition;
+    private String idGroup;
     @SerializedName("idTeam")
     @Expose
     private Integer idTeam;
@@ -54,12 +54,12 @@ public class ClassificationRetrofit {
         this.id = id;
     }
 
-    public String getIdCompetition() {
-        return idCompetition;
+    public String getIdGroup() {
+        return idGroup;
     }
 
-    public void setIdCompetition(String idCompetition) {
-        this.idCompetition = idCompetition;
+    public void setIdGroup(String idGroup) {
+        this.idGroup = idGroup;
     }
 
     public Integer getIdTeam() {

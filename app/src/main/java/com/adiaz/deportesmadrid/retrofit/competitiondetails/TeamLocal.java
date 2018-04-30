@@ -4,6 +4,8 @@ package com.adiaz.deportesmadrid.retrofit.competitiondetails;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class TeamLocal {
 
     @SerializedName("id")
@@ -12,6 +14,10 @@ public class TeamLocal {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("groups")
+    @Expose
+    private List<String> groups = null;
+
 
     public Integer getId() {
         return id;
@@ -29,4 +35,11 @@ public class TeamLocal {
         this.name = name;
     }
 
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
+    }
 }

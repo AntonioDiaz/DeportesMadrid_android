@@ -190,7 +190,7 @@ public class DbContract {
         public static ContentValues retrofitEntityToContentValue(MatchRetrofitEntity matchRetrofitEntity) {
             ContentValues cv = new ContentValues();
             cv.put(COLUMN_ID, matchRetrofitEntity.getId());
-            cv.put(COLUMN_COD_COMPETITION, matchRetrofitEntity.getIdCompetition());
+            cv.put(COLUMN_COD_COMPETITION, matchRetrofitEntity.getIdGroup());
             cv.put(COLUMN_COD_TEAM_LOCAL, matchRetrofitEntity.getIdTeamLocal());
             cv.put(COLUMN_COD_TEAM_VISITOR, matchRetrofitEntity.getIdTeamVisitor());
             cv.put(COLUMN_COD_PLACE, matchRetrofitEntity.getIdPlace());

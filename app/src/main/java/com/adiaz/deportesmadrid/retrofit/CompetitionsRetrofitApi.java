@@ -25,8 +25,8 @@ public interface CompetitionsRetrofitApi {
     @GET("/server/findMatches/")
     Call<List<MatchRetrofit>> queryMatches(@Query("cod_competicion")String idCompetition);
 
-    @GET("/server/findCompetition/")
-    Call<CompetitionDetailsRetrofit> findCompetition(@Query("cod_competicion")String idCompetition);
+    @GET("/server/findGroup/")
+    Call<CompetitionDetailsRetrofit> findCompetition(@Query("cod_group")String idGroup);
 
 
 
