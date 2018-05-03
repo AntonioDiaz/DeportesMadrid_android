@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
@@ -27,6 +29,9 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
 
     @BindView(R.id.rv_favorites)
     RecyclerView rvFavorites;
+
+    @BindView(R.id.tv_empty_list)
+    TextView tvEmpty;
 
     private List<Favorite> mFavoriteList;
 
@@ -54,12 +59,19 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     protected void onResume() {
         super.onResume();
         mFavoriteList = FavoritesDAO.queryFavorites(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        FavoritesAdapter favoritesAdapter = new FavoritesAdapter(this, this, mFavoriteList);
-        rvFavorites.setHasFixedSize(true);
-        rvFavorites.setLayoutManager(layoutManager);
-        rvFavorites.setAdapter(favoritesAdapter);
-        favoritesAdapter.notifyDataSetChanged();
+        rvFavorites.setVisibility(View.GONE);
+        tvEmpty.setVisibility(View.GONE);
+        if (mFavoriteList.size()==0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            rvFavorites.setVisibility(View.VISIBLE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            FavoritesAdapter favoritesAdapter = new FavoritesAdapter(this, this, mFavoriteList);
+            rvFavorites.setHasFixedSize(true);
+            rvFavorites.setLayoutManager(layoutManager);
+            rvFavorites.setAdapter(favoritesAdapter);
+            favoritesAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
