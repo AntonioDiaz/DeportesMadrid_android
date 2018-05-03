@@ -89,7 +89,7 @@ public class TabTeamInfo extends Fragment {
         tvSport.setText(sportLocated);
         tvDistrict.setText(competition.distrito());
         tvCategory.setText(competition.categoria());
-        String team = mCompetitionCallback.queryTeam();
+        String team = mCompetitionCallback.queryTeam()==null ? Constants.FIELD_EMPTY : mCompetitionCallback.queryTeam().getName();
         cvNextWeek.setVisibility(View.INVISIBLE);
         cvNextWeekFinished.setVisibility(View.INVISIBLE);
         if (mCompetitionCallback.queryMatchesList()!=null) {

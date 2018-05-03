@@ -26,11 +26,13 @@ import com.adiaz.deportesmadrid.db.entities.Competition;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamCalendar;
+import com.adiaz.deportesmadrid.fragments.TabTeamGroups;
 import com.adiaz.deportesmadrid.fragments.TabTeamInfo;
 import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -69,6 +71,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     List<ClassificationRetrofit> classificationRetrofitList;
     List<MatchRetrofit> matchesRetrofitList;
     Competition mCompetition;
+    Team mTeam;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,13 +86,14 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle(mIdTeam);
-            getSupportActionBar().setSubtitle(mCompetition.nomGrupo());
+            getSupportActionBar().setSubtitle(getString(R.string.team_subtitle, mCompetition.nomGrupo()));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabTeamInfo(), getString(R.string.team_details_tab_information));
         adapter.addFragment(new TabTeamCalendar(), getString(R.string.team_details_tab_calendar));
         adapter.addFragment(new TabClassification(), getString(R.string.team_details_tab_classification));
+        adapter.addFragment(new TabTeamGroups(), getString(R.string.team_details_tab_grupos));
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -165,9 +169,20 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
             for (MatchRetrofit matchRetrofitEntity : competitionDetailsRetrofit.getMatchRetrofits()) {
                 if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
                         || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
-                    //String teamLocalName = matchRetrofitEntity.getTeamLocal() == null ? "-" : matchRetrofitEntity.getTeamLocal().getName();
-                    //String teamVisitorName = matchRetrofitEntity.getTeamVisitor() == null ? "-" : matchRetrofitEntity.getTeamVisitor().getName();
                     matchesRetrofitList.add(matchRetrofitEntity);
+                    if (mTeam==null) {
+                        mTeam = new Team();
+                        if (matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam)) {
+                            mTeam.setId(matchRetrofitEntity.getTeamLocal().getId());
+                            mTeam.setName(matchRetrofitEntity.getTeamLocal().getName());
+                            mTeam.setGroups(matchRetrofitEntity.getTeamLocal().getGroups());
+                        }
+                        if (matchRetrofitEntity.getTeamVisitor()!=null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam)) {
+                            mTeam.setId(matchRetrofitEntity.getTeamVisitor().getId());
+                            mTeam.setName(matchRetrofitEntity.getTeamVisitor().getName());
+                            mTeam.setGroups(matchRetrofitEntity.getTeamVisitor().getGroups());
+                        }
+                    }
                 }
             }
         }
@@ -186,8 +201,8 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     }
 
     @Override
-    public String queryTeam() {
-        return mIdTeam;
+    public Team queryTeam() {
+        return mTeam;
     }
 
     @Override

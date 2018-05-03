@@ -51,7 +51,7 @@ public class TabClassification extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         List<ClassificationRetrofit> classificationList = mCompetitionCallback.queryClassificationList();
-        String team = mCompetitionCallback.queryTeam();
+        String team = mCompetitionCallback.queryTeam()==null?"":mCompetitionCallback.queryTeam().getName();
         if (classificationList !=null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
             ClassificationAdapter classificationAdapter = new ClassificationAdapter(this.getContext(), classificationList, team);

@@ -31,6 +31,7 @@ import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.competitiondetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -65,7 +66,6 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
 
     @BindView(R.id.ll_progress)
     LinearLayout llLoadingCompetition;
-
     List<ClassificationRetrofit> classificationList;
     List<MatchRetrofit> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
@@ -211,7 +211,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
     }
 
     @Override
-    public String queryTeam() {
+    public Team queryTeam() {
         return null;
     }
 

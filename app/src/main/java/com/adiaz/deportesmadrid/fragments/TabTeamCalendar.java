@@ -15,6 +15,7 @@ import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.utils.Constants;
 
 import java.util.List;
 
@@ -52,7 +53,8 @@ public class TabTeamCalendar extends Fragment {
         List<MatchRetrofit> teamMatches = mCompetitionCallback.queryMatchesList();
         if (teamMatches!=null) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList(), mCompetitionCallback.queryTeam());
+            String teamName = mCompetitionCallback.queryTeam()==null ? Constants.FIELD_EMPTY : mCompetitionCallback.queryTeam().getName();
+            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList(), teamName);
             rvTeamMatches.setHasFixedSize(true);
             rvTeamMatches.setLayoutManager(linearLayoutManager);
             rvTeamMatches.setAdapter(teamMatchesAdapter);
