@@ -21,7 +21,7 @@
         <activity android:name=".activities.GroupsActivity"></activity>
         <activity android:name=".activities.TeamDetailsActivity"
             android:theme="@style/AppThemeNoActionBar"></activity>
-        <activity android:name=".activities.CompetitionDetailsActivity"
+        <activity android:name=".activities.GroupDetailsActivity"
             android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".activities.SettingsActivity"

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.ClassificationAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.ClassificationRetrofit;
 
 import java.util.List;
 

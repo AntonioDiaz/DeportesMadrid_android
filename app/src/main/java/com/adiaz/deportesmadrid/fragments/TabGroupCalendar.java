@@ -12,7 +12,7 @@ import android.widget.ExpandableListView;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TabCompetitionCalendar extends Fragment {
+public class TabGroupCalendar extends Fragment {
 
     @BindView(R.id.expandableListView_calendar)
     ExpandableListView expandableListViewCalendar;

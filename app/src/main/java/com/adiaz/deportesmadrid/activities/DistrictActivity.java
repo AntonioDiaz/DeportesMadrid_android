@@ -14,16 +14,14 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
-import com.adiaz.deportesmadrid.utils.Utils;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,8 +60,8 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         }
         ButterKnife.bind(this);
         showLoading();
-        List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySport(this, sportSelected);
-        elementsList = initElementsList(competitions);
+        List<Group> groups = GroupsDAO.queryCompetitionsBySport(this, sportSelected);
+        elementsList = initElementsList(groups);
         LinearLayoutManager layoutManager;
         if (elementsList.size()>=2) {
             layoutManager = new GridLayoutManager(this, 2);
@@ -99,15 +97,15 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         return super.onOptionsItemSelected(item);
     }
 
-    private List<ListItem> initElementsList(List<Competition> competitions) {
+    private List<ListItem> initElementsList(List<Group> groups) {
         List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
-        for (Competition competition : competitions) {
-            Integer count = map.get(competition.distrito());
+        for (Group group : groups) {
+            Integer count = map.get(group.distrito());
             if (count==null) {
                 count = 0;
             }
-            map.put(competition.distrito(), count + 1);
+            map.put(group.distrito(), count + 1);
         }
         for (String s : map.keySet()) {
             //String value = map.get(s).toString();

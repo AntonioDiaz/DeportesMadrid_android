@@ -1,15 +1,15 @@
 
-package com.adiaz.deportesmadrid.retrofit.competitiondetails;
+package com.adiaz.deportesmadrid.retrofit.groupsdetails;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CompetitionDetailsRetrofit {
+public class GroupDetailsRetrofit {
 
-    @SerializedName("competition")
+    @SerializedName("group")
     @Expose
-    private CompetitionRetrofit competitionRetrofit;
+    private GroupRetrofit groupRetrofit;
     @SerializedName("matches")
     @Expose
     private List<MatchRetrofit> matchRetrofits = null;
@@ -17,12 +17,12 @@ public class CompetitionDetailsRetrofit {
     @Expose
     private List<ClassificationRetrofit> classificationRetrofit = null;
 
-    public CompetitionRetrofit getCompetitionRetrofit() {
-        return competitionRetrofit;
+    public GroupRetrofit getGroupRetrofit() {
+        return groupRetrofit;
     }
 
-    public void setCompetitionRetrofit(CompetitionRetrofit competitionRetrofit) {
-        this.competitionRetrofit = competitionRetrofit;
+    public void setGroupRetrofit(GroupRetrofit groupRetrofit) {
+        this.groupRetrofit = groupRetrofit;
     }
 
     public List<MatchRetrofit> getMatchRetrofits() {

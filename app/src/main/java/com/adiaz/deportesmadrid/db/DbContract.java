@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
-import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
+import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 /**
@@ -24,10 +24,10 @@ public class DbContract {
     //public static final String PATH_MATCHES = "matches";
 
 
-    public static final class CompetitionEntry {
+    public static final class GroupEntry {
         public static final Uri CONTENT_URI = BASE_CONTENT.buildUpon().appendPath(PATH_COMPETITIONS).build();
         //table
-        public static final String TABLE_NAME = "COMPETITIONS";
+        public static final String TABLE_NAME = "GROUPS";
         //columns
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_COD_TEMPORADA = "COD_TEMPORADA";
@@ -70,26 +70,26 @@ public class DbContract {
         public static final int INDEX_DISTRITO = 10;
         public static final int INDEX_CATEGORIA = 11;
 
-        public static ContentValues retrofitEntityToContentValue(CompetitionRetrofitEntity competitionRetrofitEntity) {
+        public static ContentValues retrofitEntityToContentValue(GroupRetrofitEntity GroupRetrofitEntity) {
             ContentValues cv = new ContentValues();
-            cv.put(COLUMN_ID, competitionRetrofitEntity.getId());
-            cv.put(COLUMN_COD_TEMPORADA, competitionRetrofitEntity.getCodTemporada());
-            cv.put(COLUMN_COD_COMPETICION, competitionRetrofitEntity.getCodCompeticion());
-            cv.put(COLUMN_COD_FASE, competitionRetrofitEntity.getCodFase());
-            cv.put(COLUMN_COD_GRUPO, competitionRetrofitEntity.getCodGrupo());
-            cv.put(COLUMN_NOM_TEMPORADA, competitionRetrofitEntity.getNombreTemporada());
-            cv.put(COLUMN_NOM_COMPETICION, competitionRetrofitEntity.getNombreCompeticion());
-            cv.put(COLUMN_NOM_FASE, competitionRetrofitEntity.getNombreFase());
-            cv.put(COLUMN_NOM_GRUPO, competitionRetrofitEntity.getNombreGrupo());
-            cv.put(COLUMN_DEPORTE, Utils.normalizeString(competitionRetrofitEntity.getDeporte()));
-            cv.put(COLUMN_DISTRITO, Utils.normalizeString(competitionRetrofitEntity.getDistrito()));
-            cv.put(COLUMN_CATEGORIA, Utils.normalizeString(competitionRetrofitEntity.getCategoria()));
+            cv.put(COLUMN_ID, GroupRetrofitEntity.getId());
+            cv.put(COLUMN_COD_TEMPORADA, GroupRetrofitEntity.getCodTemporada());
+            cv.put(COLUMN_COD_COMPETICION, GroupRetrofitEntity.getCodCompeticion());
+            cv.put(COLUMN_COD_FASE, GroupRetrofitEntity.getCodFase());
+            cv.put(COLUMN_COD_GRUPO, GroupRetrofitEntity.getCodGrupo());
+            cv.put(COLUMN_NOM_TEMPORADA, GroupRetrofitEntity.getNombreTemporada());
+            cv.put(COLUMN_NOM_COMPETICION, GroupRetrofitEntity.getNombreCompeticion());
+            cv.put(COLUMN_NOM_FASE, GroupRetrofitEntity.getNombreFase());
+            cv.put(COLUMN_NOM_GRUPO, GroupRetrofitEntity.getNombreGrupo());
+            cv.put(COLUMN_DEPORTE, Utils.normalizeString(GroupRetrofitEntity.getDeporte()));
+            cv.put(COLUMN_DISTRITO, Utils.normalizeString(GroupRetrofitEntity.getDistrito()));
+            cv.put(COLUMN_CATEGORIA, Utils.normalizeString(GroupRetrofitEntity.getCategoria()));
             return cv;
         }
 
-        public static Competition cursorToEntity(Cursor cursor) {
-            //CompetitionRetrofit competition
-            return Competition.builder()
+        public static Group cursorToEntity(Cursor cursor) {
+            //GroupRetrofit competition
+            return Group.builder()
                     .id(cursor.getString(INDEX_ID))
                     .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
                     .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))
@@ -116,26 +116,26 @@ public class DbContract {
         }
 
         public static final String TABLE_NAME = "Favorites";
-        public static final String COLUMN_ID_COMPETITION = "id_competition";
+        public static final String COLUMN_ID_GROUP = "id_group";
         public static final String COLUMN_ID_TEAM = "id_team";
 
-        public static final String[] PROJECTION = {_ID, COLUMN_ID_COMPETITION, COLUMN_ID_TEAM};
+        public static final String[] PROJECTION = {_ID, COLUMN_ID_GROUP, COLUMN_ID_TEAM};
         public static final int INDEX_ID = 0;
-        public static final int INDEX_ID_COMPETITION = 1;
+        public static final int INDEX_ID_GROUP = 1;
         public static final int INDEX_ID_TEAM = 2;
 
 
         public static Favorite initEntity(Cursor cursor) {
             return Favorite.builder()
                     .id(cursor.getLong(INDEX_ID))
-                    .idCompetition(cursor.getString(INDEX_ID_COMPETITION))
+                    .idGroup(cursor.getString(INDEX_ID_GROUP))
                     .idTeam(cursor.getString(INDEX_ID_TEAM)).build();
         }
 
         public static ContentValues entityToContentValues(Favorite favorite) {
             ContentValues cv = new ContentValues();
             cv.put(_ID, favorite.id());
-            cv.put(COLUMN_ID_COMPETITION, favorite.idCompetition());
+            cv.put(COLUMN_ID_GROUP, favorite.idGroup());
             cv.put(COLUMN_ID_TEAM, favorite.idTeam());
             return cv;
         }
@@ -205,8 +205,8 @@ public class DbContract {
         }
 
         public static MatchRetrofit cursorToEntity(Cursor cursor) {
-            //CompetitionRetrofit competition
-            return CompetitionRetrofit.builder()
+            //GroupRetrofit competition
+            return GroupRetrofit.builder()
                     .id(cursor.getString(INDEX_ID))
                     .codTemporada(cursor.getInt(INDEX_COD_TEMPORADA))
                     .codCompeticion(cursor.getInt(INDEX_COD_COMPETICION))

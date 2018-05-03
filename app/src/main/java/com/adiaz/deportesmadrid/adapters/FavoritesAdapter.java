@@ -4,23 +4,20 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter.TAG;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
@@ -51,10 +48,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mFavoritesList!=null) {
-            Competition competition = CompetitionsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idCompetition());
-            holder.tvGroup.setText(competition.nomGrupo());
-            holder.tvFase.setText(competition.nomFase());
-            holder.tvCompetition.setText(competition.nomCompeticion());
+            Group group = GroupsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idGroup());
+            holder.tvGroup.setText(group.nomGrupo());
+            holder.tvFase.setText(group.nomFase());
+            holder.tvCompetition.setText(group.nomCompeticion());
             String teamName = mFavoritesList.get(position).idTeam();
             if (teamName!=null) {
                 holder.tvTeam.setText(teamName);

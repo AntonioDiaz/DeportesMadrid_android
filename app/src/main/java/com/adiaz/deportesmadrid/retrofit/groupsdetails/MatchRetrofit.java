@@ -1,5 +1,5 @@
 
-package com.adiaz.deportesmadrid.retrofit.competitiondetails;
+package com.adiaz.deportesmadrid.retrofit.groupsdetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

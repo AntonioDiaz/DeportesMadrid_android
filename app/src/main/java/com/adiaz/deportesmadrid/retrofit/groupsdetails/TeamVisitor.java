@@ -1,10 +1,12 @@
 
-package com.adiaz.deportesmadrid.retrofit.competitiondetails;
+package com.adiaz.deportesmadrid.retrofit.groupsdetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Place {
+import java.util.List;
+
+public class TeamVisitor {
 
     @SerializedName("id")
     @Expose
@@ -12,12 +14,10 @@ public class Place {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("coordX")
+    @SerializedName("groups")
     @Expose
-    private Integer coordX;
-    @SerializedName("coordY")
-    @Expose
-    private Integer coordY;
+    private List<String> groups = null;
+
 
     public Integer getId() {
         return id;
@@ -35,20 +35,11 @@ public class Place {
         this.name = name;
     }
 
-    public Integer getCoordX() {
-        return coordX;
+    public List<String> getGroups() {
+        return groups;
     }
 
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
-
-    public Integer getCoordY() {
-        return coordY;
-    }
-
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
-    }
-
 }

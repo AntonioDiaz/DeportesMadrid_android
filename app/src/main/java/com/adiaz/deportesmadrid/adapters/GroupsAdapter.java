@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.List;
@@ -20,13 +20,13 @@ import butterknife.ButterKnife;
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder> {
 
     Context mContext;
-    List<Competition> mCompetitionList;
+    List<Group> mGroupList;
     private final GroupsAdapter.ListItemClickListener mOnClickListener;
 
 
-    public GroupsAdapter(Context mContext, List<Competition> competitionList, ListItemClickListener mOnClickListener) {
+    public GroupsAdapter(Context mContext, List<Group> groupList, ListItemClickListener mOnClickListener) {
         this.mContext = mContext;
-        this.mCompetitionList = competitionList;
+        this.mGroupList = groupList;
         this.mOnClickListener = mOnClickListener;
     }
 
@@ -39,17 +39,17 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvGroupName.setText(mCompetitionList.get(position).nomGrupo());
-        holder.tvCompetition.setText(mCompetitionList.get(position).nomCompeticion());
-        holder.tvFase.setText(mCompetitionList.get(position).nomFase());
+        holder.tvGroupName.setText(mGroupList.get(position).nomGrupo());
+        holder.tvCompetition.setText(mGroupList.get(position).nomCompeticion());
+        holder.tvFase.setText(mGroupList.get(position).nomFase());
         if (UtilsPreferences.isShowCompetitionsNumber(mContext)) {
-            holder.tvGroupName.append(" (" + mCompetitionList.get(position).id() + ")");
+            holder.tvGroupName.append(" (" + mGroupList.get(position).id() + ")");
         }
     }
 
     @Override
     public int getItemCount() {
-        return mCompetitionList.size();
+        return mGroupList.size();
     }
 
     public interface ListItemClickListener {

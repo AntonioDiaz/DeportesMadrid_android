@@ -20,19 +20,19 @@ import android.widget.Toast;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabTeamCalendar;
 import com.adiaz.deportesmadrid.fragments.TabTeamGroups;
 import com.adiaz.deportesmadrid.fragments.TabTeamInfo;
-import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.Team;
+import com.adiaz.deportesmadrid.retrofit.RetrofitApi;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -66,11 +66,11 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
 
     DeportesMadridFragmentStatePagerAdapter adapter;
 
-    String mIdCompetition;
+    String mIdGroup;
     String mIdTeam;
     List<ClassificationRetrofit> classificationRetrofitList;
     List<MatchRetrofit> matchesRetrofitList;
-    Competition mCompetition;
+    Group mGroup;
     Team mTeam;
 
     @Override
@@ -78,15 +78,15 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_details);
         ButterKnife.bind(this);
-        mIdCompetition = getIntent().getStringExtra(Constants.ID_COMPETITION);
-        mCompetition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
+        mIdGroup = getIntent().getStringExtra(Constants.ID_COMPETITION);
+        mGroup = GroupsDAO.queryCompetitionsById(this, mIdGroup);
         mIdTeam = getIntent().getStringExtra(Constants.ID_TEAM);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle(mIdTeam);
-            getSupportActionBar().setSubtitle(getString(R.string.team_subtitle, mCompetition.nomGrupo()));
+            getSupportActionBar().setSubtitle(getString(R.string.team_subtitle, mGroup.nomGrupo()));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
@@ -100,8 +100,8 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
-        Call<CompetitionDetailsRetrofit> callCompetitionDetails = retrofitApi.findCompetition(mIdCompetition);
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
+        Call<GroupDetailsRetrofit> callCompetitionDetails = retrofitApi.findGroup(mIdGroup);
         callCompetitionDetails.enqueue(new CallbackRequest());
     }
 
@@ -110,7 +110,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         getMenuInflater().inflate(R.menu.menu_favorites, menu);
         for (int i = 0; i < menu.size(); i++) {
             if (menu.getItem(i).getItemId() == R.id.action_favorites) {
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition, mIdTeam);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mIdTeam);
                 if (favorite!=null) {
                     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                     Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
@@ -131,13 +131,13 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
             case R.id.action_favorites:
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                 Drawable drawable;
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition, mIdTeam);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mIdTeam);
                 if (favorite != null) {
                     FavoritesDAO.deleteFavorite(this, favorite.id());
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
                     Toast.makeText(this, R.string.favorites_team_removed, Toast.LENGTH_SHORT).show();
                 } else {
-                    Favorite newFavorite = Favorite.builder().idCompetition(mIdCompetition).idTeam(mIdTeam).build();
+                    Favorite newFavorite = Favorite.builder().idGroup(mIdGroup).idTeam(mIdTeam).build();
                     FavoritesDAO.insertFavorite(this, newFavorite);
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
                     Toast.makeText(this, R.string.favorites_team_added, Toast.LENGTH_SHORT).show();
@@ -163,10 +163,10 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         viewPager.setVisibility(View.INVISIBLE);
     }
 
-    private void dataReceived(CompetitionDetailsRetrofit competitionDetailsRetrofit) {
+    private void dataReceived(GroupDetailsRetrofit groupDetailsRetrofit) {
         matchesRetrofitList = new ArrayList<>();
-        if (competitionDetailsRetrofit.getMatchRetrofits() != null) {
-            for (MatchRetrofit matchRetrofitEntity : competitionDetailsRetrofit.getMatchRetrofits()) {
+        if (groupDetailsRetrofit.getMatchRetrofits() != null) {
+            for (MatchRetrofit matchRetrofitEntity : groupDetailsRetrofit.getMatchRetrofits()) {
                 if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
                         || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
                     matchesRetrofitList.add(matchRetrofitEntity);
@@ -187,8 +187,8 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
             }
         }
         this.classificationRetrofitList = new ArrayList<>();
-        if (competitionDetailsRetrofit.getClassificationRetrofit() != null) {
-            this.classificationRetrofitList = competitionDetailsRetrofit.getClassificationRetrofit();
+        if (groupDetailsRetrofit.getClassificationRetrofit() != null) {
+            this.classificationRetrofitList = groupDetailsRetrofit.getClassificationRetrofit();
         }
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -211,19 +211,19 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     }
 
     @Override
-    public Competition queryCompetition() {
-        return mCompetition;
+    public Group queryCompetition() {
+        return mGroup;
     }
 
-    class CallbackRequest implements Callback<CompetitionDetailsRetrofit> {
+    class CallbackRequest implements Callback<GroupDetailsRetrofit> {
 
         @Override
-        public void onResponse(Call<CompetitionDetailsRetrofit> call, Response<CompetitionDetailsRetrofit> response) {
+        public void onResponse(Call<GroupDetailsRetrofit> call, Response<GroupDetailsRetrofit> response) {
             dataReceived(response.body());
         }
 
         @Override
-        public void onFailure(Call<CompetitionDetailsRetrofit> call, Throwable t) {
+        public void onFailure(Call<GroupDetailsRetrofit> call, Throwable t) {
             hideLoading();
             Utils.showSnack(mainView, getString(R.string.error_getting_data));
         }

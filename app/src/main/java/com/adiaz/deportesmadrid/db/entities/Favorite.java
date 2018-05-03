@@ -12,7 +12,7 @@ public abstract class Favorite implements Parcelable {
     public abstract Long id();
 
     @Nullable
-    public abstract String idCompetition();
+    public abstract String idGroup();
 
     @Nullable
     public abstract String idTeam();
@@ -24,7 +24,7 @@ public abstract class Favorite implements Parcelable {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder id(Long id);
-        public abstract Builder idCompetition(String idCompetition);
+        public abstract Builder idGroup(String idGroup);
         public abstract Builder idTeam(String idTeam);
         public abstract Favorite build();
     }

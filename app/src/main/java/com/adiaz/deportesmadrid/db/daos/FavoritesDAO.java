@@ -43,7 +43,7 @@ public class FavoritesDAO {
 
     public static Favorite queryFavorite(Context context, String idCompetition) {
         Favorite favoriteFound = null;
-        String where = FavoritesEntry.COLUMN_ID_COMPETITION + "=?";
+        String where = FavoritesEntry.COLUMN_ID_GROUP + "=?";
         where += "and " + FavoritesEntry.COLUMN_ID_TEAM + " is null";
         String[] selectionArgs = new String[]{idCompetition};
         Cursor cursor = null;
@@ -64,7 +64,7 @@ public class FavoritesDAO {
     public static Favorite queryFavorite(Context context, String idCompetition, String idTeam) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_TEAM + "=?";
-        where += "AND " + FavoritesEntry.COLUMN_ID_COMPETITION + "=?";
+        where += "AND " + FavoritesEntry.COLUMN_ID_GROUP + "=?";
         String[] selectionArgs = new String[]{idTeam, idCompetition};
         Cursor cursor = null;
         try {

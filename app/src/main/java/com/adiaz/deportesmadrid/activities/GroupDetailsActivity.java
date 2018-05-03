@@ -20,18 +20,18 @@ import android.widget.Toast;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionCalendar;
-import com.adiaz.deportesmadrid.fragments.TabCompetitionTeams;
-import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.ClassificationRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.CompetitionDetailsRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.Team;
+import com.adiaz.deportesmadrid.fragments.TabGroupCalendar;
+import com.adiaz.deportesmadrid.fragments.TabGroupTeams;
+import com.adiaz.deportesmadrid.retrofit.RetrofitApi;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.ClassificationRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -40,17 +40,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompetitionDetailsActivity extends AppCompatActivity implements CompetitionCallback {
+public class GroupDetailsActivity extends AppCompatActivity implements CompetitionCallback {
 
-    //private static final String TAG = CompetitionDetailsActivity.class.getSimpleName();
+    //private static final String TAG = GroupDetailsActivity.class.getSimpleName();
 
     @BindView(R.id.view_competition)
     View mainView;
@@ -69,9 +67,9 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
     List<ClassificationRetrofit> classificationList;
     List<MatchRetrofit> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
-    Competition mCompetition;
+    Group mGroup;
 
-    public static String mIdCompetition;
+    public static String mIdGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,14 +77,14 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
         setContentView(R.layout.activity_competition);
         ButterKnife.bind(this);
 
-        mIdCompetition = getIntent().getStringExtra(Constants.ID_COMPETITION);
+        mIdGroup = getIntent().getStringExtra(Constants.ID_COMPETITION);
         String nameCompetition = getIntent().getStringExtra(Constants.NAME_COMPETITION);
 
         classificationList = new ArrayList<>();
         matchesList = new ArrayList<>();
 
-        mCompetition = CompetitionsDAO.queryCompetitionsById(this, mIdCompetition);
-        String subtitle = mCompetition.deporte() + " > " + mCompetition.distrito() + " > " + mCompetition.categoria();
+        mGroup = GroupsDAO.queryCompetitionsById(this, mIdGroup);
+        String subtitle = mGroup.deporte() + " > " + mGroup.distrito() + " > " + mGroup.categoria();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
@@ -98,9 +96,9 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new DeportesMadridFragmentStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabCompetitionCalendar(), "Calendario");
+        adapter.addFragment(new TabGroupCalendar(), "Calendario");
         adapter.addFragment(new TabClassification(), "Clasificación");
-        adapter.addFragment(new TabCompetitionTeams(), "Equipos");
+        adapter.addFragment(new TabGroupTeams(), "Equipos");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -121,8 +119,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create())
                 //.client(httpClient.build())
                 .build();
-        CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
-        Call<CompetitionDetailsRetrofit> callCompetitionDetails = retrofitApi.findCompetition(mIdCompetition);
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
+        Call<GroupDetailsRetrofit> callCompetitionDetails = retrofitApi.findGroup(mIdGroup);
         callCompetitionDetails.enqueue(new CallbackRequest());
 
         //hideLoading();
@@ -133,7 +131,7 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
         getMenuInflater().inflate(R.menu.menu_favorites, menu);
         for (int i = 0; i < menu.size(); i++) {
             if (menu.getItem(i).getItemId() == R.id.action_favorites) {
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup);
                 if (favorite!=null) {
                     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                     Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
@@ -154,13 +152,13 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
             case R.id.action_favorites:
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                 Drawable drawable;
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdCompetition);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup);
                 if (favorite != null) {
                     FavoritesDAO.deleteFavorite(this, favorite.id());
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
                     Toast.makeText(this, R.string.favorites_competition_removed, Toast.LENGTH_SHORT).show();
                 } else {
-                    Favorite newFavorite = Favorite.builder().idCompetition(mIdCompetition).build();
+                    Favorite newFavorite = Favorite.builder().idGroup(mIdGroup).build();
                     FavoritesDAO.insertFavorite(this, newFavorite);
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
                     Toast.makeText(this, R.string.favorites_competition_added, Toast.LENGTH_SHORT).show();
@@ -192,9 +190,9 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
         return true;
     }
 
-    private void dataReceived (CompetitionDetailsRetrofit competitionDetailsRetrofit) {
-        this.matchesList = competitionDetailsRetrofit.getMatchRetrofits();
-        this.classificationList = competitionDetailsRetrofit.getClassificationRetrofit();
+    private void dataReceived (GroupDetailsRetrofit groupDetailsRetrofit) {
+        this.matchesList = groupDetailsRetrofit.getMatchRetrofits();
+        this.classificationList = groupDetailsRetrofit.getClassificationRetrofit();
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         hideLoading();
@@ -206,8 +204,8 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
     }
 
     @Override
-    public Competition queryCompetition() {
-        return mCompetition ;
+    public Group queryCompetition() {
+        return mGroup;
     }
 
     @Override
@@ -221,15 +219,15 @@ public class CompetitionDetailsActivity extends AppCompatActivity implements Com
     }
 
 
-    class CallbackRequest implements Callback<CompetitionDetailsRetrofit> {
+    class CallbackRequest implements Callback<GroupDetailsRetrofit> {
 
         @Override
-        public void onResponse(Call<CompetitionDetailsRetrofit> call, Response<CompetitionDetailsRetrofit> response) {
+        public void onResponse(Call<GroupDetailsRetrofit> call, Response<GroupDetailsRetrofit> response) {
             dataReceived(response.body());
         }
 
         @Override
-        public void onFailure(Call<CompetitionDetailsRetrofit> call, Throwable t) {
+        public void onFailure(Call<GroupDetailsRetrofit> call, Throwable t) {
             hideLoading();
             Utils.showSnack(mainView, getString(R.string.error_getting_data));
         }

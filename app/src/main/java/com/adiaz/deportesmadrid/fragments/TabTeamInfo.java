@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.db.entities.Competition;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.db.entities.Group;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
@@ -80,15 +80,15 @@ public class TabTeamInfo extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Competition competition = mCompetitionCallback.queryCompetition();
-        String sportTag = Utils.normalizaSportName(competition.deporte());
+        Group group = mCompetitionCallback.queryCompetition();
+        String sportTag = Utils.normalizaSportName(group.deporte());
         String sportLocated = Utils.getStringResourceByName(this.getContext(), sportTag);
-        tvCompetition.setText(competition.nomCompeticion());
-        tvFase.setText(competition.nomFase());
-        tvGroup.setText(competition.nomGrupo());
+        tvCompetition.setText(group.nomCompeticion());
+        tvFase.setText(group.nomFase());
+        tvGroup.setText(group.nomGrupo());
         tvSport.setText(sportLocated);
-        tvDistrict.setText(competition.distrito());
-        tvCategory.setText(competition.categoria());
+        tvDistrict.setText(group.distrito());
+        tvCategory.setText(group.categoria());
         String team = mCompetitionCallback.queryTeam()==null ? Constants.FIELD_EMPTY : mCompetitionCallback.queryTeam().getName();
         cvNextWeek.setVisibility(View.INVISIBLE);
         cvNextWeekFinished.setVisibility(View.INVISIBLE);

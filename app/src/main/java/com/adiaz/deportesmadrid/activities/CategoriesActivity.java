@@ -13,8 +13,8 @@ import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
@@ -60,8 +60,8 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         showLoading();
-        List<Competition> competitions = CompetitionsDAO.queryCompetitionsBySportAndDistrict(this, sportSelected, districtSelected);
-        elementsList = initElementsList(competitions);
+        List<Group> groups = GroupsDAO.queryCompetitionsBySportAndDistrict(this, sportSelected, districtSelected);
+        elementsList = initElementsList(groups);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         GenericAdapter genericAdapter = new GenericAdapter(this, this, elementsList);
         rvDistricts.setHasFixedSize(true);
@@ -92,15 +92,15 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
         return super.onOptionsItemSelected(item);
     }
 
-    private List<ListItem> initElementsList(List<Competition> competitions) {
+    private List<ListItem> initElementsList(List<Group> groups) {
         List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
-        for (Competition competition : competitions) {
-            Integer count = map.get(competition.categoria());
+        for (Group group : groups) {
+            Integer count = map.get(group.categoria());
             if (count==null) {
                 count = 0;
             }
-            map.put(competition.categoria(), count + 1);
+            map.put(group.categoria(), count + 1);
         }
         for (String s : map.keySet()) {
             ListItem listItem = new ListItem(s, map.get(s).toString());

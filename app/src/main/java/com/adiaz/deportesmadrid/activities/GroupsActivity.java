@@ -12,15 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.adapters.GroupsAdapter;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
-import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +28,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     String sportSelected;
     String districtSelected;
     String categorySelected;
-    List<Competition> competitionsList;
+    List<Group> competitionsList;
 
     @BindView(R.id.rv_districts)
     RecyclerView recyclerView;
@@ -58,7 +55,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         showLoading();
-        competitionsList = CompetitionsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
+        competitionsList = GroupsDAO.queryCompetitionsBySportAndDistrictAndCategory(this, sportSelected, districtSelected, categorySelected);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         GroupsAdapter genericAdapter = new GroupsAdapter(this, competitionsList, this);
         recyclerView.setHasFixedSize(true);
@@ -100,7 +97,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(this, CompetitionDetailsActivity.class);
+        Intent intent = new Intent(this, GroupDetailsActivity.class);
         intent.putExtra(Constants.ID_COMPETITION, competitionsList.get(clickedItemIndex).id());
         intent.putExtra(Constants.NAME_COMPETITION, competitionsList.get(clickedItemIndex).nomGrupo());
         startActivity(intent);

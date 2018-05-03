@@ -4,24 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.adapters.SportsAdapter;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
-import com.adiaz.deportesmadrid.db.entities.Favorite;
-import com.adiaz.deportesmadrid.retrofit.CompetitionsRetrofitApi;
-import com.adiaz.deportesmadrid.retrofit.competitions.CompetitionRetrofitEntity;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
+import com.adiaz.deportesmadrid.retrofit.RetrofitApi;
+import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
@@ -30,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +37,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
-        implements Callback<List<CompetitionRetrofitEntity>>, SportsAdapter.ListItemClickListener {
+        implements Callback<List<GroupRetrofitEntity>>, SportsAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -59,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.rv_sports)
     RecyclerView rvCompetitions;
 
-    private List<Competition> mCompetitionsList;
+    private List<Group> mCompetitionsList;
 
     private List<ListItem> elementsList;
 
@@ -82,7 +76,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
+        mCompetitionsList = GroupsDAO.queryAllCompetitions(this);
         if (mCompetitionsList.size()==0) {
             syncCompetitions();
         } else {
@@ -113,8 +107,6 @@ public class MainActivity extends AppCompatActivity
 
     public void syncCompetitions() {
         showLoading();
-
-
         /*
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level
@@ -131,26 +123,26 @@ public class MainActivity extends AppCompatActivity
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create())
                 //.client(httpClient.build())
                 .build();
-        CompetitionsRetrofitApi retrofitApi = retrofit.create(CompetitionsRetrofitApi.class);
-        Call<List<CompetitionRetrofitEntity>> call = retrofitApi.queryAllCompetition();
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
+        Call<List<GroupRetrofitEntity>> call = retrofitApi.queryAllGroups();
         vResults.setVisibility(View.INVISIBLE);
         call.enqueue(this);
     }
 
     @Override
-    public void onResponse(Call<List<CompetitionRetrofitEntity>> call, Response<List<CompetitionRetrofitEntity>> response) {
+    public void onResponse(Call<List<GroupRetrofitEntity>> call, Response<List<GroupRetrofitEntity>> response) {
         if (response.body()==null) {
             Utils.showSnack(mainView, getString(R.string.error_getting_data));
         } else {
-            CompetitionsDAO.insertCompetitions(this, response.body());
+            GroupsDAO.insertCompetitions(this, response.body());
             //select all
-            mCompetitionsList = CompetitionsDAO.queryAllCompetitions(this);
+            mCompetitionsList = GroupsDAO.queryAllCompetitions(this);
             fillRecyclerview();
         }
     }
 
     @Override
-    public void onFailure(Call<List<CompetitionRetrofitEntity>> call, Throwable t) {
+    public void onFailure(Call<List<GroupRetrofitEntity>> call, Throwable t) {
         Log.d(TAG, "onFailure: peto" + t.getMessage());
     }
 
@@ -166,15 +158,15 @@ public class MainActivity extends AppCompatActivity
         hideLoading();
     }
 
-    private List<ListItem> initElementsList(List<Competition> competitions) {
+    private List<ListItem> initElementsList(List<Group> groups) {
         List<ListItem> listElements = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
-        for (Competition competition : competitions) {
-            Integer count = map.get(competition.deporte());
+        for (Group group : groups) {
+            Integer count = map.get(group.deporte());
             if (count==null) {
                 count = 0;
             }
-            map.put(competition.deporte(), count + 1);
+            map.put(group.deporte(), count + 1);
         }
         for (String s : map.keySet()) {
             ListItem listItem = new ListItem(s, map.get(s).toString());

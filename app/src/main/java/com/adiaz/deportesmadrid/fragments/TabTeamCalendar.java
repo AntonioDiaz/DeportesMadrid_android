@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.db.entities.Match;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 
 import java.util.List;

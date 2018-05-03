@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
+import com.adiaz.deportesmadrid.activities.GroupDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.GroupsAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class TabTeamGroups extends Fragment implements GroupsAdapter.ListItemCli
     @BindView(R.id.rv_groups)
     RecyclerView mRvGroups;
     CompetitionCallback mCompetitionCallback;
-    List<Competition> mGroupsList;
+    List<Group> mGroupsList;
 
     @Override
     public void onAttach(Context context) {
@@ -57,8 +57,8 @@ public class TabTeamGroups extends Fragment implements GroupsAdapter.ListItemCli
         if (mCompetitionCallback.queryTeam()!=null && mCompetitionCallback.queryTeam().getGroups()!=null) {
 
             for (String idGroup : mCompetitionCallback.queryTeam().getGroups()) {
-                Competition competition = CompetitionsDAO.queryCompetitionsById(this.getContext(), idGroup);
-                mGroupsList.add(competition);
+                Group group = GroupsDAO.queryCompetitionsById(this.getContext(), idGroup);
+                mGroupsList.add(group);
             }
             LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
             GroupsAdapter genericAdapter = new GroupsAdapter(this.getContext(), mGroupsList, this);
@@ -72,7 +72,7 @@ public class TabTeamGroups extends Fragment implements GroupsAdapter.ListItemCli
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(this.getContext(), CompetitionDetailsActivity.class);
+        Intent intent = new Intent(this.getContext(), GroupDetailsActivity.class);
         intent.putExtra(Constants.ID_COMPETITION, mGroupsList.get(clickedItemIndex).id());
         intent.putExtra(Constants.NAME_COMPETITION, mGroupsList.get(clickedItemIndex).nomGrupo());
         startActivity(intent);

@@ -10,9 +10,9 @@ import android.view.MenuItem;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
-import com.adiaz.deportesmadrid.db.daos.CompetitionsDAO;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
-import com.adiaz.deportesmadrid.db.entities.Competition;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.utils.Constants;
 
@@ -65,7 +65,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Favorite favorite = mFavoriteList.get(clickedItemIndex);
-        String idCompetition = favorite.idCompetition();
+        String idCompetition = favorite.idGroup();
         String teamName = favorite.idTeam();
         if (StringUtils.isNotBlank(teamName)) {
             Intent intent = new Intent(this, TeamDetailsActivity.class);
@@ -73,10 +73,10 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
             intent.putExtra(Constants.ID_TEAM, teamName);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(this, CompetitionDetailsActivity.class);
-            Competition competition = CompetitionsDAO.queryCompetitionsById(this, idCompetition);
+            Intent intent = new Intent(this, GroupDetailsActivity.class);
+            Group group = GroupsDAO.queryCompetitionsById(this, idCompetition);
             intent.putExtra(Constants.ID_COMPETITION, idCompetition);
-            intent.putExtra(Constants.NAME_COMPETITION, competition.nomGrupo());
+            intent.putExtra(Constants.NAME_COMPETITION, group.nomGrupo());
             startActivity(intent);
         }
     }

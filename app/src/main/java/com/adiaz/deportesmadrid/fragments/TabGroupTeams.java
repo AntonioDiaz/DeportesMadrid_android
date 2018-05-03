@@ -2,11 +2,9 @@ package com.adiaz.deportesmadrid.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.activities.CompetitionDetailsActivity;
+import com.adiaz.deportesmadrid.activities.GroupDetailsActivity;
 import com.adiaz.deportesmadrid.activities.TeamDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
-import com.adiaz.deportesmadrid.adapters.TeamsAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
-import com.adiaz.deportesmadrid.retrofit.competitiondetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 
@@ -32,7 +29,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TabCompetitionTeams extends Fragment implements GenericAdapter.ListItemClickListener {
+public class TabGroupTeams extends Fragment implements GenericAdapter.ListItemClickListener {
 
     @BindView(R.id.rv_teams)
     RecyclerView rvTeams;
@@ -88,7 +85,7 @@ public class TabCompetitionTeams extends Fragment implements GenericAdapter.List
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this.getContext(), TeamDetailsActivity.class);
-        intent.putExtra(Constants.ID_COMPETITION, CompetitionDetailsActivity.mIdCompetition);
+        intent.putExtra(Constants.ID_COMPETITION, GroupDetailsActivity.mIdGroup);
         intent.putExtra(Constants.ID_TEAM, teamsNamesList.get(clickedItemIndex));
         startActivity(intent);
     }

@@ -12,9 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.adiaz.deportesmadrid.db.DbHelper;
 import com.adiaz.deportesmadrid.db.DbContract;
-import com.adiaz.deportesmadrid.db.DbContract.CompetitionEntry;
+import com.adiaz.deportesmadrid.db.DbContract.GroupEntry;
 import com.adiaz.deportesmadrid.db.DbContract.FavoritesEntry;
-import com.adiaz.deportesmadrid.db.entities.Competition;
 
 /**
  * Created by adiaz on 23/3/18.
@@ -53,7 +52,7 @@ public class CompetitionsProvider extends ContentProvider {
                 try {
                     db.beginTransaction();
                     for (ContentValues value : values) {
-                        long id = db.insert(CompetitionEntry.TABLE_NAME, null, value);
+                        long id = db.insert(GroupEntry.TABLE_NAME, null, value);
                         if (id!=-1) {
                             rowsInserted++;
                         }
@@ -77,7 +76,7 @@ public class CompetitionsProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         switch (buildUriMatcher().match(uri)) {
             case COMPETITIONS:
-                cursor = db.query(CompetitionEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, orderBy);
+                cursor = db.query(GroupEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, orderBy);
                 break;
             case FAVORITES:
                 cursor = db.query(FavoritesEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, orderBy);
@@ -124,7 +123,7 @@ public class CompetitionsProvider extends ContentProvider {
         int deletedItems;
         switch (buildUriMatcher().match(uri)) {
             case COMPETITIONS:
-                deletedItems = db.delete(CompetitionEntry.TABLE_NAME, selection, selectionArgs);
+                deletedItems = db.delete(GroupEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case FAVORITES:
                 deletedItems = db.delete(FavoritesEntry.TABLE_NAME, selection, selectionArgs);
