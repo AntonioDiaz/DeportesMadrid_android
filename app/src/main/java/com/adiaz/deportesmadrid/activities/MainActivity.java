@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,11 +43,15 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.main_view)
     View mainView;
 
-    @BindView(R.id.view_result)
+    @BindView(R.id.view_results)
     View vResults;
 
     @BindView(R.id.rv_sports)
     RecyclerView rvCompetitions;
+
+    @BindView(R.id.tb_sports)
+    Toolbar toolbar;
+
 
     private List<Group> mCompetitionsList;
     private List<ListItem> elementsList;
@@ -57,18 +62,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setTheme(R.style.AppTheme);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            toolbar.setLogo(R.mipmap.ic_launcher);
+        }
+        //toolbar.setTitle("toma toma");
         mProgressDialog = new ProgressDialog(MainActivity.this);
         mProgressDialog.setTitle(getString(R.string.loading_competitions));
         mProgressDialog.setMessage(getString(R.string.loading));
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        if (getSupportActionBar()!=null) {
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-            getSupportActionBar().setDisplayUseLogoEnabled(true);
-            // TODO: 5/4/18 chapu: fix spaces add margin between icon and title.
-            getSupportActionBar().setTitle("    " + getString(R.string.app_name));
-        }
         showLoading();
     }
 

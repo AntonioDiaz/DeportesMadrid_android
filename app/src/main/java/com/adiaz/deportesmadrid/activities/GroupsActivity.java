@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,8 +34,8 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     @BindView(R.id.rv_districts)
     RecyclerView recyclerView;
 
-    @BindView(R.id.pb_loading_districts)
-    ProgressBar progressBar;
+    @BindView(R.id.my_toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subtitle += " (" + count + ")";
         }
+        setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_grupo));
             getSupportActionBar().setSubtitle(subtitle);
@@ -86,12 +88,10 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     }
     
     private void hideLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
     }
 

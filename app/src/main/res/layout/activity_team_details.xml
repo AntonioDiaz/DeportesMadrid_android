@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
-        android:elevation="6dp"
+        android:elevation="4dp"
         android:minHeight="?android:attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tb_team_details"
         android:background="@color/colorPrimary"
-        android:elevation="6dp"
+        android:elevation="4dp"
         android:minHeight="?android:attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:tabMode="scrollable" />
@@ -40,7 +40,6 @@
             android:visibility="invisible">
 
         </android.support.v4.view.ViewPager>
-
 
     </android.support.constraint.ConstraintLayout>
 

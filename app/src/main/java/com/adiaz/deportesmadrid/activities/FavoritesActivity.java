@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +34,9 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     @BindView(R.id.tv_empty_list)
     TextView tvEmpty;
 
+    @BindView(R.id.my_toolbar)
+    Toolbar toolbar;
+
     private List<Favorite> mFavoriteList;
 
     @Override
@@ -40,7 +44,9 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle(getString(R.string.app_name));
             getSupportActionBar().setSubtitle(getString(R.string.favorites_subtitle));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

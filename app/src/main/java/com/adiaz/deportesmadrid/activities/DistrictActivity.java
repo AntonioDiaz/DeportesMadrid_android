@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
@@ -30,11 +30,8 @@ import butterknife.ButterKnife;
 
 public class DistrictActivity extends AppCompatActivity implements GenericAdapter.ListItemClickListener {
 
-
-    //private static final String TAG = DistrictActivity.class.getSimpleName();
-
-    @BindView(R.id.pb_loading_districts)
-    ProgressBar pbLoadingDistricts;
+    @BindView(R.id.my_toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.rv_districts)
     RecyclerView rvDistricts;
@@ -47,19 +44,19 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        ButterKnife.bind(this);
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         String sportSelectedCount = getIntent().getStringExtra(Constants.EXTRA_COUNT);
         String subTitle = sportSelected;
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subTitle += " (" + sportSelectedCount + ")";
         }
+        setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_district));
             getSupportActionBar().setSubtitle(subTitle);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        ButterKnife.bind(this);
-        showLoading();
         List<Group> groups = GroupsDAO.queryCompetitionsBySport(this, sportSelected);
         elementsList = initElementsList(groups);
         LinearLayoutManager layoutManager;
@@ -73,7 +70,7 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         rvDistricts.setLayoutManager(layoutManager);
         rvDistricts.setAdapter(genericAdapter);
         genericAdapter.notifyDataSetChanged();
-        hideLoading();
+        rvDistricts.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -114,16 +111,6 @@ public class DistrictActivity extends AppCompatActivity implements GenericAdapte
         }
         Collections.sort(listElements, new ListItem.ListItemCompartor());
         return listElements;
-    }
-
-    private void hideLoading() {
-        pbLoadingDistricts.setVisibility(View.INVISIBLE);
-        rvDistricts.setVisibility(View.VISIBLE);
-    }
-
-    private void showLoading() {
-        pbLoadingDistricts.setVisibility(View.VISIBLE);
-        rvDistricts.setVisibility(View.INVISIBLE);
     }
 
     @Override

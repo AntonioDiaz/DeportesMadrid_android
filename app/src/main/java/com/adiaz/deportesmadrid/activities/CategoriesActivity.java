@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,11 +32,12 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
 
     //private static final String TAG = CategoriesActivity.class.getSimpleName();
 
-    @BindView(R.id.pb_loading_districts)
-    ProgressBar pbLoadingDistricts;
 
     @BindView(R.id.rv_districts)
     RecyclerView rvDistricts;
+
+    @BindView(R.id.my_toolbar)
+    Toolbar toolbar;
 
     List<ListItem> elementsList;
     private String sportSelected;
@@ -54,6 +56,7 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subTitle += " (" + count + ")";
         }
+        setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setTitle(getString(R.string.title_category));
             getSupportActionBar().setSubtitle(subTitle);
@@ -111,12 +114,10 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
     }
 
     private void showLoading() {
-        pbLoadingDistricts.setVisibility(View.VISIBLE);
         rvDistricts.setVisibility(View.INVISIBLE);
     }
 
     private void hideLoading() {
-        pbLoadingDistricts.setVisibility(View.INVISIBLE);
         rvDistricts.setVisibility(View.VISIBLE);
     }
 

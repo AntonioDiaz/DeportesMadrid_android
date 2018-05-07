@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeNoActionBar">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +19,13 @@
         <activity android:name=".activities.FavoritesActivity"></activity>
         <activity android:name=".activities.CategoriesActivity"></activity>
         <activity android:name=".activities.GroupsActivity"></activity>
-        <activity android:name=".activities.TeamDetailsActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
-        <activity android:name=".activities.GroupDetailsActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+        <activity android:name=".activities.TeamDetailsActivity"></activity>
+        <activity android:name=".activities.GroupDetailsActivity"></activity>
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_preferences"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyPreferencelTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
