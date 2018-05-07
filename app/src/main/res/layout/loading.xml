@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="@string/loading_competition"
+        android:text="@string/loading_competitions"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 </LinearLayout>
 

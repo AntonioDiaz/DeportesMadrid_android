@@ -1,5 +1,6 @@
 package com.adiaz.deportesmadrid.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.SportsAdapter;
@@ -28,8 +28,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,9 +42,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.main_view)
     View mainView;
 
-    @BindView(R.id.ll_progress)
-    LinearLayout llLoading;
-
     @BindView(R.id.view_result)
     View vResults;
 
@@ -54,8 +49,8 @@ public class MainActivity extends AppCompatActivity
     RecyclerView rvCompetitions;
 
     private List<Group> mCompetitionsList;
-
     private List<ListItem> elementsList;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +58,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setTheme(R.style.AppTheme);
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setTitle(getString(R.string.loading_competitions));
+        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -192,12 +191,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void hideLoading() {
-        llLoading.setVisibility(View.INVISIBLE);
+        mProgressDialog.dismiss();
         vResults.setVisibility(View.VISIBLE);
     }
 
     private void showLoading() {
-        llLoading.setVisibility(View.VISIBLE);
+        mProgressDialog.show();
         vResults.setVisibility(View.INVISIBLE);
     }
 }

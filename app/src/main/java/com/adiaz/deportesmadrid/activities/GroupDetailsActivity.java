@@ -1,5 +1,6 @@
 package com.adiaz.deportesmadrid.activities;
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -62,12 +63,11 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
     @BindView(R.id.vp_competition_details)
     ViewPager viewPager;
 
-    @BindView(R.id.ll_progress)
-    LinearLayout llLoadingCompetition;
     List<ClassificationRetrofit> classificationList;
     List<MatchRetrofit> matchesList;
     DeportesMadridFragmentStatePagerAdapter adapter;
     Group mGroup;
+    private ProgressDialog mProgressDialog;
 
     public static String mIdGroup;
 
@@ -102,6 +102,11 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        mProgressDialog = new ProgressDialog(GroupDetailsActivity.this);
+        mProgressDialog.setTitle(getString(R.string.loading_info));
+        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         showLoading();
 
 
@@ -175,12 +180,12 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
     }
 
     private void showLoading() {
-        llLoadingCompetition.setVisibility(View.VISIBLE);
+        mProgressDialog.show();
         viewPager.setVisibility(View.INVISIBLE);
     }
 
     private void hideLoading() {
-        llLoadingCompetition.setVisibility(View.INVISIBLE);
+        mProgressDialog.dismiss();
         viewPager.setVisibility(View.VISIBLE);
     }
 

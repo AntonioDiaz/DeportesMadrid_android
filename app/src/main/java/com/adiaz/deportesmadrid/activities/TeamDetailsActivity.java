@@ -1,5 +1,6 @@
 package com.adiaz.deportesmadrid.activities;
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
@@ -61,8 +63,6 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     @BindView(R.id.vp_team_details)
     ViewPager viewPager;
 
-    @BindView(R.id.ll_progress)
-    LinearLayout llLoading;
 
     DeportesMadridFragmentStatePagerAdapter adapter;
 
@@ -72,6 +72,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     List<MatchRetrofit> matchesRetrofitList;
     Group mGroup;
     Team mTeam;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +98,10 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        mProgressDialog = new ProgressDialog(TeamDetailsActivity.this);
+        mProgressDialog.setTitle(getString(R.string.loading_info));
+        mProgressDialog.setMessage(getString(R.string.loading));
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
@@ -154,12 +159,12 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     }
 
     private void hideLoading() {
-        llLoading.setVisibility(View.INVISIBLE);
+        mProgressDialog.dismiss();
         viewPager.setVisibility(View.VISIBLE);
     }
 
     private void showLoading() {
-        llLoading.setVisibility(View.VISIBLE);
+        mProgressDialog.show();
         viewPager.setVisibility(View.INVISIBLE);
     }
 

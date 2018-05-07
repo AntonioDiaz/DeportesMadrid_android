@@ -22,7 +22,4 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <include layout="@layout/loading" />
-
-
 </android.support.constraint.ConstraintLayout>
