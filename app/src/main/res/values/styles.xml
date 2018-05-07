@@ -126,6 +126,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="list_headers_accent" parent="list_headers">
+        <item name="android:textColor">@color/colorAccentDark</item>
+        <item name="android:gravity">center_vertical|left</item>
+    </style>
+
     <style name="empty_list">
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>

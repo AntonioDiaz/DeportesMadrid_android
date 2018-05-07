@@ -61,7 +61,8 @@
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_group"
-                style="@style/list_values"
+                style="@style/list_headers_accent"
+                android:gravity="left|center_vertical"
                 android:layout_height="20dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
@@ -107,6 +108,28 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_fase"
                 app:layout_constraintTop_toTopOf="@+id/tv_label_competition"
                 tools:text="@string/example_competition" />
+
+            <TextView
+                android:id="@+id/tv_label_sport"
+                style="@style/list_labels"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_sport"
+                android:gravity="right|center_vertical"
+                app:layout_constraintEnd_toEndOf="@+id/tv_label_competition"
+                app:layout_constraintStart_toStartOf="@+id/tv_label_competition"
+                app:layout_constraintTop_toBottomOf="@+id/tv_label_competition" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tv_sport"
+                style="@style/list_values"
+                android:layout_height="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccentDark"
+                app:layout_constraintEnd_toEndOf="@+id/tv_competition"
+                app:layout_constraintStart_toStartOf="@+id/tv_competition"
+                app:layout_constraintTop_toTopOf="@+id/tv_label_sport"
+                tools:text="@string/example_sport" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

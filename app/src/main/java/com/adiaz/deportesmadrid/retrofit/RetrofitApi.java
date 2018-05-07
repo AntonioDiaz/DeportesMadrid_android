@@ -2,6 +2,7 @@ package com.adiaz.deportesmadrid.retrofit;
 
 import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
+import com.adiaz.deportesmadrid.retrofit.searchteams.Team;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface RetrofitApi {
 
     @GET("/server/findGroup/")
     Call<GroupDetailsRetrofit> findGroup(@Query("cod_group")String idGroup);
+
+    @GET("/server/findTeam")
+    Call<List<Team>> queryTeams(@Query("team_name") String teamName);
 
 
 

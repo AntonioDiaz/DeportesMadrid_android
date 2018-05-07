@@ -12,67 +12,52 @@ import android.widget.TextView;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
-import com.adiaz.deportesmadrid.db.entities.Favorite;
+import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
+public class TeamSearchAdapter extends RecyclerView.Adapter<TeamSearchAdapter.ViewHolder> {
 
     Context mContext;
-    FavoritesAdapter.ListItemClickListener mListItemClickListener;
-    List<Favorite> mFavoritesList;
+    TeamSearchAdapter.ListItemClickListener mListItemClickListener;
+    List<TeamSearch> mTeams;
 
-    private static final Integer TYPE_TEAM = 1;
-    private static final Integer TYPE_GROUP = 2;
-
-    public FavoritesAdapter(Context context, ListItemClickListener listItemClickListener, List<Favorite> mFavoritesList) {
-        this.mContext = context;
-        this.mFavoritesList = mFavoritesList;
-        this.mListItemClickListener = listItemClickListener;
+    public TeamSearchAdapter(Context mContext, ListItemClickListener mListItemClickListener, List<TeamSearch> mTeams) {
+        this.mContext = mContext;
+        this.mListItemClickListener = mListItemClickListener;
+        this.mTeams = mTeams;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layoutId = R.layout.listitem_favorites_team;
-        if (viewType==TYPE_GROUP) {
-            layoutId = R.layout.listitem_favorites_group;
-        }
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(layoutId, parent, false);
+        View view = layoutInflater.inflate(R.layout.listitem_favorites_team, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (mFavoritesList!=null) {
-            Group group = GroupsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idGroup());
+        if (mTeams !=null && mTeams.size()>position) {
+            Group group = GroupsDAO.queryCompetitionsById(mContext, mTeams.get(position).getIdGroup());
             holder.tvGroup.setText(group.nomGrupo());
             holder.tvFase.setText(group.nomFase());
             holder.tvCompetition.setText(group.nomCompeticion());
-            holder.tvSport.setText(group.deporte());
-            String teamName = mFavoritesList.get(position).idTeam();
+            String teamName = mTeams.get(position).getTeamName();
             if (teamName!=null) {
                 holder.tvTeam.setText(teamName);
             }
+            holder.tvSport.setText(group.deporte());
         }
     }
 
     @Override
     public int getItemCount() {
-        return mFavoritesList.size();
+        return mTeams.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (mFavoritesList.get(position).idTeam()==null) {
-            return TYPE_GROUP;
-        } else {
-            return TYPE_TEAM;
-        }
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -107,11 +92,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
         @Override
         public void onClick(View view) {
-            mListItemClickListener.onListItemClick(getAdapterPosition());
+            mListItemClickListener.onListItemClickTeamSearch(getAdapterPosition());
         }
     }
 
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListItemClickTeamSearch(int clickedItemIndex);
     }
 }
