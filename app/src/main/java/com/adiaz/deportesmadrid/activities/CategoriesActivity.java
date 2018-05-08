@@ -52,7 +52,7 @@ public class CategoriesActivity extends AppCompatActivity implements GenericAdap
         sportSelected = getIntent().getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME);
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subTitle = sportSelected + " > " + districtSelected;
+        String subTitle = sportSelected + Constants.PATH_SEPARATOR + districtSelected;
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subTitle += " (" + count + ")";
         }

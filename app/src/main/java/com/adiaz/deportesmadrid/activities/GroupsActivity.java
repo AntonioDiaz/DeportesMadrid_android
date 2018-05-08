@@ -46,7 +46,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         districtSelected = getIntent().getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME);
         categorySelected = getIntent().getStringExtra(Constants.EXTRA_CATEGORY_SELECTED_NAME);
         String count = getIntent().getStringExtra(Constants.EXTRA_COUNT);
-        String subtitle = sportSelected + " > " + districtSelected + " > " + categorySelected;
+        String subtitle = sportSelected + Constants.PATH_SEPARATOR + districtSelected + Constants.PATH_SEPARATOR + categorySelected;
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subtitle += " (" + count + ")";
         }

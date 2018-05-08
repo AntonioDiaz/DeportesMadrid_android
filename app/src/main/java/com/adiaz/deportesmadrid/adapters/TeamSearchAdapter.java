@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
+import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class TeamSearchAdapter extends RecyclerView.Adapter<TeamSearchAdapter.Vi
             if (teamName!=null) {
                 holder.tvTeam.setText(teamName);
             }
-            holder.tvSport.setText(group.deporte());
+            holder.tvPath.setText(group.deporte() + Constants.PATH_SEPARATOR + group.distrito() + Constants.PATH_SEPARATOR + group.categoria());
         }
     }
 
@@ -81,8 +82,8 @@ public class TeamSearchAdapter extends RecyclerView.Adapter<TeamSearchAdapter.Vi
         TextView tvCompetition;
 
         @Nullable
-        @BindView(R.id.tv_sport)
-        TextView tvSport;
+        @BindView(R.id.tv_path)
+        TextView tvPath;
 
         ViewHolder(View itemView) {
             super(itemView);

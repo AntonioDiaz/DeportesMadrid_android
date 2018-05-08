@@ -107,7 +107,8 @@
     <string name="example_group">Grupo Sábados Tarde</string>
     <string name="example_competition">Campeonato Nacional de Liga</string>
     <string name="example_sport">Baloncesto</string>
-    
+    <string name="example_path">Baloncesto > Chamartín > Benjamin</string>
+
     <string name="PENDIENTE">Pendiente</string>
     <string name="REPROGRAMADO">Reprogramado</string>
     <string name="COMITE">Comité</string>

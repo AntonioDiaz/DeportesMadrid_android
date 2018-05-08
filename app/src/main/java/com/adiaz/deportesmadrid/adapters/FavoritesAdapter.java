@@ -13,6 +13,7 @@ import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
+import com.adiaz.deportesmadrid.utils.Constants;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             holder.tvGroup.setText(group.nomGrupo());
             holder.tvFase.setText(group.nomFase());
             holder.tvCompetition.setText(group.nomCompeticion());
-            holder.tvSport.setText(group.deporte());
+            holder.tvPath.setText(group.deporte() + Constants.PATH_SEPARATOR + group.distrito() + Constants.PATH_SEPARATOR + group.categoria());
             String teamName = mFavoritesList.get(position).idTeam();
             if (teamName!=null) {
                 holder.tvTeam.setText(teamName);
@@ -96,8 +97,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         TextView tvCompetition;
 
         @Nullable
-        @BindView(R.id.tv_sport)
-        TextView tvSport;
+        @BindView(R.id.tv_path)
+        TextView tvPath;
 
         ViewHolder(View itemView) {
             super(itemView);

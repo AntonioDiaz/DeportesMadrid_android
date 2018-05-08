@@ -84,7 +84,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
         matchesList = new ArrayList<>();
 
         mGroup = GroupsDAO.queryCompetitionsById(this, mIdGroup);
-        String subtitle = mGroup.deporte() + " > " + mGroup.distrito() + " > " + mGroup.categoria();
+        String subtitle = mGroup.deporte() + Constants.PATH_SEPARATOR + mGroup.distrito() + Constants.PATH_SEPARATOR + mGroup.categoria();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null) {

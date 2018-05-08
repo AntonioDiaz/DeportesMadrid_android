@@ -30,7 +30,7 @@
     <style name="main_list_sports" parent="CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
@@ -110,16 +110,39 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="minTextSize">12sp</item>
     </style>
-    <style name="list_labels" parent="list_values">
+    <style name="list_labels">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:textColor">@android:color/tertiary_text_light</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:gravity">right|bottom</item>
+    </style>
+
+    <style name="list_values_team" parent="list_values">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccentDark</item>
+    </style>
+
+    <style name="list_values_group" parent="list_values">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+    <style name="list_values_path" parent="list_values">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="list_headers">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:gravity">left|center_vertical</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -128,7 +151,6 @@
 
     <style name="list_headers_accent" parent="list_headers">
         <item name="android:textColor">@color/colorAccentDark</item>
-        <item name="android:gravity">center_vertical|left</item>
     </style>
 
     <style name="empty_list">
