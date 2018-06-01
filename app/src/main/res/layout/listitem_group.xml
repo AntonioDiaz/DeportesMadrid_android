@@ -22,17 +22,32 @@
 
 
             <TextView
+                android:id="@+id/textView2"
+                style="@style/list_labels"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="right|center_vertical"
+                android:text="@string/label_group"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_listitem_title"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_listitem_title" />
+
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_listitem_title"
+                style="@style/list_headers"
+                android:autoSizeMinTextSize="8sp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/example_group"
-                style="@style/list_headers" />
+                tools:text="@string/example_group" />
 
             <TextView
                 android:id="@+id/tv_competition_label"

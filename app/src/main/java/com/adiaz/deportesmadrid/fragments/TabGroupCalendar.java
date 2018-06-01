@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.CalendarAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 
@@ -24,11 +25,11 @@ import butterknife.ButterKnife;
 
 public class TabGroupCalendar extends Fragment {
 
-    @BindView(R.id.expandableListView_calendar)
-    ExpandableListView expandableListViewCalendar;
+    @BindView(R.id.rv_calendar)
+    RecyclerView rvCalendar;
 
     CompetitionCallback mCompetitionCallback;
-
+    public com.adiaz.deportesmadrid.adapters.expandable.CalendarAdapter calendarAdapter;
 
     @Override
     public void onAttach(Context context) {
@@ -62,8 +63,12 @@ public class TabGroupCalendar extends Fragment {
                 }
                 matchesOnWeek.add(matchRetrofitEntity);
             }
-            CalendarAdapter calendarAdapter = new CalendarAdapter(this.getContext(), calendarMap);
-            expandableListViewCalendar.setAdapter(calendarAdapter);
+            calendarAdapter = new com.adiaz.deportesmadrid.adapters.expandable.CalendarAdapter(mCompetitionCallback.queryWeeks());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvCalendar.getContext(), layoutManager.getOrientation());
+            rvCalendar.setLayoutManager(layoutManager);
+            rvCalendar.setAdapter(calendarAdapter);
+            rvCalendar.addItemDecoration(dividerItemDecoration);
             calendarAdapter.notifyDataSetChanged();
         }
     }

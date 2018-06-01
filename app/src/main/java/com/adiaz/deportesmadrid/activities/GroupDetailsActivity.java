@@ -20,11 +20,14 @@ import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.adapters.expandable.MatchChild;
+import com.adiaz.deportesmadrid.adapters.expandable.WeekGroup;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
+import com.adiaz.deportesmadrid.db.entities.Match;
 import com.adiaz.deportesmadrid.fragments.TabClassification;
 import com.adiaz.deportesmadrid.fragments.TabGroupCalendar;
 import com.adiaz.deportesmadrid.fragments.TabGroupTeams;
@@ -37,7 +40,10 @@ import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +71,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
 
     List<ClassificationRetrofit> classificationList;
     List<MatchRetrofit> matchesList;
+    List<WeekGroup> weekGroupList = new ArrayList<>();
     DeportesMadridFragmentStatePagerAdapter adapter;
     Group mGroup;
     private ProgressDialog mProgressDialog;
@@ -197,6 +204,26 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
 
     private void dataReceived (GroupDetailsRetrofit groupDetailsRetrofit) {
         this.matchesList = groupDetailsRetrofit.getMatchRetrofits();
+        Map<Integer, List<MatchRetrofit>> matchesMap = new HashMap<>();
+        for (MatchRetrofit matchRetrofit : groupDetailsRetrofit.getMatchRetrofits()) {
+            if (!matchesMap.containsKey(matchRetrofit.getNumWeek())) {
+                matchesMap.put(matchRetrofit.getNumWeek(), new ArrayList<>());
+            }
+            matchesMap.get(matchRetrofit.getNumWeek()).add(matchRetrofit);
+        }
+        weekGroupList = new ArrayList<>();
+        for (Integer weekNumber : matchesMap.keySet()) {
+            List<MatchChild> matches = new ArrayList<>();
+            for (MatchRetrofit matchRetrofit : matchesMap.get(weekNumber)) {
+                MatchChild matchChild = Utils.matchRetrofit2MatchChild(matchRetrofit, this);
+                matches.add(matchChild);
+            }
+            String weekTitle = getApplication().getString(R.string.calendar_week, weekNumber);
+            weekGroupList.add(new WeekGroup(weekTitle, matches, weekNumber));
+        }
+        Collections.sort(weekGroupList, (a, b) ->
+            a.getIdWeek().compareTo(b.getIdWeek())
+        );
         this.classificationList = groupDetailsRetrofit.getClassificationRetrofit();
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -223,6 +250,10 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
         return this.matchesList;
     }
 
+    @Override
+    public List<WeekGroup> queryWeeks() {
+        return this.weekGroupList;
+    }
 
     class CallbackRequest implements Callback<GroupDetailsRetrofit> {
 

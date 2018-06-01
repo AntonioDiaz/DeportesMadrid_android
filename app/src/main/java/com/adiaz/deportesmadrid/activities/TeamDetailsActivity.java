@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.adapters.expandable.WeekGroup;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
@@ -213,6 +214,11 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     @Override
     public List<MatchRetrofit> queryMatchesList() {
         return matchesRetrofitList;
+    }
+
+    @Override
+    public List<WeekGroup> queryWeeks() {
+        return null;
     }
 
     @Override

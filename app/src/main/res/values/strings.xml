@@ -108,6 +108,7 @@
     <string name="example_competition">Campeonato Nacional de Liga</string>
     <string name="example_sport">Baloncesto</string>
     <string name="example_path">Baloncesto > Chamartín > Benjamin</string>
+    <string name="example_week">Jornada 12</string>
 
     <string name="PENDIENTE">Pendiente</string>
     <string name="REPROGRAMADO">Reprogramado</string>
