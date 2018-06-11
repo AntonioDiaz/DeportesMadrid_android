@@ -12,7 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,6 +39,7 @@ import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
+import com.adiaz.deportesmadrid.utils.MenuActionsUtils;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 import java.util.ArrayList;
@@ -77,6 +80,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
     private ProgressDialog mProgressDialog;
 
     public static String mIdGroup;
+    private static MatchChild mMatchChild;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -215,7 +219,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
         for (Integer weekNumber : matchesMap.keySet()) {
             List<MatchChild> matches = new ArrayList<>();
             for (MatchRetrofit matchRetrofit : matchesMap.get(weekNumber)) {
-                MatchChild matchChild = Utils.matchRetrofit2MatchChild(matchRetrofit, this);
+                MatchChild matchChild = MatchChild.matchRetrofit2MatchChild(matchRetrofit, this);
                 matches.add(matchChild);
             }
             String weekTitle = getApplication().getString(R.string.calendar_week, weekNumber);
@@ -253,6 +257,52 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
     @Override
     public List<WeekGroup> queryWeeks() {
         return this.weekGroupList;
+    }
+
+    public void openMenu(View view) {
+        registerForContextMenu(view);
+        openContextMenu(view);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        mMatchChild = (MatchChild) v.getTag();
+        if (mMatchChild!=null) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.menu_match, menu);
+            menu.findItem(R.id.action_view_map).setEnabled(!Constants.FIELD_EMPTY.equals(mMatchChild.placeName()));
+            menu.findItem(R.id.action_add_calendar).setEnabled(!Constants.FIELD_EMPTY.equals(mMatchChild.dateStr()));
+
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_calendar:
+                MenuActionsUtils.addMatchEvent(this, mMatchChild, mGroup);
+                //Toast.makeText(this, "comming son", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_view_map:
+                MenuActionsUtils.showMatchLocation(this, mMatchChild);
+                break;
+            case R.id.action_share:
+                MenuActionsUtils.shareMatchDetails(this, mMatchChild, mGroup);
+                break;
+                /*
+            case R.id.action_notify_error:
+               if (DeporteLocalUtils.isUserLogged()) {
+                    SendIssueDialogFragment dialog = SendIssueDialogFragment.newInstance(mMatch, CompetitionActivity.mCompetition);
+                    dialog.show(getSupportFragmentManager(), "dialog");
+                } else {
+                    Toast.makeText(this, getText(R.string.dialog_issue_not_allowed), Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(this, "comming son", Toast.LENGTH_SHORT).show();
+                break;
+                */
+        }
+        return super.onContextItemSelected(item);
     }
 
     class CallbackRequest implements Callback<GroupDetailsRetrofit> {

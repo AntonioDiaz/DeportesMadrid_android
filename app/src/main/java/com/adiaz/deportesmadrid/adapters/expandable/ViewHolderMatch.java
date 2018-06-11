@@ -1,8 +1,10 @@
 package com.adiaz.deportesmadrid.adapters.expandable;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
@@ -40,10 +42,15 @@ public class ViewHolderMatch extends ChildViewHolder {
     @BindView(R.id.tv_state)
     TextView tvState;
 
+    Context mContext;
 
-    public ViewHolderMatch(View itemView) {
+    View mView;
+
+    public ViewHolderMatch(View itemView, Context context) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        mContext = context;
+        mView = itemView;
     }
 
     public void updateMatchFields(MatchChild matchChild) {
@@ -54,7 +61,6 @@ public class ViewHolderMatch extends ChildViewHolder {
         tvDate.setText(matchChild.dateStr());
         tvPlace.setText(matchChild.placeName());
         tvState.setText(matchChild.state());
+        mView.setTag(matchChild);
     }
-
-
 }

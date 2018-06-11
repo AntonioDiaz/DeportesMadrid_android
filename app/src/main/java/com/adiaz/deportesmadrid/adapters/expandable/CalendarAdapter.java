@@ -27,7 +27,7 @@ public class CalendarAdapter extends ExpandableRecyclerViewAdapter <ViewHolderWe
     public ViewHolderMatch onCreateChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.listitem_child_match, parent, false);
-        return new ViewHolderMatch(view);
+        return new ViewHolderMatch(view, parent.getContext());
     }
 
     @Override

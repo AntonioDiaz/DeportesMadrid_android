@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.rv_search_results)
     RecyclerView rvSearchResults;
 
+    @BindView(R.id.tv_empty_list)
+    TextView tvEmptyList;
+
 
     private List<Group> mCompetitionsList;
     private List<ListItem> elementsList;
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         handleIntent(getIntent());
         viewSports.setVisibility(View.VISIBLE);
         viewSearchResults.setVisibility(View.INVISIBLE);
+        tvEmptyList.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -275,20 +279,28 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
             mProgressDialogSearch.dismiss();
-            viewSearchResults.setVisibility(View.VISIBLE);
+            viewSearchResults.setVisibility(View.INVISIBLE);
+            rvSearchResults.setVisibility(View.INVISIBLE);
+            tvEmptyList.setVisibility(View.INVISIBLE);
             if (response!=null && response.body()!=null) {
-                mTeamsSearch = new ArrayList<>();
-                for (Team team : response.body()) {
-                    for (String idGroup : team.getGroups()) {
-                       mTeamsSearch.add(new TeamSearch(team.getId(), team.getName(), idGroup));
+                viewSearchResults.setVisibility(View.VISIBLE);
+                if (response.body().size()>0) {
+                    rvSearchResults.setVisibility(View.VISIBLE);
+                    mTeamsSearch = new ArrayList<>();
+                    for (Team team : response.body()) {
+                        for (String idGroup : team.getGroups()) {
+                           mTeamsSearch.add(new TeamSearch(team.getId(), team.getName(), idGroup));
+                        }
                     }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                    TeamSearchAdapter teamSearchAdapter = new TeamSearchAdapter(MainActivity.this, MainActivity.this, mTeamsSearch);
+                    rvSearchResults.setHasFixedSize(true);
+                    rvSearchResults.setLayoutManager(layoutManager);
+                    rvSearchResults.setAdapter(teamSearchAdapter);
+                    teamSearchAdapter.notifyDataSetChanged();
+                } else {
+                    tvEmptyList.setVisibility(View.VISIBLE);
                 }
-                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-                TeamSearchAdapter teamSearchAdapter = new TeamSearchAdapter(MainActivity.this, MainActivity.this, mTeamsSearch);
-                rvSearchResults.setHasFixedSize(true);
-                rvSearchResults.setLayoutManager(layoutManager);
-                rvSearchResults.setAdapter(teamSearchAdapter);
-                teamSearchAdapter.notifyDataSetChanged();
             }
         }
 

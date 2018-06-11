@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adiaz.deportesmadrid.R;
+import com.adiaz.deportesmadrid.adapters.expandable.CalendarAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 
@@ -29,7 +30,7 @@ public class TabGroupCalendar extends Fragment {
     RecyclerView rvCalendar;
 
     CompetitionCallback mCompetitionCallback;
-    public com.adiaz.deportesmadrid.adapters.expandable.CalendarAdapter calendarAdapter;
+    public CalendarAdapter calendarAdapter;
 
     @Override
     public void onAttach(Context context) {
@@ -63,7 +64,7 @@ public class TabGroupCalendar extends Fragment {
                 }
                 matchesOnWeek.add(matchRetrofitEntity);
             }
-            calendarAdapter = new com.adiaz.deportesmadrid.adapters.expandable.CalendarAdapter(mCompetitionCallback.queryWeeks());
+            calendarAdapter = new CalendarAdapter(mCompetitionCallback.queryWeeks());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvCalendar.getContext(), layoutManager.getOrientation());
             rvCalendar.setLayoutManager(layoutManager);

@@ -126,6 +126,18 @@
     <string name="label_sport">Deporte</string>
     <string name="label_team">Equipo</string>
     <string name="emptyFavList">No hay equipos ni grupos marcados como favoritos</string>
+    <string name="emptyTeamList">No se han encotrado equipos con este nombre</string>
     <string name="search_hint">nombre del equipo</string>
     <string name="menu_search">Buscar</string>
+    <string name="menu_add_calendar">Añadir evento al calendario</string>
+    <string name="menu_view_map">Abrir mapa</string>
+    <string name="menu_share_details">Compartir</string>
+    <string name="menu_notify_error">Notificar error</string>
+
+    <string name="no_match_event">No se puede crear el evento hasta que no haya fecha.</string>
+    <string name="no_match_address">Todavia no se ha definido el centro deportivo.</string>
+
+    <string name="calendar_title">%1$s, Jornada %2$s: %3$s - %4$s</string>
+    <string name="match_description">Competición: %1$s (%2$s - %3$s). Jornada %4$s: %5$s - %6$s. Fecha: %7$s. Lugar: %8$s.</string>
+
 </resources>

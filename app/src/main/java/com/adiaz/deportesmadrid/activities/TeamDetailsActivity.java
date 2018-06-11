@@ -12,7 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,6 +23,8 @@ import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.DeportesMadridFragmentStatePagerAdapter;
+import com.adiaz.deportesmadrid.adapters.TeamMatchesAdapter;
+import com.adiaz.deportesmadrid.adapters.expandable.MatchChild;
 import com.adiaz.deportesmadrid.adapters.expandable.WeekGroup;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
@@ -37,6 +41,7 @@ import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
+import com.adiaz.deportesmadrid.utils.MenuActionsUtils;
 import com.adiaz.deportesmadrid.utils.Utils;
 
 import java.util.ArrayList;
@@ -50,7 +55,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TeamDetailsActivity extends AppCompatActivity implements CompetitionCallback {
+public class TeamDetailsActivity extends AppCompatActivity implements CompetitionCallback, TeamMatchesAdapter.ListItemClickListener {
 
     @BindView(R.id.main_view)
     View mainView;
@@ -74,6 +79,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     Group mGroup;
     Team mTeam;
     ProgressDialog mProgressDialog;
+    MatchRetrofit mMatchRetrofit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -225,6 +231,54 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     public Group queryCompetition() {
         return mGroup;
     }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        mMatchRetrofit = matchesRetrofitList.get(clickedItemIndex);
+        registerForContextMenu(mainView);
+        openContextMenu(mainView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (mMatchRetrofit!=null) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.menu_match, menu);
+            menu.findItem(R.id.action_view_map).setEnabled(mMatchRetrofit.getPlace()!=null);
+            menu.findItem(R.id.action_add_calendar).setEnabled(mMatchRetrofit.getDate()!=null);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        MatchChild matchChild = MatchChild.matchRetrofit2MatchChild(mMatchRetrofit, this);
+        switch (item.getItemId()) {
+            case R.id.action_add_calendar:
+                MenuActionsUtils.addMatchEvent(this, matchChild, mGroup);
+                //Toast.makeText(this, "comming son", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_view_map:
+                MenuActionsUtils.showMatchLocation(this, matchChild);
+                break;
+            case R.id.action_share:
+                MenuActionsUtils.shareMatchDetails(this, matchChild, mGroup);
+                break;
+                /*
+            case R.id.action_notify_error:
+               if (DeporteLocalUtils.isUserLogged()) {
+                    SendIssueDialogFragment dialog = SendIssueDialogFragment.newInstance(mMatch, CompetitionActivity.mCompetition);
+                    dialog.show(getSupportFragmentManager(), "dialog");
+                } else {
+                    Toast.makeText(this, getText(R.string.dialog_issue_not_allowed), Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(this, "comming son", Toast.LENGTH_SHORT).show();
+                break;
+                */
+        }
+        return super.onContextItemSelected(item);
+    }
+
 
     class CallbackRequest implements Callback<GroupDetailsRetrofit> {
 

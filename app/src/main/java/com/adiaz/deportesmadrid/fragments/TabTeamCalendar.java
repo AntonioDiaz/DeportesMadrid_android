@@ -29,12 +29,14 @@ public class TabTeamCalendar extends Fragment {
     RecyclerView rvTeamMatches;
 
     CompetitionCallback mCompetitionCallback;
+    TeamMatchesAdapter.ListItemClickListener mListItemClickListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
             mCompetitionCallback = (CompetitionCallback) context;
+            mListItemClickListener = (TeamMatchesAdapter.ListItemClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement CompetitionCallback");
         }
@@ -55,7 +57,7 @@ public class TabTeamCalendar extends Fragment {
         if (teamMatches!=null) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             String teamName = mCompetitionCallback.queryTeam()==null ? Constants.FIELD_EMPTY : mCompetitionCallback.queryTeam().getName();
-            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList(), teamName);
+            TeamMatchesAdapter teamMatchesAdapter = new TeamMatchesAdapter(this.getContext(), mCompetitionCallback.queryMatchesList(), teamName, mListItemClickListener);
             rvTeamMatches.setHasFixedSize(true);
             rvTeamMatches.setLayoutManager(linearLayoutManager);
             rvTeamMatches.setAdapter(teamMatchesAdapter);

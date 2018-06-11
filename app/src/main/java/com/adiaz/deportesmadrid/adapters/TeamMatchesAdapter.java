@@ -2,11 +2,13 @@ package com.adiaz.deportesmadrid.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
@@ -31,10 +33,13 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
     List<MatchRetrofit> mMatchList;
     String mTeamId;
 
-    public TeamMatchesAdapter(Context context, List<MatchRetrofit> matchList, String mTeamId) {
+    final private ListItemClickListener mListItemClickListener;
+
+    public TeamMatchesAdapter(Context context, List<MatchRetrofit> matchList, String mTeamId, ListItemClickListener listItemClickListener) {
         this.mContext = context;
         this.mMatchList = matchList;
         this.mTeamId = mTeamId;
+        this.mListItemClickListener = listItemClickListener;
     }
 
     @Override
@@ -75,7 +80,7 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
             holder.tvOpponent.setText(teamLocal);
         }
         String dateStr = Constants.FIELD_EMPTY;
-        if (match.getDate()!=null) {
+        if (match.getDate()!=null && match.getState()!=StateAnnotation.DESCANSA) {
             DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
             dateStr = dateFormat.format(match.getDate());
         }
@@ -117,7 +122,10 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
         return mMatchList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.cl_teamcalendar)
+        View vTeamCalendar;
 
         @BindView(R.id.tv_week)
         TextView tvWeek;
@@ -146,6 +154,17 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            vTeamCalendar.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "onClick: ");
+            mListItemClickListener.onListItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
     }
 }
