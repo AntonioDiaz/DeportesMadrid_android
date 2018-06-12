@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     private List<ListItem> elementsList;
     private ProgressDialog mProgressDialog;
     private ProgressDialog mProgressDialogSearch;
-    private Integer retryCount = 0;
+    //private Integer retryCount = 0;
     private List<TeamSearch> mTeamsSearch;
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String teamName = intent.getStringExtra(SearchManager.QUERY);
             mProgressDialogSearch.show();
-            retryCount = 0;
+            //retryCount = 0;
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.SERVER_URL)

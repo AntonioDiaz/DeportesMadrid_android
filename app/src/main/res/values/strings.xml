@@ -126,7 +126,7 @@
     <string name="label_sport">Deporte</string>
     <string name="label_team">Equipo</string>
     <string name="emptyFavList">No hay equipos ni grupos marcados como favoritos</string>
-    <string name="emptyTeamList">No se han encotrado equipos con este nombre</string>
+    <string name="emptyTeamList">No se han encontrado equipos con este nombre</string>
     <string name="search_hint">nombre del equipo</string>
     <string name="menu_search">Buscar</string>
     <string name="menu_add_calendar">Añadir evento al calendario</string>
