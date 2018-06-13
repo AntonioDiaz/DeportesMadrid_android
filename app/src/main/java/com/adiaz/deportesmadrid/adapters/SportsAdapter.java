@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,9 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        @BindView(R.id.cv_sports)
+        View mCvSports;
+
         @BindView(R.id.tv_sport)
         TextView mSportName;
 
@@ -90,8 +94,8 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.ViewHolder
 
         public ViewHolder (View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
+            mCvSports.setOnClickListener(this);
         }
 
         @Override

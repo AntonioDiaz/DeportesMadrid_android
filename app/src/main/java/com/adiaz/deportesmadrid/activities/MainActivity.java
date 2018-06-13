@@ -5,6 +5,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,8 +50,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity
-        implements Callback<List<GroupRetrofitEntity>>, SportsAdapter.ListItemClickListener, FavoritesAdapter.ListItemClickListener, TeamSearchAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity implements
+        Callback<List<GroupRetrofitEntity>>,
+        SportsAdapter.ListItemClickListener,
+        FavoritesAdapter.ListItemClickListener,
+        TeamSearchAdapter.ListItemClickListener,
+        LoaderManager.LoaderCallbacks<List<Group>> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -73,16 +80,15 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.tv_empty_list)
     TextView tvEmptyList;
 
-
-    private List<Group> mCompetitionsList;
     private List<ListItem> elementsList;
     private ProgressDialog mProgressDialog;
     private ProgressDialog mProgressDialogSearch;
-    //private Integer retryCount = 0;
     private List<TeamSearch> mTeamsSearch;
+    private static final Integer SEARCH_GROUPS_LOADER = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppThemeNoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -90,21 +96,19 @@ public class MainActivity extends AppCompatActivity
         if (getSupportActionBar() != null) {
             toolbar.setLogo(R.mipmap.ic_launcher);
         }
-
-        mProgressDialog = new ProgressDialog(MainActivity.this);
-        mProgressDialog.setTitle(getString(R.string.loading_competitions));
-        mProgressDialog.setMessage(getString(R.string.loading));
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        mProgressDialogSearch = new ProgressDialog(MainActivity.this);
-        mProgressDialogSearch.setTitle(getString(R.string.loading_search));
-        mProgressDialogSearch.setMessage(getString(R.string.loading));
-        mProgressDialogSearch.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        showLoading();
+        //showLoading();
         handleIntent(getIntent());
         viewSports.setVisibility(View.VISIBLE);
         viewSearchResults.setVisibility(View.INVISIBLE);
         tvEmptyList.setVisibility(View.INVISIBLE);
+        getSupportLoaderManager().initLoader(SEARCH_GROUPS_LOADER, null, this);
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> githubSearchLoader = loaderManager.getLoader(SEARCH_GROUPS_LOADER);
+        if (githubSearchLoader == null) {
+            loaderManager.initLoader(SEARCH_GROUPS_LOADER, new Bundle(), this);
+        } else {
+            loaderManager.restartLoader(SEARCH_GROUPS_LOADER, new Bundle(), this);
+        }
     }
 
     @Override
@@ -114,35 +118,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handleIntent(Intent intent) {
-        Log.d(TAG, "handleIntent: " + intent.getAction());
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String teamName = intent.getStringExtra(SearchManager.QUERY);
+            if (mProgressDialogSearch==null) {
+                mProgressDialogSearch = new ProgressDialog(MainActivity.this);
+                mProgressDialogSearch.setTitle(getString(R.string.loading_search));
+                mProgressDialogSearch.setMessage(getString(R.string.loading));
+                mProgressDialogSearch.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            }
             mProgressDialogSearch.show();
-            //retryCount = 0;
-
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.SERVER_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    //.client(httpClient.build())
                     .build();
             RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
             Call<List<Team>> call = retrofitApi.queryTeams(teamName);
             viewSports.setVisibility(View.INVISIBLE);
             call.enqueue(new SearchTeamCallBack());
-
-
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mCompetitionsList = GroupsDAO.queryAllCompetitions(this);
-        if (mCompetitionsList.size()==0) {
-            syncCompetitions();
-        } else {
-            fillRecyclerview();
-        }
     }
 
     @Override
@@ -157,7 +155,6 @@ public class MainActivity extends AppCompatActivity
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 viewSports.setVisibility(View.VISIBLE);
@@ -202,8 +199,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             GroupsDAO.insertCompetitions(this, response.body());
             //select all
-            mCompetitionsList = GroupsDAO.queryAllCompetitions(this);
-            fillRecyclerview();
+            fillRecyclerview(GroupsDAO.queryAllCompetitions(this));
         }
     }
 
@@ -212,8 +208,8 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onFailure: peto" + t.getMessage());
     }
 
-    private void fillRecyclerview() {
-        elementsList = initElementsList(mCompetitionsList);
+    private void fillRecyclerview(List<Group> competitionList) {
+        elementsList = initElementsList(competitionList);
         //getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         SportsAdapter sportsAdapter = new SportsAdapter(this, this, elementsList);
@@ -258,10 +254,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void hideLoading() {
-        mProgressDialog.dismiss();
+        if (mProgressDialog!=null) {
+            mProgressDialog.dismiss();
+        }
     }
 
     private void showLoading() {
+        if (mProgressDialog==null) {
+            mProgressDialog = new ProgressDialog(MainActivity.this);
+            mProgressDialog.setTitle(getString(R.string.loading_competitions));
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        }
         mProgressDialog.show();
     }
 
@@ -274,11 +278,42 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    public Loader<List<Group>> onCreateLoader(int id, Bundle args) {
+        return new AsyncTaskLoader<List<Group>>(this) {
+            @Override
+            protected void onStartLoading() {
+                //showLoading();
+                forceLoad();
+            }
+
+            @Override
+            public List<Group> loadInBackground() {
+                List<Group> groups = GroupsDAO.queryAllCompetitions(MainActivity.this);
+                return groups;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Group>> loader, List<Group> data) {
+        if (data.size()==0) {
+            syncCompetitions();
+        } else {
+            fillRecyclerview(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Group>> loader) { }
+
     class SearchTeamCallBack implements Callback<List<Team>> {
 
         @Override
         public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
-            mProgressDialogSearch.dismiss();
+            if (mProgressDialogSearch!=null) {
+                mProgressDialogSearch.dismiss();
+            }
             viewSearchResults.setVisibility(View.INVISIBLE);
             rvSearchResults.setVisibility(View.INVISIBLE);
             tvEmptyList.setVisibility(View.INVISIBLE);

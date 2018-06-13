@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.adiaz.deportesmadrid">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,22 +11,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name=".activities.MainActivity"
-            android:launchMode="singleTop">
+        <activity
+            android:name=".activities.MainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".activities.DistrictActivity"></activity>
-        <activity android:name=".activities.FavoritesActivity"></activity>
-        <activity android:name=".activities.CategoriesActivity"></activity>
-        <activity android:name=".activities.GroupsActivity"></activity>
-        <activity android:name=".activities.TeamDetailsActivity"></activity>
-        <activity android:name=".activities.GroupDetailsActivity"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/SplashTheme">
+        </activity>
+        <activity android:name=".activities.DistrictActivity" />
+        <activity android:name=".activities.FavoritesActivity" />
+        <activity android:name=".activities.CategoriesActivity" />
+        <activity android:name=".activities.GroupsActivity" />
+        <activity android:name=".activities.TeamDetailsActivity" />
+        <activity android:name=".activities.GroupDetailsActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_preferences"
@@ -34,9 +45,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
         <provider
-            android:name="com.adiaz.deportesmadrid.contentproviders.CompetitionsProvider"
+            android:name=".contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
+
 </manifest>
