@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -14,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +28,6 @@ import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
 import com.adiaz.deportesmadrid.adapters.SportsAdapter;
 import com.adiaz.deportesmadrid.adapters.TeamSearchAdapter;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
-import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.retrofit.RetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
@@ -34,11 +36,11 @@ import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
 import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
-
-import org.apache.commons.lang3.StringUtils;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements
     private ProgressDialog mProgressDialogSearch;
     private List<TeamSearch> mTeamsSearch;
     private static final Integer SEARCH_GROUPS_LOADER = 22;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,12 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             loaderManager.restartLoader(SEARCH_GROUPS_LOADER, new Bundle(), this);
         }
+
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_SYNC);
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_GENERAL);
+
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -141,10 +149,16 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
+            Log.d(TAG, "onResume: onResume sync");
+            syncCompetitions();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.mMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem menuItemSearch = menu.findItem(R.id.search);
@@ -162,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             }
         });
+        updateMenuSyncText();
         return true;
     }
 
@@ -200,6 +215,23 @@ public class MainActivity extends AppCompatActivity implements
             GroupsDAO.insertCompetitions(this, response.body());
             //select all
             fillRecyclerview(GroupsDAO.queryAllCompetitions(this));
+            Log.d(TAG, "onResponse: syncDone");
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(getString(R.string.pref_last_udpate), Utils.formatDate(new Date().getTime()));
+            editor.putBoolean(getString(R.string.pref_need_update), false);
+            editor.apply();
+            updateMenuSyncText();
+
+        }
+    }
+
+    private void updateMenuSyncText() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String lastUpdate = preferences.getString(getString(R.string.pref_last_udpate), "");
+        if (mMenu!=null && !TextUtils.isEmpty(lastUpdate)) {
+            MenuItem item = mMenu.findItem(R.id.action_sync);
+            item.setTitle(getString(R.string.action_sync_with_date, lastUpdate));
         }
     }
 

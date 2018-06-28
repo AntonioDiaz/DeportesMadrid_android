@@ -1,5 +1,7 @@
 package com.adiaz.deportesmadrid.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by adiaz on 22/3/18.
  */
@@ -24,4 +26,11 @@ public class Constants {
     public static final String DESCANSA = "(descansa)";
 
     public static final String PATH_SEPARATOR = " > ";
+
+    public static final String TOPICS = "/topics/";
+    public static final String TOPICS_SYNC = "sync";
+    public static final String TOPICS_GENERAL = "general";
+
+
+
 }

@@ -25,11 +25,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".SplashActivity"
-            android:label="@string/title_activity_splash"
-            android:theme="@style/SplashTheme">
-        </activity>
         <activity android:name=".activities.DistrictActivity" />
         <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.CategoriesActivity" />
@@ -50,6 +45,25 @@
             android:name=".contentproviders.CompetitionsProvider"
             android:authorities="com.adiaz.deportesmadrid"
             android:exported="false" />
+
+        <service
+            android:name=".firebase.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>

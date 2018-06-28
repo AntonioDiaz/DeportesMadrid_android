@@ -57,6 +57,7 @@
     <string name="VOLEIBOL_IMG">ball_voleibol</string>
     <string name="WATERPOLO_IMG">ball_waterpolo</string>
     <string name="action_sync">Sincronizar</string>
+    <string name="action_sync_with_date">Sincronizar (%1$s)</string>
     <string name="action_preferences">Preferencias</string>
 
     <string name="pref_competitons_num_key">pref_competitons_num_key</string>
@@ -70,6 +71,11 @@
     <string name="pref_notifications_default">true</string>
     <string name="pref_notifications_summary_off">No mostrar</string>
     <string name="pref_notifications_summary_on">Mostrar</string>
+
+
+    <string name="pref_last_udpate">pref_last_update</string>
+    <string name="pref_need_update">pref_need_update</string>
+
 
     <string name="team_subtitle">Grupo: %1$s</string>
     <string name="team_details_tab_information">Información</string>
@@ -140,5 +146,6 @@
     <string name="calendar_title">%1$s, Jornada %2$s: %3$s - %4$s</string>
     <string name="match_description">Competición: %1$s (%2$s - %3$s). Jornada %4$s: %5$s - %6$s. Fecha: %7$s. Lugar: %8$s.</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="main_notification_channel_name">Primary</string>
 
 </resources>
