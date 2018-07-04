@@ -54,7 +54,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             holder.tvFase.setText(group.nomFase());
             holder.tvCompetition.setText(group.nomCompeticion());
             holder.tvPath.setText(group.deporte() + Constants.PATH_SEPARATOR + group.distrito() + Constants.PATH_SEPARATOR + group.categoria());
-            String teamName = mFavoritesList.get(position).idTeam();
+            String teamName = mFavoritesList.get(position).nameTeam();
             if (teamName!=null) {
                 holder.tvTeam.setText(teamName);
             }

@@ -61,11 +61,11 @@ public class FavoritesDAO {
         return favoriteFound;
     }
 
-    public static Favorite queryFavorite(Context context, String idCompetition, String idTeam) {
+    public static Favorite queryFavorite(Context context, String idCompetition, Long idTeam) {
         Favorite favoriteFound = null;
         String where = FavoritesEntry.COLUMN_ID_TEAM + "=?";
         where += "AND " + FavoritesEntry.COLUMN_ID_GROUP + "=?";
-        String[] selectionArgs = new String[]{idTeam, idCompetition};
+        String[] selectionArgs = new String[]{idTeam.toString(), idCompetition};
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(FavoritesEntry.CONTENT_URI,

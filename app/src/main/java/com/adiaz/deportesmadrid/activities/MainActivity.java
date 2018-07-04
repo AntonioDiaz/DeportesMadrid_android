@@ -35,6 +35,7 @@ import com.adiaz.deportesmadrid.retrofit.searchteams.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -112,10 +113,8 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             loaderManager.restartLoader(SEARCH_GROUPS_LOADER, new Bundle(), this);
         }
-
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_SYNC);
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_GENERAL);
-
     }
 
 
@@ -123,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent);
+        updateMenuSyncText();
     }
 
     private void handleIntent(Intent intent) {
@@ -222,17 +222,19 @@ public class MainActivity extends AppCompatActivity implements
             editor.putBoolean(getString(R.string.pref_need_update), false);
             editor.apply();
             updateMenuSyncText();
-
         }
     }
 
     private void updateMenuSyncText() {
+        Log.d(TAG, "updateMenuSyncText: ");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lastUpdate = preferences.getString(getString(R.string.pref_last_udpate), "");
-        if (mMenu!=null && !TextUtils.isEmpty(lastUpdate)) {
-            MenuItem item = mMenu.findItem(R.id.action_sync);
-            item.setTitle(getString(R.string.action_sync_with_date, lastUpdate));
+        String syncMenu = getString(R.string.action_sync);
+        if (UtilsPreferences.isShowCompetitionsNumber(this) && mMenu!=null && !TextUtils.isEmpty(lastUpdate)) {
+            syncMenu = getString(R.string.action_sync_with_date, lastUpdate);
         }
+        MenuItem item = mMenu.findItem(R.id.action_sync);
+        item.setTitle(syncMenu);
     }
 
     @Override
@@ -306,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements
         TeamSearch teamSearch = mTeamsSearch.get(clickedItemIndex);
         Intent intent = new Intent(this, TeamDetailsActivity.class);
         intent.putExtra(Constants.ID_COMPETITION, teamSearch.getIdGroup());
-        intent.putExtra(Constants.ID_TEAM, teamSearch.getTeamName());
+        intent.putExtra(Constants.TEAM_ID, teamSearch.getTeamName());
         startActivity(intent);
     }
 

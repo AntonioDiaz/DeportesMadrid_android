@@ -118,18 +118,21 @@ public class DbContract {
         public static final String TABLE_NAME = "Favorites";
         public static final String COLUMN_ID_GROUP = "id_group";
         public static final String COLUMN_ID_TEAM = "id_team";
+        public static final String COLUMN_NAME_TEAM = "name_team";
 
-        public static final String[] PROJECTION = {_ID, COLUMN_ID_GROUP, COLUMN_ID_TEAM};
+        public static final String[] PROJECTION = {_ID, COLUMN_ID_GROUP, COLUMN_ID_TEAM, COLUMN_NAME_TEAM};
         public static final int INDEX_ID = 0;
         public static final int INDEX_ID_GROUP = 1;
         public static final int INDEX_ID_TEAM = 2;
+        public static final int INDEX_NAME_TEAM = 3;
 
 
         public static Favorite initEntity(Cursor cursor) {
             return Favorite.builder()
                     .id(cursor.getLong(INDEX_ID))
                     .idGroup(cursor.getString(INDEX_ID_GROUP))
-                    .idTeam(cursor.getString(INDEX_ID_TEAM)).build();
+                    .idTeam(cursor.isNull(INDEX_NAME_TEAM) ? null : cursor.getLong(INDEX_ID_TEAM))
+                    .nameTeam(cursor.getString(INDEX_NAME_TEAM)).build();
         }
 
         public static ContentValues entityToContentValues(Favorite favorite) {
@@ -137,6 +140,7 @@ public class DbContract {
             cv.put(_ID, favorite.id());
             cv.put(COLUMN_ID_GROUP, favorite.idGroup());
             cv.put(COLUMN_ID_TEAM, favorite.idTeam());
+            cv.put(COLUMN_NAME_TEAM, favorite.nameTeam());
             return cv;
         }
     }

@@ -23,10 +23,10 @@ public class MatchRetrofit {
     private Integer idPlace;
     @SerializedName("teamLocal")
     @Expose
-    private TeamLocal teamLocal;
+    private Team teamLocal;
     @SerializedName("teamVisitor")
     @Expose
-    private TeamVisitor teamVisitor;
+    private Team teamVisitor;
     @SerializedName("place")
     @Expose
     private Place place;
@@ -92,19 +92,19 @@ public class MatchRetrofit {
         this.idPlace = idPlace;
     }
 
-    public TeamLocal getTeamLocal() {
+    public Team getTeamLocal() {
         return teamLocal;
     }
 
-    public void setTeamLocal(TeamLocal teamLocal) {
+    public void setTeamLocal(Team teamLocal) {
         this.teamLocal = teamLocal;
     }
 
-    public TeamVisitor getTeamVisitor() {
+    public Team getTeamVisitor() {
         return teamVisitor;
     }
 
-    public void setTeamVisitor(TeamVisitor teamVisitor) {
+    public void setTeamVisitor(Team teamVisitor) {
         this.teamVisitor = teamVisitor;
     }
 

@@ -17,8 +17,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
@@ -73,7 +71,8 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
     DeportesMadridFragmentStatePagerAdapter adapter;
 
     String mIdGroup;
-    String mIdTeam;
+    Long mTeamId;
+    String mTeamName;
     List<ClassificationRetrofit> classificationRetrofitList;
     List<MatchRetrofit> matchesRetrofitList;
     Group mGroup;
@@ -88,12 +87,13 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         ButterKnife.bind(this);
         mIdGroup = getIntent().getStringExtra(Constants.ID_COMPETITION);
         mGroup = GroupsDAO.queryCompetitionsById(this, mIdGroup);
-        mIdTeam = getIntent().getStringExtra(Constants.ID_TEAM);
+        mTeamId = getIntent().getLongExtra(Constants.TEAM_ID, 0L);
+        mTeamName = getIntent().getStringExtra(Constants.TEAM_NAME);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(mIdTeam);
+            getSupportActionBar().setTitle(mTeamName);
             getSupportActionBar().setSubtitle(getString(R.string.team_subtitle, mGroup.nomGrupo()));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -122,7 +122,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         getMenuInflater().inflate(R.menu.menu_favorites, menu);
         for (int i = 0; i < menu.size(); i++) {
             if (menu.getItem(i).getItemId() == R.id.action_favorites) {
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mIdTeam);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mTeamId);
                 if (favorite!=null) {
                     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                     Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
@@ -143,13 +143,13 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
             case R.id.action_favorites:
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                 Drawable drawable;
-                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mIdTeam);
+                Favorite favorite = FavoritesDAO.queryFavorite(this, mIdGroup, mTeamId);
                 if (favorite != null) {
                     FavoritesDAO.deleteFavorite(this, favorite.id());
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_empty);
                     Toast.makeText(this, R.string.favorites_team_removed, Toast.LENGTH_SHORT).show();
                 } else {
-                    Favorite newFavorite = Favorite.builder().idGroup(mIdGroup).idTeam(mIdTeam).build();
+                    Favorite newFavorite = Favorite.builder().idGroup(mIdGroup).idTeam(mTeamId).nameTeam(mTeamName).build();
                     FavoritesDAO.insertFavorite(this, newFavorite);
                     drawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_fill);
                     Toast.makeText(this, R.string.favorites_team_added, Toast.LENGTH_SHORT).show();
@@ -179,17 +179,17 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         matchesRetrofitList = new ArrayList<>();
         if (groupDetailsRetrofit.getMatchRetrofits() != null) {
             for (MatchRetrofit matchRetrofitEntity : groupDetailsRetrofit.getMatchRetrofits()) {
-                if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam))
-                        || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam))) {
+                if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getId().equals(mTeamId))
+                        || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mTeamId))) {
                     matchesRetrofitList.add(matchRetrofitEntity);
                     if (mTeam==null) {
                         mTeam = new Team();
-                        if (matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getName().equals(mIdTeam)) {
+                        if (matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getId().equals(mTeamId)) {
                             mTeam.setId(matchRetrofitEntity.getTeamLocal().getId());
                             mTeam.setName(matchRetrofitEntity.getTeamLocal().getName());
                             mTeam.setGroups(matchRetrofitEntity.getTeamLocal().getGroups());
                         }
-                        if (matchRetrofitEntity.getTeamVisitor()!=null && matchRetrofitEntity.getTeamVisitor().getName().equals(mIdTeam)) {
+                        if (matchRetrofitEntity.getTeamVisitor()!=null && matchRetrofitEntity.getTeamVisitor().getId().equals(mTeamId)) {
                             mTeam.setId(matchRetrofitEntity.getTeamVisitor().getId());
                             mTeam.setName(matchRetrofitEntity.getTeamVisitor().getName());
                             mTeam.setGroups(matchRetrofitEntity.getTeamVisitor().getGroups());

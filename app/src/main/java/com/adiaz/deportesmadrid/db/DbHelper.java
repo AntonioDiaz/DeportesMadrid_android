@@ -16,7 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "deportesMadrid.db";
     public static final String REFRESH_BROADCAST = "REFRESH_COMPETITIONS_BROADCAST";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
     private Context mContext;
 
 
@@ -48,7 +48,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         "(" +
                         FavoritesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         FavoritesEntry.COLUMN_ID_GROUP + " INTEGER NOT NULL, " +
-                        FavoritesEntry.COLUMN_ID_TEAM + " TEXT " +
+                        FavoritesEntry.COLUMN_ID_TEAM + " INTEGER, " +
+                        FavoritesEntry.COLUMN_NAME_TEAM + " TEXT " +
                         ") ";
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_GROUPS);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_FAVORITES);

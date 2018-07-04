@@ -17,6 +17,7 @@ import com.adiaz.deportesmadrid.activities.TeamDetailsActivity;
 import com.adiaz.deportesmadrid.adapters.GenericAdapter;
 import com.adiaz.deportesmadrid.callbacks.CompetitionCallback;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 
@@ -35,7 +36,7 @@ public class TabGroupTeams extends Fragment implements GenericAdapter.ListItemCl
     RecyclerView rvTeams;
 
     CompetitionCallback mCompetitionCallback;
-    private ArrayList<String> teamsNamesList;
+    private ArrayList<Team> teamsNamesList;
 
     @Override
     public void onAttach(Context context) {
@@ -58,22 +59,22 @@ public class TabGroupTeams extends Fragment implements GenericAdapter.ListItemCl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Set<String> teamsSet = new HashSet<>();
+        Set<Team> teamsSet = new HashSet<>();
         for (MatchRetrofit matchRetrofit : mCompetitionCallback.queryMatchesList()) {
             if (matchRetrofit.getTeamLocal()!=null) {
-                teamsSet.add(matchRetrofit.getTeamLocal().getName());
+                teamsSet.add(matchRetrofit.getTeamLocal());
             }
             if (matchRetrofit.getTeamVisitor()!=null) {
-                teamsSet.add(matchRetrofit.getTeamVisitor().getName());
+                teamsSet.add(matchRetrofit.getTeamVisitor());
             }
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         teamsNamesList = new ArrayList<>(teamsSet);
-        Collections.sort(teamsNamesList);
+        Collections.sort(teamsNamesList, (team, t1) -> team.getName().compareTo(t1.getName()));
         List<ListItem> elements = new ArrayList<>();
         int i = 0;
-        for (String s : teamsNamesList) {
-            elements.add(new ListItem(s, Integer.toString(i++)));
+        for (Team s : teamsNamesList) {
+            elements.add(new ListItem(s.getName(), Integer.toString(i++)));
         }
         GenericAdapter genericAdapter = new GenericAdapter(this.getContext(), this, elements);
         rvTeams.setHasFixedSize(true);
@@ -86,7 +87,8 @@ public class TabGroupTeams extends Fragment implements GenericAdapter.ListItemCl
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this.getContext(), TeamDetailsActivity.class);
         intent.putExtra(Constants.ID_COMPETITION, GroupDetailsActivity.mIdGroup);
-        intent.putExtra(Constants.ID_TEAM, teamsNamesList.get(clickedItemIndex));
+        intent.putExtra(Constants.TEAM_ID, teamsNamesList.get(clickedItemIndex).getId());
+        intent.putExtra(Constants.TEAM_NAME, teamsNamesList.get(clickedItemIndex).getName());
         startActivity(intent);
     }
 }

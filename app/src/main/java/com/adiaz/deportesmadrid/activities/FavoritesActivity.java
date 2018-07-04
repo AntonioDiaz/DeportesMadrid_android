@@ -13,13 +13,11 @@ import android.widget.TextView;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
-import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.daos.FavoritesDAO;
-import com.adiaz.deportesmadrid.db.entities.Group;
+import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
+import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -84,11 +82,11 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     public void onListItemClick(int clickedItemIndex) {
         Favorite favorite = mFavoriteList.get(clickedItemIndex);
         String idCompetition = favorite.idGroup();
-        String teamName = favorite.idTeam();
-        if (StringUtils.isNotBlank(teamName)) {
+        if (favorite.idTeam()!=null) {
             Intent intent = new Intent(this, TeamDetailsActivity.class);
             intent.putExtra(Constants.ID_COMPETITION, idCompetition);
-            intent.putExtra(Constants.ID_TEAM, teamName);
+            intent.putExtra(Constants.TEAM_ID, favorite.idTeam());
+            intent.putExtra(Constants.TEAM_NAME, favorite.nameTeam());
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, GroupDetailsActivity.class);
