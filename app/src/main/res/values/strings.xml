@@ -149,6 +149,7 @@
     <string name="main_notification_channel_name">Primary</string>
 
     <string name="update_notification_title">Deportes Madrid: actualización</string>
+    <string name="general_notification_title">Deportes Madrid</string>
     <string name="update_competition_notification_body">Competición: <b>%1$s</b> (%2$s - %3$s).</string>
     <string name="update_team_notification_body">Equipo: <b>%1$s</b> (%2$s - %3$s).</string>
 

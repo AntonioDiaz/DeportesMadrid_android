@@ -130,11 +130,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-
-            String teamName = intent.getStringExtra(SearchManager.QUERY).toLowerCase();
-            teamName = teamName.replace("ñ", "\001");
-            teamName = StringUtils.stripAccents(teamName);
-            teamName = teamName.replace("\001", "ñ");
+            String teamName = intent.getStringExtra(SearchManager.QUERY).toUpperCase();
             if (mProgressDialogSearch==null) {
                 mProgressDialogSearch = new ProgressDialog(MainActivity.this);
                 mProgressDialogSearch.setTitle(getString(R.string.loading_search));

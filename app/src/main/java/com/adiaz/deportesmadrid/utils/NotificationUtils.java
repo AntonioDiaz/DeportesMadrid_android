@@ -25,10 +25,10 @@ public class NotificationUtils {
     private static final int UPDATED_COMPETITION_PENDING_INTENT_ID = 124;
     private static final int UPDATED_COMPETITION_NOTIFICATION_ID = 1213;
 
-    public static final void showNotificationGeneral(Context context) {
+    public static final void showNotificationGeneral(Context context, String msg) {
         NotificationManager notificationManager = getNotificationManager(context);
-        String notificationTitle = context.getString(R.string.update_notification_title);
-        String notificationBody = "body";
+        String notificationTitle = context.getString(R.string.general_notification_title);
+        String notificationBody = msg;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, UPDATE_GROUP_CHANNEL_ID)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setSmallIcon(R.drawable.ic_notification)
