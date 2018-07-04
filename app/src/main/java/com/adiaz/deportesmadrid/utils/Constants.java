@@ -1,7 +1,5 @@
 package com.adiaz.deportesmadrid.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Created by adiaz on 22/3/18.
  */
@@ -32,5 +30,6 @@ public class Constants {
     public static final String TOPICS_SYNC = "sync";
     public static final String TOPICS_GENERAL = "general";
 
-
+    public static final String TEAMS_UPDATED_SEPARATOR = "_";
+    public static final String GROUPS_UPDATED_SEPARATOR = "-";
 }

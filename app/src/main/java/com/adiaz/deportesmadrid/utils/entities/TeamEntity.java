@@ -1,22 +1,22 @@
 package com.adiaz.deportesmadrid.utils.entities;
 
 
-public class TeamSearch {
-    Integer idTeam;
+public class TeamEntity {
+    Long idTeam;
     String teamName;
     String idGroup;
 
-    public TeamSearch(Integer idTeam, String teamName, String idGroup) {
+    public TeamEntity(Long idTeam, String teamName, String idGroup) {
         this.idTeam = idTeam;
         this.teamName = teamName;
         this.idGroup = idGroup;
     }
 
-    public Integer getIdTeam() {
+    public Long getIdTeam() {
         return idTeam;
     }
 
-    public void setIdTeam(Integer idTeam) {
+    public void setIdTeam(Long idTeam) {
         this.idTeam = idTeam;
     }
 

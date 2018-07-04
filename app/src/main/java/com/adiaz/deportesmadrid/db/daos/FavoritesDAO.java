@@ -80,4 +80,23 @@ public class FavoritesDAO {
         }
         return favoriteFound;
     }
+
+    public static Favorite queryFavorite(Context context, Long idTeam) {
+        Favorite favoriteFound = null;
+        String where = FavoritesEntry.COLUMN_ID_TEAM + "=?";
+        String[] selectionArgs = new String[]{idTeam.toString()};
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(FavoritesEntry.CONTENT_URI,
+                    FavoritesEntry.PROJECTION, where, selectionArgs, null);
+            if (cursor!=null && cursor.moveToNext()) {
+                favoriteFound = FavoritesEntry.initEntity(cursor);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return favoriteFound;
+    }
 }

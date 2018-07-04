@@ -2,7 +2,7 @@ package com.adiaz.deportesmadrid.retrofit;
 
 import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.GroupDetailsRetrofit;
-import com.adiaz.deportesmadrid.retrofit.searchteams.Team;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 
 import java.util.List;
 

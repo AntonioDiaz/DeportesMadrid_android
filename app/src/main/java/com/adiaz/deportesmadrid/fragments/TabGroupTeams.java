@@ -20,6 +20,7 @@ import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
+import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +75,11 @@ public class TabGroupTeams extends Fragment implements GenericAdapter.ListItemCl
         List<ListItem> elements = new ArrayList<>();
         int i = 0;
         for (Team s : teamsNamesList) {
-            elements.add(new ListItem(s.getName(), Integer.toString(i++)));
+            String teamName = s.getName();
+            if (UtilsPreferences.isShowCompetitionsNumber(getContext())) {
+                teamName += " (" + s.getId() + ")";
+            }
+            elements.add(new ListItem(teamName, Integer.toString(i++)));
         }
         GenericAdapter genericAdapter = new GenericAdapter(this.getContext(), this, elements);
         rvTeams.setHasFixedSize(true);

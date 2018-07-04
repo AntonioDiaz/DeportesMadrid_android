@@ -13,7 +13,7 @@ import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.utils.Constants;
-import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
+import com.adiaz.deportesmadrid.utils.entities.TeamEntity;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ public class TeamSearchAdapter extends RecyclerView.Adapter<TeamSearchAdapter.Vi
 
     Context mContext;
     TeamSearchAdapter.ListItemClickListener mListItemClickListener;
-    List<TeamSearch> mTeams;
+    List<TeamEntity> mTeams;
 
-    public TeamSearchAdapter(Context mContext, ListItemClickListener mListItemClickListener, List<TeamSearch> mTeams) {
+    public TeamSearchAdapter(Context mContext, ListItemClickListener mListItemClickListener, List<TeamEntity> mTeams) {
         this.mContext = mContext;
         this.mListItemClickListener = mListItemClickListener;
         this.mTeams = mTeams;

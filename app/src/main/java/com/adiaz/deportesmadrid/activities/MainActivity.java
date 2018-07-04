@@ -31,12 +31,12 @@ import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Group;
 import com.adiaz.deportesmadrid.retrofit.RetrofitApi;
 import com.adiaz.deportesmadrid.retrofit.groupslist.GroupRetrofitEntity;
-import com.adiaz.deportesmadrid.retrofit.searchteams.Team;
+import com.adiaz.deportesmadrid.retrofit.groupsdetails.Team;
 import com.adiaz.deportesmadrid.utils.Constants;
 import com.adiaz.deportesmadrid.utils.ListItem;
 import com.adiaz.deportesmadrid.utils.Utils;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
-import com.adiaz.deportesmadrid.utils.entities.TeamSearch;
+import com.adiaz.deportesmadrid.utils.entities.TeamEntity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
     private List<ListItem> elementsList;
     private ProgressDialog mProgressDialog;
     private ProgressDialog mProgressDialogSearch;
-    private List<TeamSearch> mTeamsSearch;
+    private List<TeamEntity> mTeamsSearch;
     private static final Integer SEARCH_GROUPS_LOADER = 22;
     private Menu mMenu;
 
@@ -226,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void updateMenuSyncText() {
-        Log.d(TAG, "updateMenuSyncText: ");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String lastUpdate = preferences.getString(getString(R.string.pref_last_udpate), "");
         String syncMenu = getString(R.string.action_sync);
@@ -305,10 +304,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onListItemClickTeamSearch(int clickedItemIndex) {
-        TeamSearch teamSearch = mTeamsSearch.get(clickedItemIndex);
+        TeamEntity teamEntity = mTeamsSearch.get(clickedItemIndex);
         Intent intent = new Intent(this, TeamDetailsActivity.class);
-        intent.putExtra(Constants.ID_COMPETITION, teamSearch.getIdGroup());
-        intent.putExtra(Constants.TEAM_ID, teamSearch.getTeamName());
+        intent.putExtra(Constants.ID_COMPETITION, teamEntity.getIdGroup());
+        intent.putExtra(Constants.TEAM_ID, teamEntity.getIdTeam());
+        intent.putExtra(Constants.TEAM_NAME, teamEntity.getTeamName());
         startActivity(intent);
     }
 
@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements
                     mTeamsSearch = new ArrayList<>();
                     for (Team team : response.body()) {
                         for (String idGroup : team.getGroups()) {
-                           mTeamsSearch.add(new TeamSearch(team.getId(), team.getName(), idGroup));
+                           mTeamsSearch.add(new TeamEntity(team.getId(), team.getName(), idGroup));
                         }
                     }
                     LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
