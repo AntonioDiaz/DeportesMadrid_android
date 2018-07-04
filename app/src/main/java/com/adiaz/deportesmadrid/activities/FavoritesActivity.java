@@ -30,7 +30,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     RecyclerView rvFavorites;
 
     @BindView(R.id.tv_empty_list)
-    TextView tvEmpty;
+    View tvEmpty;
 
     @BindView(R.id.my_toolbar)
     Toolbar toolbar;

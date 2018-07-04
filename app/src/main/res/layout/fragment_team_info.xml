@@ -276,7 +276,7 @@
         android:id="@+id/cv_next_week_finished"
         style="@style/main_list_generic"
         android:layout_marginTop="16dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

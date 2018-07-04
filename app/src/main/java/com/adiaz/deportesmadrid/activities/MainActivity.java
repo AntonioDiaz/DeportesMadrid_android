@@ -39,6 +39,9 @@ import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 import com.adiaz.deportesmadrid.utils.entities.TeamEntity;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
     RecyclerView rvSearchResults;
 
     @BindView(R.id.tv_empty_list)
-    TextView tvEmptyList;
+    View tvEmptyList;
 
     private List<ListItem> elementsList;
     private ProgressDialog mProgressDialog;
@@ -127,7 +130,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String teamName = intent.getStringExtra(SearchManager.QUERY);
+
+            String teamName = intent.getStringExtra(SearchManager.QUERY).toLowerCase();
+            teamName = teamName.replace("ñ", "\001");
+            teamName = StringUtils.stripAccents(teamName);
+            teamName = teamName.replace("\001", "ñ");
             if (mProgressDialogSearch==null) {
                 mProgressDialogSearch = new ProgressDialog(MainActivity.this);
                 mProgressDialogSearch.setTitle(getString(R.string.loading_search));
