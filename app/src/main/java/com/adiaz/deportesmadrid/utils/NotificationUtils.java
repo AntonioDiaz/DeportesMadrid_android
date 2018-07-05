@@ -18,6 +18,8 @@ import com.adiaz.deportesmadrid.db.daos.GroupsDAO;
 import com.adiaz.deportesmadrid.db.entities.Favorite;
 import com.adiaz.deportesmadrid.db.entities.Group;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class NotificationUtils {
 
     private static final String UPDATE_GROUP_CHANNEL_ID = "update_group_chanel_id";
@@ -25,10 +27,14 @@ public class NotificationUtils {
     private static final int UPDATED_COMPETITION_PENDING_INTENT_ID = 124;
     private static final int UPDATED_COMPETITION_NOTIFICATION_ID = 1213;
 
-    public static final void showNotificationGeneral(Context context, String msg) {
+    public static final void showNotificationGeneral(Context context, String title, String body) {
         NotificationManager notificationManager = getNotificationManager(context);
+
         String notificationTitle = context.getString(R.string.general_notification_title);
-        String notificationBody = msg;
+        if (StringUtils.isNotEmpty(title)) {
+            notificationTitle = title;
+        }
+        String notificationBody = body;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, UPDATE_GROUP_CHANNEL_ID)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setSmallIcon(R.drawable.ic_notification)

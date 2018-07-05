@@ -56,8 +56,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 case Constants.TOPICS + Constants.TOPICS_GENERAL:
                     if (UtilsPreferences.showNotifications(this)) {
                         Map<String, String> data = remoteMessage.getData();
-                        String notificationMessage = data.get("notification_message");
-                        NotificationUtils.showNotificationGeneral(getApplicationContext(), notificationMessage);
+                        String title = data.get("title");
+                        String body = data.get("body");
+                        NotificationUtils.showNotificationGeneral(getApplicationContext(), title, body);
                     }
                     break;
             }
