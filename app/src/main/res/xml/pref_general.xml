@@ -15,4 +15,11 @@
         android:summaryOn="@string/pref_competitions_num_summary_on"
         android:title="@string/pref_notifications_title" />
 
+    <ListPreference
+        android:defaultValue="@string/pref_year_default"
+        android:entries="@array/pref_year_option_labels"
+        android:entryValues="@array/pref_year_option_values"
+        android:key="@string/pref_year_key"
+        android:title="@string/pref_year_title" />
+
 </PreferenceScreen>

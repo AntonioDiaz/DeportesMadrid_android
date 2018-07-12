@@ -2,6 +2,8 @@ package com.adiaz.deportesmadrid.utils;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -76,4 +78,16 @@ public class Utils {
         return df.parse(dateStr);
     }
 
+    public static String getServerUrl(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String yearSelected = preferences.getString(context.getString(R.string.pref_year_key), context.getString(R.string.pref_year_default));
+        if (yearSelected.equals(context.getString(R.string.pref_year_2017_value))) {
+            return context.getString(R.string.url_2017);
+        } else if (yearSelected.equals(context.getString(R.string.pref_year_2018_value))) {
+            return context.getString(R.string.url_2018);
+        } else if (yearSelected.equals(context.getString(R.string.pref_year_2019_value))) {
+            return context.getString(R.string.url_2019);
+        }
+        return context.getString(R.string.url_2019);
+    }
 }

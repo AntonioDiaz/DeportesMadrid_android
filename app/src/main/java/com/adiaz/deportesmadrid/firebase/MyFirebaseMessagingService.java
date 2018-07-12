@@ -15,9 +15,13 @@ import com.adiaz.deportesmadrid.utils.Utils;
 import com.adiaz.deportesmadrid.utils.UtilsPreferences;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 
+import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -35,10 +39,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         if (UtilsPreferences.showNotifications(this)) {
                             Map<String, String> data = remoteMessage.getData();
                             String updatedArray = data.get("teams_updated");
-                            for (String s : updatedArray.split(Constants.TEAMS_UPDATED_SEPARATOR)) {
-                                String[] teamAndGroupUpdated = s.split(Constants.GROUPS_UPDATED_SEPARATOR);
-                                Long idTeam =  Long.parseLong(teamAndGroupUpdated[0]);
-                                String idGroup = teamAndGroupUpdated[1];
+                            Gson gson = new Gson();
+                            Type listType = new TypeToken<List<List<String>>>() {}.getType();
+                            List<List<String>> teamsUpdated = gson.fromJson(updatedArray, listType);
+                            for (List<String> strings : teamsUpdated) {
+                                Long idTeam =  Long.parseLong(strings.get(0));
+                                String idGroup = strings.get(1);
                                 Favorite favoriteGroup = FavoritesDAO.queryFavorite(getApplicationContext(), idGroup);
                                 if (favoriteGroup!=null) {
                                     Group group = GroupsDAO.queryCompetitionsById(getApplicationContext(), idGroup);

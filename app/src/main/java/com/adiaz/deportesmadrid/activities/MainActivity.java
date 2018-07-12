@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements
         SportsAdapter.ListItemClickListener,
         FavoritesAdapter.ListItemClickListener,
         TeamSearchAdapter.ListItemClickListener,
-        LoaderManager.LoaderCallbacks<List<Group>> {
+        LoaderManager.LoaderCallbacks<List<Group>>,
+        SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -92,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements
     private List<TeamEntity> mTeamsSearch;
     private static final Integer SEARCH_GROUPS_LOADER = 22;
     private Menu mMenu;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppThemeNoActionBar);
@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             toolbar.setLogo(R.mipmap.ic_launcher);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String prefYear = preferences.getString(getString(R.string.pref_year_key), getString(R.string.pref_year_default));
+            toolbar.setTitle(getString(R.string.app_name) + " - " + prefYear);
         }
         //showLoading();
         handleIntent(getIntent());
@@ -118,7 +121,9 @@ public class MainActivity extends AppCompatActivity implements
         }
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_SYNC);
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_GENERAL);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
+
 
 
     @Override
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements
             }
             mProgressDialogSearch.show();
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.SERVER_URL)
+                    .baseUrl(Utils.getServerUrl(this))
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
@@ -152,6 +157,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if (getSupportActionBar() != null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String prefYear = preferences.getString(getString(R.string.pref_year_key), getString(R.string.pref_year_default));
+            toolbar.setTitle(getString(R.string.app_name) + " - " + prefYear);
+        }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
             Log.d(TAG, "onResume: onResume sync");
@@ -201,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements
     public void syncCompetitions() {
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.SERVER_URL)
+                .baseUrl(Utils.getServerUrl(getApplicationContext()))
                 .addConverterFactory(GsonConverterFactory.create())
                 //.client(httpClient.build())
                 .build();
@@ -242,6 +252,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFailure(Call<List<GroupRetrofitEntity>> call, Throwable t) {
         Log.d(TAG, "onFailure: peto" + t.getMessage());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void fillRecyclerview(List<Group> competitionList) {
@@ -343,6 +360,15 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<List<Group>> loader) { }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d(TAG, "onSharedPreferenceChanged: " + key);
+        if (key.equals(getString(R.string.pref_year_key))) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            preferences.edit().putBoolean(getString(R.string.pref_need_update),true).apply();
+        }
+    }
 
     class SearchTeamCallBack implements Callback<List<Team>> {
 

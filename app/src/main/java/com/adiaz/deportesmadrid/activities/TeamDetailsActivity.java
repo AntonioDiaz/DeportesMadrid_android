@@ -111,7 +111,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         showLoading();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create()).build();
+                .baseUrl(Utils.getServerUrl(getApplicationContext())).addConverterFactory(GsonConverterFactory.create()).build();
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
         Call<GroupDetailsRetrofit> callCompetitionDetails = retrofitApi.findGroup(mIdGroup);
         callCompetitionDetails.enqueue(new CallbackRequest());
@@ -180,7 +180,7 @@ public class TeamDetailsActivity extends AppCompatActivity implements Competitio
         if (groupDetailsRetrofit.getMatchRetrofits() != null) {
             for (MatchRetrofit matchRetrofitEntity : groupDetailsRetrofit.getMatchRetrofits()) {
                 if ((matchRetrofitEntity.getTeamLocal() != null && matchRetrofitEntity.getTeamLocal().getId().equals(mTeamId))
-                        || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getName().equals(mTeamId))) {
+                        || (matchRetrofitEntity.getTeamVisitor() != null && matchRetrofitEntity.getTeamVisitor().getId().equals(mTeamId))) {
                     matchesRetrofitList.add(matchRetrofitEntity);
                     if (mTeam==null) {
                         mTeam = new Team();

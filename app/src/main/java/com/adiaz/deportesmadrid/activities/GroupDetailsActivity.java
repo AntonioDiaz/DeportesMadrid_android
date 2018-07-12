@@ -132,7 +132,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements Competiti
                 httpClient.addInterceptor(logging);*/
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.SERVER_URL).addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Utils.getServerUrl(getApplicationContext())).addConverterFactory(GsonConverterFactory.create())
                 //.client(httpClient.build())
                 .build();
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);

@@ -58,6 +58,8 @@
 
 
     <style name="main_list_favorites" parent="customCardView">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
     </style>
 
 
