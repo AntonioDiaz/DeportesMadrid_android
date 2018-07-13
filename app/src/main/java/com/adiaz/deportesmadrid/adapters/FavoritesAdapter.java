@@ -48,7 +48,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (mFavoritesList!=null) {
+        if (mFavoritesList!=null && mFavoritesList.size()>=position) {
             Group group = GroupsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idGroup());
             holder.tvGroup.setText(group.nomGrupo());
             holder.tvFase.setText(group.nomFase());

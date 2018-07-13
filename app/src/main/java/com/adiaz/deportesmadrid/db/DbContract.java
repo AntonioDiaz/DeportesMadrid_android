@@ -131,7 +131,7 @@ public class DbContract {
             return Favorite.builder()
                     .id(cursor.getLong(INDEX_ID))
                     .idGroup(cursor.getString(INDEX_ID_GROUP))
-                    .idTeam(cursor.isNull(INDEX_NAME_TEAM) ? null : cursor.getLong(INDEX_ID_TEAM))
+                    .idTeam(cursor.isNull(INDEX_ID_TEAM) ? null : cursor.getLong(INDEX_ID_TEAM))
                     .nameTeam(cursor.getString(INDEX_NAME_TEAM)).build();
         }
 

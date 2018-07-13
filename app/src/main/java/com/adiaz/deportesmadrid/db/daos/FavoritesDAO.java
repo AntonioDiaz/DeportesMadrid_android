@@ -25,13 +25,21 @@ public class FavoritesDAO {
     }
 
     public static List<Favorite> queryFavorites(Context context) {
+        return queryFavoritesYear(context, null);
+    }
+
+
+    public static List<Favorite> queryFavoritesYear(Context context, String year) {
         List<Favorite> favorites = new ArrayList<>();
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(FavoritesEntry.CONTENT_URI,
                     FavoritesEntry.PROJECTION, null, null, null);
             while (cursor!=null && cursor.moveToNext()) {
-                favorites.add(FavoritesEntry.initEntity(cursor));
+                Favorite favorite = FavoritesEntry.initEntity(cursor);
+                if (year==null || favorite.idGroup().startsWith(year)) {
+                    favorites.add(favorite);
+                }
             }
         } finally {
             if (cursor!=null) {

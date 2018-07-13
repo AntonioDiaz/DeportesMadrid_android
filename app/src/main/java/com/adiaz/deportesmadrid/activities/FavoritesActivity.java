@@ -1,7 +1,9 @@
 package com.adiaz.deportesmadrid.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adiaz.deportesmadrid.R;
 import com.adiaz.deportesmadrid.adapters.FavoritesAdapter;
@@ -62,7 +65,9 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     @Override
     protected void onResume() {
         super.onResume();
-        mFavoriteList = FavoritesDAO.queryFavorites(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String yearSelected = preferences.getString(this.getString(R.string.pref_year_key), this.getString(R.string.pref_year_default));
+        mFavoriteList = FavoritesDAO.queryFavoritesYear(this, yearSelected);
         rvFavorites.setVisibility(View.GONE);
         tvEmpty.setVisibility(View.GONE);
         if (mFavoriteList.size()==0) {
@@ -91,9 +96,13 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
         } else {
             Intent intent = new Intent(this, GroupDetailsActivity.class);
             Group group = GroupsDAO.queryCompetitionsById(this, idCompetition);
-            intent.putExtra(Constants.ID_COMPETITION, idCompetition);
-            intent.putExtra(Constants.NAME_COMPETITION, group.nomGrupo());
-            startActivity(intent);
+            if (group!=null) {
+                intent.putExtra(Constants.ID_COMPETITION, idCompetition);
+                intent.putExtra(Constants.NAME_COMPETITION, group.nomGrupo());
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, getString(R.string.error_getting_data), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
