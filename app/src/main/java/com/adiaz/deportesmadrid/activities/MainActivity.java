@@ -102,9 +102,7 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             toolbar.setLogo(R.mipmap.ic_launcher);
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String prefYear = preferences.getString(getString(R.string.pref_year_key), getString(R.string.pref_year_default));
-            toolbar.setTitle(getString(R.string.app_name) + " - " + prefYear);
+            toolbar.setTitle(getString(R.string.app_name));
         }
         //showLoading();
         handleIntent(getIntent());
@@ -158,9 +156,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         if (getSupportActionBar() != null) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String prefYear = preferences.getString(getString(R.string.pref_year_key), getString(R.string.pref_year_default));
-            toolbar.setTitle(getString(R.string.app_name) + " - " + prefYear);
+            toolbar.setSubtitle(Utils.getYearDesc(this));
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {

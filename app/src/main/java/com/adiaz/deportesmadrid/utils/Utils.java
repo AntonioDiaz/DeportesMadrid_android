@@ -90,4 +90,17 @@ public class Utils {
         }
         return context.getString(R.string.url_2019);
     }
+
+    public static String getYearDesc(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String yearSelected = preferences.getString(context.getString(R.string.pref_year_key), context.getString(R.string.pref_year_default));
+        if (yearSelected.equals(context.getString(R.string.pref_year_2017_value))) {
+            return context.getString(R.string.pref_year_2017_label);
+        } else if (yearSelected.equals(context.getString(R.string.pref_year_2018_value))) {
+            return context.getString(R.string.pref_year_2018_label);
+        } else if (yearSelected.equals(context.getString(R.string.pref_year_2019_value))) {
+            return context.getString(R.string.pref_year_2019_label);
+        }
+        return context.getString(R.string.pref_year_2019_label);
+    }
 }
