@@ -1,5 +1,6 @@
 package com.adiaz.deportesmadrid.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +32,8 @@ import butterknife.ButterKnife;
 
 public class FavoritesActivity extends AppCompatActivity implements FavoritesAdapter.ListItemClickListener {
 
+    public static final String TAG = FavoritesActivity.class.getSimpleName();
+
     @BindView(R.id.rv_favorites)
     RecyclerView rvFavorites;
 
@@ -39,6 +44,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     Toolbar toolbar;
 
     private List<Favorite> mFavoriteList;
+    private FavoritesAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,21 +71,41 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesAda
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String yearSelected = preferences.getString(this.getString(R.string.pref_year_key), this.getString(R.string.pref_year_default));
-        mFavoriteList = FavoritesDAO.queryFavoritesYear(this, yearSelected);
+        updateRecyclerView(this, this);
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Favorite favorite = mFavoriteList.get(position);
+                FavoritesDAO.deleteFavorite(FavoritesActivity.this, favorite.id());
+                updateRecyclerView(FavoritesActivity.this, FavoritesActivity.this);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper((simpleCallback));
+        itemTouchHelper.attachToRecyclerView(rvFavorites);
+    }
+
+    private void updateRecyclerView(Context context, FavoritesAdapter.ListItemClickListener listItemClickListener ) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String yearSelected = preferences.getString(context.getString(R.string.pref_year_key), context.getString(R.string.pref_year_default));
+        mFavoriteList = FavoritesDAO.queryFavoritesYear(context, yearSelected);
         rvFavorites.setVisibility(View.GONE);
         tvEmpty.setVisibility(View.GONE);
         if (mFavoriteList.size()==0) {
             tvEmpty.setVisibility(View.VISIBLE);
         } else {
             rvFavorites.setVisibility(View.VISIBLE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            FavoritesAdapter favoritesAdapter = new FavoritesAdapter(this, this, mFavoriteList);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            mAdapter = new FavoritesAdapter(context, listItemClickListener, mFavoriteList);
             rvFavorites.setHasFixedSize(true);
             rvFavorites.setLayoutManager(layoutManager);
-            rvFavorites.setAdapter(favoritesAdapter);
-            favoritesAdapter.notifyDataSetChanged();
+            rvFavorites.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
     }
 

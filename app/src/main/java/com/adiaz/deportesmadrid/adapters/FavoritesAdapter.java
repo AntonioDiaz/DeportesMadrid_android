@@ -50,13 +50,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mFavoritesList!=null && mFavoritesList.size()>=position) {
             Group group = GroupsDAO.queryCompetitionsById(mContext, mFavoritesList.get(position).idGroup());
-            holder.tvGroup.setText(group.nomGrupo());
-            holder.tvFase.setText(group.nomFase());
-            holder.tvCompetition.setText(group.nomCompeticion());
-            holder.tvPath.setText(group.deporte() + Constants.PATH_SEPARATOR + group.distrito() + Constants.PATH_SEPARATOR + group.categoria());
-            String teamName = mFavoritesList.get(position).nameTeam();
-            if (teamName!=null) {
-                holder.tvTeam.setText(teamName);
+            if (group!=null) {
+                holder.tvGroup.setText(group.nomGrupo());
+                holder.tvFase.setText(group.nomFase());
+                holder.tvCompetition.setText(group.nomCompeticion());
+                holder.tvPath.setText(group.deporte() + Constants.PATH_SEPARATOR + group.distrito() + Constants.PATH_SEPARATOR + group.categoria());
+                String teamName = mFavoritesList.get(position).nameTeam();
+                if (teamName!=null) {
+                    holder.tvTeam.setText(teamName);
+                }
             }
         }
     }
