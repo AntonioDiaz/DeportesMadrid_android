@@ -1,2 +1,7 @@
-# DeportesMadrid_android
-App para Android para seguir las competiciones deportivas organizadas por el Ayuntamiento de Madrid.
+# LigasMadrid
+
+Android app to follow up sports competitions organized by the city council of Madrid.
+
+https://play.google.com/store/apps/details?id=com.adiaz.deportesmadrid
+
+
