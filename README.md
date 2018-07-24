@@ -4,6 +4,9 @@ Android app to follow up sports competitions organized by the city council of Ma
 
 https://play.google.com/store/apps/details?id=com.adiaz.deportesmadrid
 
+![home screen](https://antoniodiaz.github.io/LigasMadrid/images/01_screenshot.png)
+
+
 Tools 
 
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
