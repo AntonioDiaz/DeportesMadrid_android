@@ -5,13 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
 import com.adiaz.deportesmadrid.R;
-import com.adiaz.deportesmadrid.adapters.expandable.MatchChild;
-import com.adiaz.deportesmadrid.retrofit.groupsdetails.MatchRetrofit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -69,12 +66,12 @@ public class Utils {
     }
 
     public static String formatDate(Long dateLong) {
-        DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+        DateFormat df = new SimpleDateFormat(Constants.INSTANCE.getDATE_FORMAT());
         return df.format(dateLong);
     }
 
     public static Date parseDate(String dateStr) throws ParseException {
-        DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+        DateFormat df = new SimpleDateFormat(Constants.INSTANCE.getDATE_FORMAT());
         return df.parse(dateStr);
     }
 

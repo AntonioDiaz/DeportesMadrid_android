@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_listitem"
+        android:id="@+id/cardView"
         style="@style/main_list_generic">
 
         <android.support.constraint.ConstraintLayout
@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_listitem_title"
+                android:id="@+id/listitemTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

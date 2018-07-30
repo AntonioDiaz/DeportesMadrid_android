@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_group"
+        android:id="@+id/tvGroup"
         style="@style/list_values"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
@@ -44,10 +44,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_group_label" />
 
     <TextView
-        android:id="@+id/tv_fase"
+        android:id="@+id/tvFase"
         style="@style/list_values"
-        app:layout_constraintEnd_toEndOf="@+id/tv_group"
-        app:layout_constraintStart_toStartOf="@+id/tv_group"
+        app:layout_constraintEnd_toEndOf="@+id/tvGroup"
+        app:layout_constraintStart_toStartOf="@+id/tvGroup"
         app:layout_constraintTop_toTopOf="@+id/tv_label_fase"
         tools:text="@string/example_fase" />
 
@@ -61,10 +61,10 @@
         tools:text="@string/label_competition" />
 
     <TextView
-        android:id="@+id/tv_competition"
+        android:id="@+id/tvCompetition"
         style="@style/list_values"
-        app:layout_constraintEnd_toEndOf="@+id/tv_fase"
-        app:layout_constraintStart_toStartOf="@+id/tv_fase"
+        app:layout_constraintEnd_toEndOf="@+id/tvFase"
+        app:layout_constraintStart_toStartOf="@+id/tvFase"
         app:layout_constraintTop_toTopOf="@+id/tv_label_competition"
         tools:text="@string/example_competition" />
 

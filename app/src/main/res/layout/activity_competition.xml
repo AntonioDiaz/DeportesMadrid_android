@@ -1,5 +1,5 @@
 <RelativeLayout
-    android:id="@+id/view_competition"
+    android:id="@+id/mainView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,7 @@
     tools:context=".activities.GroupDetailsActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_competition_details"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -19,10 +19,10 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tl_competition_details"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_competition_details"
+        android:layout_below="@+id/toolbar"
         android:background="@color/colorPrimary"
         android:elevation="6dp"
         android:minHeight="?android:attr/actionBarSize"
@@ -31,10 +31,10 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tl_competition_details">
+        android:layout_below="@id/tabLayout">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/vp_competition_details"
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:visibility="invisible">

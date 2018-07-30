@@ -81,7 +81,7 @@
         style="@style/team_details"/>
 
     <me.grantland.widget.AutofitTextView
-        android:id="@+id/tv_competition"
+        android:id="@+id/tvCompetition"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -97,36 +97,36 @@
         style="@style/team_details_values" />
 
     <TextView
-        android:id="@+id/tv_sport"
+        android:id="@+id/tvSportName"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_label_sport"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tv_competition"
+        app:layout_constraintStart_toStartOf="@+id/tvCompetition"
         app:layout_constraintTop_toTopOf="@+id/tv_label_sport"
         tools:text="Baloncesto"
         style="@style/team_details_values" />
 
     <TextView
-        android:id="@+id/tv_district"
+        android:id="@+id/tvDistrict"
         app:layout_constraintBottom_toBottomOf="@+id/tv_label_district"
-        app:layout_constraintEnd_toEndOf="@+id/tv_sport"
-        app:layout_constraintStart_toStartOf="@+id/tv_sport"
+        app:layout_constraintEnd_toEndOf="@+id/tvSportName"
+        app:layout_constraintStart_toStartOf="@+id/tvSportName"
         app:layout_constraintTop_toTopOf="@+id/tv_label_district"
         tools:text="San Blás"
         style="@style/team_details_values"/>
 
     <TextView
-        android:id="@+id/tv_category"
+        android:id="@+id/tvCategory"
         app:layout_constraintBottom_toBottomOf="@+id/tv_label_category"
-        app:layout_constraintEnd_toEndOf="@+id/tv_district"
-        app:layout_constraintStart_toStartOf="@+id/tv_district"
+        app:layout_constraintEnd_toEndOf="@+id/tvDistrict"
+        app:layout_constraintStart_toStartOf="@+id/tvDistrict"
         app:layout_constraintTop_toTopOf="@+id/tv_label_category"
         tools:text="Cadete"
         style="@style/team_details_values"/>
 
     <TextView
-        android:id="@+id/tv_fase"
+        android:id="@+id/tvFase"
         style="@style/team_details_values"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -140,14 +140,14 @@
 
 
     <TextView
-        android:id="@+id/tv_grupo"
+        android:id="@+id/tvGroup"
         style="@style/team_details_values"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="Grupo total"
         app:layout_constraintBottom_toBottomOf="@+id/tv_group_label"
-        app:layout_constraintEnd_toEndOf="@+id/tv_fase"
-        app:layout_constraintStart_toStartOf="@+id/tv_fase"
+        app:layout_constraintEnd_toEndOf="@+id/tvFase"
+        app:layout_constraintStart_toStartOf="@+id/tvFase"
         app:layout_constraintTop_toTopOf="@+id/tv_group_label" />
 
     <View
@@ -166,7 +166,7 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_next_week"
+        android:id="@+id/cvNextWeek"
         style="@style/main_list_generic"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
@@ -221,7 +221,7 @@
                 app:layout_constraintGuide_percent="0.25" />
 
             <TextView
-                android:id="@+id/tv_next_match_opponent"
+                android:id="@+id/tvNextMatchOpponent"
                 style="@style/list_values"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -243,10 +243,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_next_match_opponent_label" />
 
             <TextView
-                android:id="@+id/tv_next_match_date"
+                android:id="@+id/tvNextMatchDate"
                 style="@style/list_values"
-                app:layout_constraintEnd_toEndOf="@+id/tv_next_match_opponent"
-                app:layout_constraintStart_toStartOf="@+id/tv_next_match_opponent"
+                app:layout_constraintEnd_toEndOf="@+id/tvNextMatchOpponent"
+                app:layout_constraintStart_toStartOf="@+id/tvNextMatchOpponent"
                 app:layout_constraintTop_toTopOf="@+id/tv_next_match_date_label"
                 tools:text="@string/example_date" />
 
@@ -261,10 +261,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_next_match_date_label" />
 
             <TextView
-                android:id="@+id/tv_next_match_place"
+                android:id="@+id/tvNextMatchPlace"
                 style="@style/list_values"
-                app:layout_constraintEnd_toEndOf="@+id/tv_next_match_date"
-                app:layout_constraintStart_toStartOf="@+id/tv_next_match_date"
+                app:layout_constraintEnd_toEndOf="@+id/tvNextMatchDate"
+                app:layout_constraintStart_toStartOf="@+id/tvNextMatchDate"
                 app:layout_constraintTop_toTopOf="@+id/tv_next_match_place_label"
                 tools:text="@string/example_place" />
 
@@ -273,7 +273,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_next_week_finished"
+        android:id="@+id/cvNextWeekFinished"
         style="@style/main_list_generic"
         android:layout_marginTop="16dp"
         android:visibility="visible"

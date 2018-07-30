@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_favorites"
+        android:id="@+id/cardView"
         style="@style/main_list_favorites"
         android:layout_height="wrap_content">
 
@@ -28,12 +28,12 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="@string/label_team"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_team"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTeam"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_team"
+                android:id="@+id/tvTeam"
                 style="@style/list_values_team"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
@@ -46,60 +46,60 @@
                 android:id="@+id/tv_group_label"
                 style="@style/list_labels"
                 android:text="@string/label_group"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_group"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGroup"
                 app:layout_constraintEnd_toEndOf="@+id/tv_team_label"
                 app:layout_constraintStart_toStartOf="@id/tv_team_label" />
 
             <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_group"
+                android:id="@+id/tvGroup"
                 style="@style/list_values_group"
                 android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_team"
-                app:layout_constraintStart_toStartOf="@+id/tv_team"
-                app:layout_constraintTop_toBottomOf="@+id/tv_team"
+                app:layout_constraintEnd_toEndOf="@+id/tvTeam"
+                app:layout_constraintStart_toStartOf="@+id/tvTeam"
+                app:layout_constraintTop_toBottomOf="@+id/tvTeam"
                 tools:text="@string/example_group" />
 
             <TextView
                 android:id="@+id/tv_label_fase"
                 style="@style/list_labels"
                 android:text="@string/label_fase"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_fase"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFase"
                 app:layout_constraintEnd_toEndOf="@+id/tv_group_label"
                 app:layout_constraintStart_toStartOf="@+id/tv_group_label" />
 
             <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_fase"
+                android:id="@+id/tvFase"
                 style="@style/list_values"
                 android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_group"
-                app:layout_constraintStart_toStartOf="@+id/tv_group"
-                app:layout_constraintTop_toBottomOf="@+id/tv_group"
+                app:layout_constraintEnd_toEndOf="@+id/tvGroup"
+                app:layout_constraintStart_toStartOf="@+id/tvGroup"
+                app:layout_constraintTop_toBottomOf="@+id/tvGroup"
                 tools:text="@string/example_fase" />
 
             <TextView
                 android:id="@+id/tv_label_competition"
                 style="@style/list_labels"
                 android:text="@string/label_competition"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_competition"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCompetition"
                 app:layout_constraintEnd_toEndOf="@+id/tv_label_fase"
                 app:layout_constraintStart_toStartOf="@+id/tv_label_fase" />
 
             <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_competition"
+                android:id="@+id/tvCompetition"
                 style="@style/list_values"
                 android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_fase"
-                app:layout_constraintStart_toStartOf="@+id/tv_fase"
-                app:layout_constraintTop_toBottomOf="@+id/tv_fase"
+                app:layout_constraintEnd_toEndOf="@+id/tvFase"
+                app:layout_constraintStart_toStartOf="@+id/tvFase"
+                app:layout_constraintTop_toBottomOf="@+id/tvFase"
                 tools:text="@string/example_competition" />
 
             <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_path"
+                android:id="@+id/tvPath"
                 style="@style/list_values_path"
                 android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_competition"
-                app:layout_constraintStart_toStartOf="@+id/tv_competition"
-                app:layout_constraintTop_toBottomOf="@+id/tv_competition"
+                app:layout_constraintEnd_toEndOf="@+id/tvCompetition"
+                app:layout_constraintStart_toStartOf="@+id/tvCompetition"
+                app:layout_constraintTop_toBottomOf="@+id/tvCompetition"
                 tools:text="@string/example_path" />
 
         </android.support.constraint.ConstraintLayout>

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:onClick="openMenu"
     android:background="@color/colorWhite">
 
 
@@ -34,19 +33,19 @@
             app:layout_constraintHorizontal_bias="0.5" />
 
         <TextView
-            android:id="@+id/tv_calendar_team_local"
+            android:id="@+id/tvCalendarTeamLocal"
             style="@style/TextDetails.child_calendar_result"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:gravity="left|center_vertical"
-            app:layout_constraintEnd_toStartOf="@+id/tv_score_local"
+            app:layout_constraintEnd_toStartOf="@+id/tvScoreLocal"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Club Atletico Madrid" />
 
         <TextView
-            android:id="@+id/tv_calendar_team_visitor"
+            android:id="@+id/tvCalendarTeamVisitor"
             style="@style/TextDetails.child_calendar_result"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="4dp"
@@ -55,12 +54,12 @@
             android:gravity="right|center_vertical"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_score_visitor"
-            app:layout_constraintTop_toTopOf="@+id/tv_score_visitor"
+            app:layout_constraintStart_toEndOf="@+id/tvScoreVisitor"
+            app:layout_constraintTop_toTopOf="@+id/tvScoreVisitor"
             tools:text="Club Leganes SAD." />
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/tv_score_local"
+            android:id="@+id/tvScoreLocal"
             style="@style/TextDetails.child_calendar_result"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
@@ -69,11 +68,11 @@
             android:autoSizeMinTextSize="8sp"
             android:gravity="right|center_vertical"
             app:layout_constraintEnd_toStartOf="@+id/tv_score_division"
-            app:layout_constraintTop_toTopOf="@+id/tv_calendar_team_local"
+            app:layout_constraintTop_toTopOf="@+id/tvCalendarTeamLocal"
             tools:text="100" />
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/tv_score_visitor"
+            android:id="@+id/tvScoreVisitor"
             style="@style/TextDetails.child_calendar_result"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
@@ -83,7 +82,7 @@
             android:gravity="left|center_vertical"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/tv_score_local"
+            app:layout_constraintTop_toTopOf="@+id/tvScoreLocal"
             tools:text="999" />
 
         <TextView
@@ -93,10 +92,10 @@
             android:layout_height="17dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="-"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_score_local"
+            app:layout_constraintBottom_toBottomOf="@+id/tvScoreLocal"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/tv_score_local" />
+            app:layout_constraintTop_toTopOf="@+id/tvScoreLocal" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -152,7 +151,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_label_place" />
 
         <TextView
-            android:id="@+id/tv_calendar_date"
+            android:id="@+id/tvCalendarDate"
             style="@style/TextDetails"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
@@ -163,20 +162,20 @@
             tools:text="12/02/1977 12:30 pm" />
 
         <TextView
-            android:id="@+id/tv_calendar_place"
+            android:id="@+id/tvCalendarPlace"
             style="@style/TextDetails"
             app:layout_constraintBottom_toTopOf="@+id/tv_label_state"
-            app:layout_constraintEnd_toEndOf="@+id/tv_calendar_date"
-            app:layout_constraintStart_toStartOf="@+id/tv_calendar_date"
+            app:layout_constraintEnd_toEndOf="@+id/tvCalendarDate"
+            app:layout_constraintStart_toStartOf="@+id/tvCalendarDate"
             app:layout_constraintTop_toTopOf="@+id/tv_label_place"
             tools:text="Estadio Vicente Calderon (Madrid españa)" />
 
         <TextView
-            android:id="@+id/tv_state"
+            android:id="@+id/tvState"
             style="@style/TextDetails"
             app:layout_constraintBottom_toBottomOf="@+id/tv_label_state"
-            app:layout_constraintEnd_toEndOf="@+id/tv_calendar_place"
-            app:layout_constraintStart_toStartOf="@+id/tv_calendar_place"
+            app:layout_constraintEnd_toEndOf="@+id/tvCalendarPlace"
+            app:layout_constraintStart_toStartOf="@+id/tvCalendarPlace"
             app:layout_constraintTop_toTopOf="@+id/tv_label_state"
             tools:text="Finalizado" />
 
