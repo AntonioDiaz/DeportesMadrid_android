@@ -211,7 +211,7 @@ class TeamDetailsActivity : AppCompatActivity(), CompetitionCallback, TeamMatche
             val menuInflater = menuInflater
             menuInflater.inflate(R.menu.menu_match, menu)
             menu!!.findItem(R.id.action_view_map).isEnabled = mMatchRetrofit!!.place != null
-            menu!!.findItem(R.id.action_add_calendar).isEnabled = mMatchRetrofit!!.date != null
+            menu.findItem(R.id.action_add_calendar).isEnabled = mMatchRetrofit!!.date != null
         }
     }
 

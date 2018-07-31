@@ -86,7 +86,7 @@ class FavoritesActivity : AppCompatActivity(), FavoritesAdapter.ListItemClickLis
         if (favorite.idTeam != null) {
             val intent = Intent(this, TeamDetailsActivity::class.java)
             intent.putExtra(Constants.ID_COMPETITION, idCompetition)
-            intent.putExtra(Constants.TEAM_ID, favorite!!.idTeam)
+            intent.putExtra(Constants.TEAM_ID, favorite.idTeam)
             intent.putExtra(Constants.TEAM_NAME, favorite.nameTeam)
             startActivity(intent)
         } else {

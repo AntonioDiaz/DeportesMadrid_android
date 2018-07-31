@@ -2,14 +2,23 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+ext.versionMajor = 1
+ext.versionMinor = 1
+ext.versionPatch = 2
+ext.versionClassifier = null
+ext.isSnapshot = true
+ext.minimumSdkVersion = 16
+
+
 android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.adiaz.ligasmadrid"
-        minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.ext.minimumSdkVersion
+        versionCode generateVersionCode() // 190010203
+        versionName generateVersionName() // 1.2.3-SNAPSHOT
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -53,4 +62,21 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
+}
+
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
 }

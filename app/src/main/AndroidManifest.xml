@@ -31,6 +31,7 @@
         <activity android:name=".activities.GroupsActivity" />
         <activity android:name=".activities.TeamDetailsActivity" />
         <activity android:name=".activities.GroupDetailsActivity" />
+        <activity android:name=".activities.AboutActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_preferences"

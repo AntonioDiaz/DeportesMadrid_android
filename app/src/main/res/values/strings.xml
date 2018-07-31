@@ -19,6 +19,7 @@
     <string name="title_district">Distritos</string>
     <string name="title_category">Categorías</string>
     <string name="title_grupo">Grupos</string>
+    <string name="title_about">Acerca de</string>
 
     <string name="menu_home">Volver Inicio</string>
 
@@ -59,6 +60,7 @@
     <string name="action_sync">Sincronizar</string>
     <string name="action_sync_with_date">Sincronizar (%1$s)</string>
     <string name="action_preferences">Preferencias</string>
+    <string name="action_about">Acerca de</string>
 
     <string name="pref_competitons_num_key">pref_competitons_num_key</string>
     <string name="pref_competitons_num_title">Mostrar número de competiciones</string>
@@ -136,6 +138,7 @@
     <string name="label_team">Equipo</string>
     <string name="emptyFavList">No hay equipos ni grupos marcados como favoritos</string>
     <string name="emptyTeamList">No se han encontrado equipos con este nombre</string>
+
     <string name="search_hint">nombre del equipo</string>
     <string name="menu_search">Buscar</string>
     <string name="menu_add_calendar">Añadir evento al calendario</string>
@@ -166,4 +169,9 @@
     <string name="url_2017">https://deportes-madrid-2017.appspot.com</string>
     <string name="url_2018">https://deportes-madrid-2018.appspot.com</string>
     <string name="url_2019">https://munisports-web.appspot.com/</string>
+
+    <string name="about_thanks">Esta aplicación es posible gracias a el programa \"Datos Abiertos\" del Ayuntamiento de Madrid. \n https://datos.madrid.es</string>
+    <string name="about_thanks_url">https://datos.madrid.es</string>
+    <string name="about_version">1.1.1.snapshot</string>
+
 </resources>

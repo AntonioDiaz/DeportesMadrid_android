@@ -40,12 +40,7 @@ class DistrictActivity : AppCompatActivity(), GenericAdapter.ListItemClickListen
         }
         val groups = GroupsDAO.queryCompetitionsBySport(this, sportSelected!!)
         elementsList = initElementsList(groups)
-        val layoutManager: LinearLayoutManager
-        if (elementsList!!.size >= 2) {
-            layoutManager = GridLayoutManager(this, 2) as LinearLayoutManager
-        } else {
-            layoutManager = LinearLayoutManager(this)
-        }
+        val layoutManager = LinearLayoutManager(this)
         val genericAdapter = GenericAdapter(this, this, elementsList)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = layoutManager

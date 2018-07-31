@@ -150,15 +150,13 @@ class MainActivity :
         val itemId = item.itemId
         when (itemId) {
             R.id.action_sync -> syncCompetitions()
-            R.id.action_preferences -> {
-                val intentSettings = Intent(this, SettingsActivity::class.java)
-                startActivity(intentSettings)
-            }
+            R.id.action_preferences -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.action_about -> startActivity(Intent(this, AboutActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun syncCompetitions() {
+    private fun syncCompetitions() {
         showLoading()
         val retrofit = Retrofit.Builder()
                 .baseUrl(Utils.getServerUrl(applicationContext))

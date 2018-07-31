@@ -36,6 +36,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="genericCardView" parent="CardView">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="contentPadding">8dp</item>
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardElevation">5dp</item>
+    </style>
+
     <style name="customCardView" parent="CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -183,6 +193,15 @@
         <item name="android:layout_marginTop">64dp</item>
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:layout_marginRight">32dp</item>
+    </style>
+
+    <style name="textAbout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     </style>
 
 </resources>
