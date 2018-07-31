@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adiaz.deportesmadrid">
+    package="com.adiaz.ligasmadrid">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -43,7 +43,7 @@
 
         <provider
             android:name=".contentproviders.CompetitionsProvider"
-            android:authorities="com.adiaz.deportesmadrid"
+            android:authorities="com.adiaz.ligasmadrid"
             android:exported="false" />
 
         <service

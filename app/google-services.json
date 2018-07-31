@@ -52,17 +52,48 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:465692118252:android:7a4d3fa9c2fc1324",
+        "mobilesdk_app_id": "1:465692118252:android:10ab3de3a86514f7",
         "android_client_info": {
-          "package_name": "com.adiaz.deportesmadrid"
+          "package_name": "com.adiaz.firebasemessaging"
         }
       },
       "oauth_client": [
         {
-          "client_id": "465692118252-0emmq6e2lg8736u6oe1bgnfsabkauelf.apps.googleusercontent.com",
+          "client_id": "465692118252-eqjpge86s6cm23rgaae2rimmkjh0q1md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP2XW4s6hn7LjhowIj4f1ozhCmNgPZAt0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465692118252:android:591c1de384be3dbf",
+        "android_client_info": {
+          "package_name": "com.adiaz.ligasmadrid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465692118252-51smvjom3kq55gu4jcqm2v815cloeldv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.adiaz.deportesmadrid",
+            "package_name": "com.adiaz.ligasmadrid",
             "certificate_hash": "8fdac00c96c59264c5aa545c87beeee3dcca7146"
           }
         },
@@ -88,37 +119,6 @@
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:465692118252:android:10ab3de3a86514f7",
-        "android_client_info": {
-          "package_name": "com.adiaz.firebasemessaging"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "465692118252-eqjpge86s6cm23rgaae2rimmkjh0q1md.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCP2XW4s6hn7LjhowIj4f1ozhCmNgPZAt0"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
