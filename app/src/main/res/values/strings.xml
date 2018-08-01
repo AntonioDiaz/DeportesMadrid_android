@@ -170,7 +170,7 @@
     <string name="url_2018">https://deportes-madrid-2018.appspot.com</string>
     <string name="url_2019">https://munisports-web.appspot.com/</string>
 
-    <string name="about_thanks">Esta aplicación es posible gracias a el programa \"Datos Abiertos\" del Ayuntamiento de Madrid. \n https://datos.madrid.es</string>
+    <string name="about_thanks">Esta aplicación es posible gracias a el programa\n<b>\"Datos Abiertos\"</b> del Ayuntamiento de Madrid.\nhttps://datos.madrid.es</string>
     <string name="about_thanks_url">https://datos.madrid.es</string>
     <string name="about_version">1.1.1.snapshot</string>
 

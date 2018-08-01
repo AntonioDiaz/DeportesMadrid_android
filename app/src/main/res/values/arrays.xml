@@ -4,12 +4,12 @@
     <array name="pref_year_option_labels">
         <item>@string/pref_year_2017_label</item>
         <item>@string/pref_year_2018_label</item>
-        <item>@string/pref_year_2019_label</item>
+        <!--<item>@string/pref_year_2019_label</item>-->
     </array>
 
     <array name="pref_year_option_values">
         <item>@string/pref_year_2017_value</item>
         <item>@string/pref_year_2018_value</item>
-        <item>@string/pref_year_2019_value</item>
+        <!--<item>@string/pref_year_2019_value</item>-->
     </array>
 </resources>
