@@ -46,7 +46,9 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,8 +56,9 @@
             <TextView
                 android:id="@+id/tvAuthorLabel"
                 style="@style/textAbout"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Desarrollador"
+                android:text="@string/about_developer"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -63,8 +66,10 @@
             <TextView
                 android:id="@+id/tvAuthor"
                 style="@style/textAbout"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
-                android:text="Antonio Díaz Arroyo"
+                android:text="@string/about_me"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tvAuthorLabel"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +80,7 @@
                 android:id="@+id/tvEmailLabel"
                 style="@style/textAbout"
                 android:layout_marginTop="8dp"
-                android:text="Email"
+                android:text="@string/about_email_label"
                 app:layout_constraintEnd_toEndOf="@+id/tvAuthorLabel"
                 app:layout_constraintStart_toStartOf="@+id/tvAuthorLabel"
                 app:layout_constraintTop_toBottomOf="@+id/tvAuthorLabel" />
@@ -85,11 +90,10 @@
                 style="@style/textAbout"
                 android:autoLink="email"
                 android:gravity="center"
-                android:text="antonio.diaz.arroyo@gmail.com"
+                android:text="@string/about_email"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tvEmailLabel"
                 app:layout_constraintEnd_toEndOf="@+id/tvAuthor"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tvAuthor"
                 app:layout_constraintTop_toTopOf="@+id/tvEmailLabel" />
 
@@ -97,7 +101,7 @@
                 android:id="@+id/tvVersionLabel"
                 style="@style/textAbout"
                 android:layout_marginTop="8dp"
-                android:text="Versión"
+                android:text="@string/about_version_label"
                 app:layout_constraintEnd_toEndOf="@+id/tvAuthorLabel"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tvAuthorLabel"
@@ -113,26 +117,26 @@
             <TextView
                 android:id="@+id/tvVersion"
                 style="@style/textAbout"
-                tools:text="@string/about_version"
-                android:textStyle="bold"
                 android:gravity="center"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tvVersionLabel"
-                app:layout_constraintEnd_toEndOf="@+id/tvAuthor"
+                app:layout_constraintEnd_toEndOf="@+id/tvEmail"
                 app:layout_constraintStart_toStartOf="@+id/guideline8"
-                app:layout_constraintTop_toTopOf="@+id/tvVersionLabel" />
+                app:layout_constraintTop_toTopOf="@+id/tvVersionLabel"
+                tools:text="@string/example_about_version" />
 
             <TextView
                 android:id="@+id/tvThanks"
                 style="@style/textAbout"
                 android:layout_marginTop="16dp"
                 android:autoLink="web"
+                android:gravity="center"
+                android:maxLines="10"
                 android:text="@string/about_thanks"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvVersionLabel"
-                android:maxLines="10"
-                android:gravity="center"/>
+                app:layout_constraintEnd_toEndOf="@+id/tvVersion"
+                app:layout_constraintStart_toStartOf="@+id/tvVersionLabel"
+                app:layout_constraintTop_toBottomOf="@+id/tvVersionLabel" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

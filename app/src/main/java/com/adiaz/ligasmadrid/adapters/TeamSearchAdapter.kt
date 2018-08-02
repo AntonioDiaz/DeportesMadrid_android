@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.adiaz.ligasmadrid.R
 import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Group
+import com.adiaz.ligasmadrid.extensions.getSportNameLocalized
 import com.adiaz.ligasmadrid.utils.Constants
 import com.adiaz.ligasmadrid.utils.entities.TeamEntity
 
@@ -33,7 +34,7 @@ class TeamSearchAdapter(internal var mContext: Context, mListItemClickListener: 
             holder.tvFase.text = group.nomFase
             holder.tvCompetition.text = group.nomCompeticion
             holder.tvTeam.text = mTeams!![position].teamName
-            holder.tvPath.text = group.deporte + Constants.PATH_SEPARATOR + group.distrito + Constants.PATH_SEPARATOR + group.categoria
+            holder.tvPath.text = "${group.getSportNameLocalized(mContext)} > ${group.distrito} > ${group.categoria}"
         }
     }
 

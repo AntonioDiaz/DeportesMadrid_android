@@ -12,6 +12,7 @@ import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Favorite
 import com.adiaz.ligasmadrid.extensions.layoutInflater
 import com.adiaz.ligasmadrid.utils.Constants
+import com.adiaz.ligasmadrid.utils.Utils
 
 import kotlinx.android.synthetic.main.listitem_favorites_team.view.*
 
@@ -35,7 +36,8 @@ class FavoritesAdapter(internal var mContext: Context, listItemClickListener: Li
                 holder.tvGroup.text = group.nomGrupo
                 holder.tvFase.text = group.nomFase
                 holder.tvCompetition.text = group.nomCompeticion
-                holder.tvPath.text = group.deporte + Constants.PATH_SEPARATOR + group.distrito + Constants.PATH_SEPARATOR + group.categoria
+                val sportsName = Utils.getSportNameLocalized(mContext, group.deporte!!)
+                holder.tvPath.text = "$sportsName > ${group.distrito} > ${group.categoria}"
                 val teamName = mFavoritesList!![position].nameTeam
                 if (teamName != null) {
                     holder.tvTeam!!.text = teamName

@@ -5,7 +5,7 @@
     <string name="loading_info">Actualizando la información</string>
     <string name="loading_team">cargando</string>
     <string name="loading_search">Buscando equipos</string>
-    <string name="template_text">On July 16, 1969, the Apollo 11 spacecraft launched from the Kennedy Space Center in Florida. Its mission was to go where no human being had gone before—the moon! The crew consisted of Neil Armstrong, Michael Collins, and Buzz Aldrin. The spacecraft landed on the moon in the Sea of Tranquility, a basaltic flood plain, on July 20, 1969. The moonwalk took place the following day. On July 21, 1969, at precisely 10:56 EDT, Commander Neil Armstrong emerged from the Lunar Module and took his famous first step onto the moon’s surface. He declared, “That’s one small step for man, one giant leap for mankind.” It was a monumental moment in human history!</string>
+    <string name="template_text" translatable="false">On July 16, 1969, the Apollo 11 spacecraft launched from the Kennedy Space Center in Florida. Its mission was to go where no human being had gone before—the moon! The crew consisted of Neil Armstrong, Michael Collins, and Buzz Aldrin. The spacecraft landed on the moon in the Sea of Tranquility, a basaltic flood plain, on July 20, 1969. The moonwalk took place the following day. On July 21, 1969, at precisely 10:56 EDT, Commander Neil Armstrong emerged from the Lunar Module and took his famous first step onto the moon’s surface. He declared, “That’s one small step for man, one giant leap for mankind.” It was a monumental moment in human history!</string>
     <string name="favorites">Favoritos</string>
     <string name="favorites_subtitle">Favoritos</string>
     <string name="favorites_competition_added">Se añadió la competición a la lista de favoritos.</string>
@@ -40,46 +40,46 @@
     <string name="FUTBOL">Futbol</string>
     <string name="FUTBOL_SALA">Futbol Sala</string>
     <string name="FUTBOL_7">Futbol 7</string>
-    <string name="HOCKEY">Hockey</string>
+    <string name="HOCKEY" translatable="false">Hockey</string>
     <string name="MINIBALONCESTO">MiniBaloncesto</string>
-    <string name="RUGBY">Rugby</string>
+    <string name="RUGBY" translatable="false">Rugby</string>
     <string name="VOLEIBOL">Voleibol</string>
-    <string name="WATERPOLO">Waterpolo</string>
+    <string name="WATERPOLO" translatable="false">Waterpolo</string>
 
-    <string name="BALONCESTO_IMG">ball_basketball</string>
-    <string name="BALONMANO_IMG">ball_handball</string>
-    <string name="BEISBOL_IMG">ball_baseball</string>
-    <string name="FUTBOL_IMG">ball_football</string>
-    <string name="FUTBOL_SALA_IMG">ball_football</string>
-    <string name="FUTBOL_7_IMG">ball_football</string>
-    <string name="HOCKEY_IMG">ball_hockey</string>
-    <string name="MINIBALONCESTO_IMG">ball_basketball</string>
-    <string name="RUGBY_IMG">ball_rugby</string>
-    <string name="VOLEIBOL_IMG">ball_voleibol</string>
-    <string name="WATERPOLO_IMG">ball_waterpolo</string>
+    <string name="BALONCESTO_IMG" translatable="false">ball_basketball</string>
+    <string name="BALONMANO_IMG" translatable="false">ball_handball</string>
+    <string name="BEISBOL_IMG" translatable="false">ball_baseball</string>
+    <string name="FUTBOL_IMG" translatable="false">ball_football</string>
+    <string name="FUTBOL_SALA_IMG" translatable="false">ball_football</string>
+    <string name="FUTBOL_7_IMG" translatable="false">ball_football</string>
+    <string name="HOCKEY_IMG" translatable="false">ball_hockey</string>
+    <string name="MINIBALONCESTO_IMG" translatable="false">ball_basketball</string>
+    <string name="RUGBY_IMG" translatable="false">ball_rugby</string>
+    <string name="VOLEIBOL_IMG" translatable="false">ball_voleibol</string>
+    <string name="WATERPOLO_IMG" translatable="false">ball_waterpolo</string>
     <string name="action_sync">Sincronizar</string>
     <string name="action_sync_with_date">Sincronizar (%1$s)</string>
-    <string name="action_preferences">Preferencias</string>
+    <string name="action_preferences">Configuracion</string>
     <string name="action_about">Acerca de</string>
 
-    <string name="pref_competitons_num_key">pref_competitons_num_key</string>
+    <string name="pref_competitons_num_key" translatable="false">pref_competitons_num_key</string>
     <string name="pref_competitons_num_title">Mostrar número de competiciones</string>
-    <string name="pref_competitons_num_default">false</string>
+    <string name="pref_competitons_num_default" translatable="false">false</string>
     <string name="pref_competitions_num_summary_off">No mostrar</string>
     <string name="pref_competitions_num_summary_on">Mostrar</string>
 
-    <string name="pref_notifications_key">pref_notifications_key</string>
-    <string name="pref_notifications_title">Notificationes</string>
-    <string name="pref_notifications_default">true</string>
+    <string name="pref_notifications_key" translatable="false">pref_notifications_key</string>
+    <string name="pref_notifications_title">Activar notificationes</string>
+    <string name="pref_notifications_default" translatable="false">true</string>
     <string name="pref_notifications_summary_off">No mostrar</string>
     <string name="pref_notifications_summary_on">Mostrar</string>
     <string name="pref_year_title">Eliga la temporada</string>
-    <string name="pref_year_key">pref_year_key</string>
-    <string name="pref_year_default">2017</string>
+    <string name="pref_year_key" translatable="false">pref_year_key</string>
+    <string name="pref_year_default" translatable="false">2017</string>
 
 
-    <string name="pref_last_udpate">pref_last_update</string>
-    <string name="pref_need_update">pref_need_update</string>
+    <string name="pref_last_udpate" translatable="false">pref_last_update</string>
+    <string name="pref_need_update" translatable="false">pref_need_update</string>
 
 
     <string name="team_subtitle">Grupo: %1$s</string>
@@ -106,20 +106,20 @@
     <string name="calendar_week">Jornada %1$d</string>
     <string name="calendar_local">Local</string>
     <string name="calendar_visitor">Visitante</string>
-    <string name="calendar_score">%1$d - %2$d</string>
+    <string name="calendar_score" translatable="false">%1$d - %2$d</string>
 
-    <string name="example_date">12/02/1977 12:30</string>
-    <string name="example_place">Estadio Vicente Calderon</string>
-    <string name="example_state">Finalizado</string>
-    <string name="example_last_week_score">Resultado: victoria 3 - 1</string>
-    <string name="example_last_week_opponent">Rival: Villaconejos</string>
-    <string name="example_fase">Fase Regular</string>
-    <string name="example_team">Atletico de Madrid</string>
-    <string name="example_group">Grupo Sábados Tarde</string>
-    <string name="example_competition">Campeonato Nacional de Liga</string>
-    <string name="example_sport">Baloncesto</string>
-    <string name="example_path">Baloncesto > Chamartín > Benjamin</string>
-    <string name="example_week">Jornada 12</string>
+    <string name="example_date" translatable="false">12/02/1977 12:30</string>
+    <string name="example_place" translatable="false">Estadio Vicente Calderon</string>
+    <string name="example_state" translatable="false">Finalizado</string>
+    <string name="example_last_week_score" translatable="false">Resultado: victoria 3 - 1</string>
+    <string name="example_last_week_opponent" translatable="false">Rival: Villaconejos</string>
+    <string name="example_fase" translatable="false">Fase Regular</string>
+    <string name="example_team" translatable="false">Atletico de Madrid</string>
+    <string name="example_group" translatable="false">Grupo Sábados Tarde</string>
+    <string name="example_competition" translatable="false">Campeonato Nacional de Liga</string>
+    <string name="example_sport" translatable="false">Baloncesto</string>
+    <string name="example_path" translatable="false">Baloncesto > Chamartín > Benjamin</string>
+    <string name="example_week" translatable="false">Jornada 12</string>
 
     <string name="PENDIENTE">Pendiente</string>
     <string name="REPROGRAMADO">Reprogramado</string>
@@ -151,11 +151,11 @@
 
     <string name="calendar_title">%1$s, Jornada %2$s: %3$s - %4$s</string>
     <string name="match_description">Competición: %1$s (%2$s - %3$s). Jornada %4$s: %5$s - %6$s. Fecha: %7$s. Lugar: %8$s.</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="main_notification_channel_name">Primary</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
+    <string name="main_notification_channel_name" translatable="false">Primary</string>
 
     <string name="update_notification_title">Ligas Madrid: actualización</string>
-    <string name="general_notification_title">Ligas Madrid</string>
+    <string name="general_notification_title" translatable="false">Ligas Madrid</string>
     <string name="update_competition_notification_body">Competición: <b>%1$s</b> (%2$s - %3$s).</string>
     <string name="update_team_notification_body">Equipo: <b>%1$s</b> (%2$s - %3$s).</string>
 
@@ -163,15 +163,19 @@
     <string name="pref_year_2017_label">Temporada 2016 / 2017</string>
     <string name="pref_year_2018_label">Temporada 2017 / 2018</string>
     <string name="pref_year_2019_label">Temporada 2018 / 2019</string>
-    <string name="pref_year_2017_value">2016</string>
-    <string name="pref_year_2018_value">2017</string>
-    <string name="pref_year_2019_value">2018</string>
-    <string name="url_2017">https://deportes-madrid-2017.appspot.com</string>
-    <string name="url_2018">https://deportes-madrid-2018.appspot.com</string>
-    <string name="url_2019">https://munisports-web.appspot.com/</string>
+    <string name="pref_year_2017_value" translatable="false">2016</string>
+    <string name="pref_year_2018_value" translatable="false">2017</string>
+    <string name="pref_year_2019_value" translatable="false">2018</string>
+    <string name="url_2017" translatable="false">https://deportes-madrid-2017.appspot.com</string>
+    <string name="url_2018" translatable="false">https://deportes-madrid-2018.appspot.com</string>
+    <string name="url_2019" translatable="false">https://munisports-web.appspot.com/</string>
 
-    <string name="about_thanks">Esta aplicación es posible gracias a el programa\n<b>\"Datos Abiertos\"</b> del Ayuntamiento de Madrid.\nhttps://datos.madrid.es</string>
-    <string name="about_thanks_url">https://datos.madrid.es</string>
-    <string name="about_version">1.1.1.snapshot</string>
+    <string name="about_thanks">Esta aplicación es posible gracias a el programa <b>\"Datos Abiertos\"</b> del Ayuntamiento de Madrid. https://datos.madrid.es</string>
+    <string name="example_about_version" translatable="false">1.1.1.snapshot</string>
+    <string name="about_developer">Desarrollador</string>
+    <string name="about_me" translatable="false">Antonio Díaz Arroyo</string>
+    <string name="about_email_label" translatable="false">Email</string>
+    <string name="about_email" translatable="false">antonio.diaz.arroyo@gmail.com</string>
+    <string name="about_version_label">Versión</string>
 
 </resources>

@@ -6,23 +6,21 @@ package com.adiaz.ligasmadrid.utils
 
 object Constants {
 
-    val EXTRA_SPORT_SELECTED_NAME = "EXTRA_SPORT_SELECTED_NAME"
-    val EXTRA_DISTRICT_SELECTED_NAME = "EXTRA_DISTRICT_SELECTED_NAME"
-    val EXTRA_CATEGORY_SELECTED_NAME = "EXTRA_CATEGORY_SELECTED_COUNT"
-    val EXTRA_COUNT = "EXTRA_COUNT"
-    val ID_COMPETITION = "ID_COMPETITION"
-    val TEAM_ID = "TEAM_ID"
-    val TEAM_NAME = "TEAM_NAME"
-    val NAME_COMPETITION = "NAME_COMPETITION"
+    const val EXTRA_SPORT_SELECTED_NAME = "EXTRA_SPORT_SELECTED_NAME"
+    const val EXTRA_DISTRICT_SELECTED_NAME = "EXTRA_DISTRICT_SELECTED_NAME"
+    const val EXTRA_CATEGORY_SELECTED_NAME = "EXTRA_CATEGORY_SELECTED_COUNT"
+    const val EXTRA_COUNT = "EXTRA_COUNT"
+    const val ID_COMPETITION = "ID_COMPETITION"
+    const val TEAM_ID = "TEAM_ID"
+    const val TEAM_NAME = "TEAM_NAME"
+    const val NAME_COMPETITION = "NAME_COMPETITION"
 
-    val DATE_FORMAT = "dd/MM/yyyy HH:mm"
-    val FIELD_EMPTY = "-"
+    const val DATE_FORMAT = "dd/MM/yyyy HH:mm"
+    const val FIELD_EMPTY = "-"
 
-    val DGD = "Dgd"
-    val DISTRITO_UNICO = "Distrito Único"
-    val DESCANSA = "(descansa)"
-
-    const val PATH_SEPARATOR = " > "
+    const val DGD = "Dgd"
+    const val DISTRITO_UNICO = "Distrito Único"
+    const val DESCANSA = "(descansa)"
 
     const val TOPICS = "/topics/"
     const val TOPICS_SYNC = "sync"

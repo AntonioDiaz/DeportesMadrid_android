@@ -42,7 +42,7 @@ class TabTeamInfo : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val group = mCompetitionCallback.queryCompetition()
-        val sportTag = Utils.normalizaSportName(group!!.deporte)
+        val sportTag = Utils.normalizaSportName(group!!.deporte!!)
         val sportLocated = Utils.getStringResourceByName(this.context, sportTag)
         tvCompetition.text = group.nomCompeticion
         tvFase.text = group.nomFase

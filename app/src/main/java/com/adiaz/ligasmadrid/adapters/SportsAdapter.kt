@@ -21,9 +21,9 @@ import kotlinx.android.synthetic.main.listitem_sports.view.*
  */
 
 class SportsAdapter(
-        internal var mContext: Context,
+        private var mContext: Context,
         private var mListItemClickListener: ListItemClickListener,
-        internal var mListItems: List<ListItem>) : RecyclerView.Adapter<SportsAdapter.ViewHolder>() {
+        private var mListItems: List<ListItem>) : RecyclerView.Adapter<SportsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutIdForListItem = R.layout.listitem_sports

@@ -25,6 +25,7 @@ import com.adiaz.ligasmadrid.db.daos.FavoritesDAO
 import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Favorite
 import com.adiaz.ligasmadrid.db.entities.Group
+import com.adiaz.ligasmadrid.extensions.getSportNameLocalized
 import com.adiaz.ligasmadrid.fragments.TabClassification
 import com.adiaz.ligasmadrid.fragments.TabGroupCalendar
 import com.adiaz.ligasmadrid.fragments.TabGroupTeams
@@ -47,18 +48,16 @@ import java.util.*
 
 class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarAdapter.ListItemClickListener {
 
-    internal var classificationList: List<ClassificationRetrofit> ? = null
-    internal var matchesList: List<MatchRetrofit> ? = null
-    internal var weekGroupList: MutableList<WeekGroup> = ArrayList()
-    internal var adapter: LigasMadridFragmentStatePagerAdapter? = null
-    internal var mGroup: Group? = null
+    private var classificationList: List<ClassificationRetrofit> ? = null
+    private var matchesList: List<MatchRetrofit> ? = null
+    private var weekGroupList: MutableList<WeekGroup> = mutableListOf()
+    private var adapter: LigasMadridFragmentStatePagerAdapter? = null
+    private var mGroup: Group? = null
     private var mProgressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_competition)
-
-
 
         mIdGroup = intent.getStringExtra(Constants.ID_COMPETITION)
         val nameCompetition = intent.getStringExtra(Constants.NAME_COMPETITION)
@@ -67,7 +66,8 @@ class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarA
         matchesList = ArrayList()
 
         mGroup = GroupsDAO.queryCompetitionsById(this, mIdGroup!!)
-        val subtitle = mGroup!!.deporte + Constants.PATH_SEPARATOR + mGroup!!.distrito + Constants.PATH_SEPARATOR + mGroup!!.categoria
+
+        val subtitle = "${mGroup!!.getSportNameLocalized(this)} > ${mGroup!!.distrito} > ${mGroup!!.categoria}"
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

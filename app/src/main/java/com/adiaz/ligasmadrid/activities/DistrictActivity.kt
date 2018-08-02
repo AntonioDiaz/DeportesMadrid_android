@@ -14,6 +14,7 @@ import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Group
 import com.adiaz.ligasmadrid.utils.Constants
 import com.adiaz.ligasmadrid.utils.ListItem
+import com.adiaz.ligasmadrid.utils.Utils
 import com.adiaz.ligasmadrid.utils.UtilsPreferences
 import kotlinx.android.synthetic.main.activity_list.*
 import java.util.*
@@ -28,7 +29,7 @@ class DistrictActivity : AppCompatActivity(), GenericAdapter.ListItemClickListen
         setContentView(R.layout.activity_list)
         sportSelected = intent.getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME)
         val sportSelectedCount = intent.getStringExtra(Constants.EXTRA_COUNT)
-        var subTitle = sportSelected
+        var subTitle = Utils.getSportNameLocalized(this, sportSelected!!)
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subTitle += " ($sportSelectedCount)"
         }

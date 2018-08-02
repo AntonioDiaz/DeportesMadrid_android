@@ -12,6 +12,7 @@ import com.adiaz.ligasmadrid.adapters.GroupsAdapter
 import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Group
 import com.adiaz.ligasmadrid.utils.Constants
+import com.adiaz.ligasmadrid.utils.Utils
 import com.adiaz.ligasmadrid.utils.UtilsPreferences
 import kotlinx.android.synthetic.main.activity_list.*
 
@@ -29,7 +30,8 @@ class GroupsActivity : AppCompatActivity(), GroupsAdapter.ListItemClickListener 
         districtSelected = intent.getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME)
         categorySelected = intent.getStringExtra(Constants.EXTRA_CATEGORY_SELECTED_NAME)
         val count = intent.getStringExtra(Constants.EXTRA_COUNT)
-        var subtitle = sportSelected + Constants.PATH_SEPARATOR + districtSelected + Constants.PATH_SEPARATOR + categorySelected
+        val sportNameLocalized = Utils.getSportNameLocalized(this, sportSelected)
+        var subtitle = "$sportNameLocalized > $districtSelected > $categorySelected"
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subtitle += " ($count)"
         }

@@ -13,6 +13,7 @@ import com.adiaz.ligasmadrid.db.daos.GroupsDAO
 import com.adiaz.ligasmadrid.db.entities.Group
 import com.adiaz.ligasmadrid.utils.Constants
 import com.adiaz.ligasmadrid.utils.ListItem
+import com.adiaz.ligasmadrid.utils.Utils
 import com.adiaz.ligasmadrid.utils.UtilsPreferences
 import kotlinx.android.synthetic.main.activity_list.*
 import java.util.*
@@ -26,11 +27,11 @@ class CategoriesActivity : AppCompatActivity(), GenericAdapter.ListItemClickList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-
         sportSelected = intent.getStringExtra(Constants.EXTRA_SPORT_SELECTED_NAME)
         districtSelected = intent.getStringExtra(Constants.EXTRA_DISTRICT_SELECTED_NAME)
         val count = intent.getStringExtra(Constants.EXTRA_COUNT)
-        var subTitle = sportSelected + Constants.PATH_SEPARATOR + districtSelected
+        val sportNameLocalized = Utils.getSportNameLocalized(this, sportSelected!!)
+        var subTitle = "$sportNameLocalized > $districtSelected"
         if (UtilsPreferences.isShowCompetitionsNumber(this)) {
             subTitle += " ($count)"
         }

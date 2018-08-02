@@ -66,7 +66,6 @@ class MainActivity :
             toolbar.setLogo(R.mipmap.ic_launcher)
             toolbar.title = getString(R.string.app_name)
         }
-        //showLoading();
         handleIntent(intent)
         viewSports.visibility = View.VISIBLE
         viewSearchResults.visibility = View.INVISIBLE
@@ -83,7 +82,6 @@ class MainActivity :
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_GENERAL)
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
     }
-
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -119,7 +117,6 @@ class MainActivity :
         }
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
-            Log.d(TAG, "onResume: onResume sync")
             syncCompetitions()
         }
     }
@@ -132,10 +129,7 @@ class MainActivity :
         val searchView = menuItemSearch.actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         menuItemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
-                return true
-            }
-
+            override fun onMenuItemActionExpand(menuItem: MenuItem) = true
             override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
                 viewSports!!.visibility = View.VISIBLE
                 viewSearchResults!!.visibility = View.INVISIBLE
@@ -161,7 +155,6 @@ class MainActivity :
         val retrofit = Retrofit.Builder()
                 .baseUrl(Utils.getServerUrl(applicationContext))
                 .addConverterFactory(GsonConverterFactory.create())
-                //.client(httpClient.build())
                 .build()
         val retrofitApi = retrofit.create(RetrofitApi::class.java)
         val call = retrofitApi.queryAllGroups()
@@ -208,7 +201,6 @@ class MainActivity :
 
     private fun fillRecyclerview(competitionList: List<Group>) {
         elementsList = initElementsList(competitionList)
-        //getSupportActionBar().setSubtitle("Competiciones: " + mCompetitionsList.size());
         val layoutManager = GridLayoutManager(this, 2)
         val sportsAdapter = SportsAdapter(this, this, elementsList!!)
         rvCompetitions.setHasFixedSize(true)
@@ -277,19 +269,13 @@ class MainActivity :
 
     override fun onCreateLoader(id: Int, args: Bundle): Loader<List<Group>> {
         return object : AsyncTaskLoader<List<Group>>(this) {
-            override fun onStartLoading() {
-                //showLoading();
-                forceLoad()
-            }
-
-            override fun loadInBackground(): List<Group> {
-                return GroupsDAO.queryAllCompetitions(this@MainActivity)
-            }
+            override fun onStartLoading() = forceLoad()
+            override fun loadInBackground() = GroupsDAO.queryAllCompetitions(this@MainActivity)
         }
     }
 
     override fun onLoadFinished(loader: Loader<List<Group>>, data: List<Group>) {
-        if (data.size == 0) {
+        if (data.isEmpty()) {
             syncCompetitions()
         } else {
             fillRecyclerview(data)
@@ -317,7 +303,7 @@ class MainActivity :
             tvEmptyList!!.visibility = View.INVISIBLE
             if (response.body() != null) {
                 viewSearchResults!!.visibility = View.VISIBLE
-                if (response.body()!!.size > 0) {
+                if (response.body()!!.isNotEmpty()) {
                     rvSearchResults!!.visibility = View.VISIBLE
                     mTeamsSearch = ArrayList()
                     for (team in response.body()!!) {
@@ -344,8 +330,7 @@ class MainActivity :
     }
 
     companion object {
-
         private val TAG = MainActivity::class.java.simpleName
-        private val SEARCH_GROUPS_LOADER = 22
+        private const val SEARCH_GROUPS_LOADER = 22
     }
 }
