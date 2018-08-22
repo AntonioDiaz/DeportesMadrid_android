@@ -63,16 +63,15 @@ class ClassificationAdapter(internal var mContext: Context, internal var mClassi
                     val color = ContextCompat.getColor(mContext, R.color.colorAccent)
                     holder.clClassification.setBackgroundColor(color)
                     holder.tvTeam.setTypeface(null, Typeface.BOLD)
-                    val colorWhite = Color.WHITE
-                    holder.tvPosition.setTextColor(colorWhite)
-                    holder.tvTeam.setTextColor(colorWhite)
-                    holder.tvMatches.setTextColor(colorWhite)
-                    holder.tvMatchesWon.setTextColor(colorWhite)
-                    holder.tvMatchesDrawn.setTextColor(colorWhite)
-                    holder.tvMatchesLost.setTextColor(colorWhite)
-                    holder.tvGoalsFor.setTextColor(colorWhite)
-                    holder.tvGoalsAgainst.setTextColor(colorWhite)
-                    holder.tvPoints.setTextColor(colorWhite)
+                    holder.tvPosition.setTextColor(Color.WHITE)
+                    holder.tvTeam.setTextColor(Color.WHITE)
+                    holder.tvMatches.setTextColor(Color.WHITE)
+                    holder.tvMatchesWon.setTextColor(Color.WHITE)
+                    holder.tvMatchesDrawn.setTextColor(Color.WHITE)
+                    holder.tvMatchesLost.setTextColor(Color.WHITE)
+                    holder.tvGoalsFor.setTextColor(Color.WHITE)
+                    holder.tvGoalsAgainst.setTextColor(Color.WHITE)
+                    holder.tvPoints.setTextColor(Color.WHITE)
                 }
             }
         }
@@ -89,7 +88,7 @@ class ClassificationAdapter(internal var mContext: Context, internal var mClassi
         var tvMatches: TextView = itemView.tvClassificationMatches
         var tvMatchesWon: TextView = itemView.tvClassificationMatchesWon
         var tvMatchesDrawn: TextView = itemView.tvClassificationMatchesDrawn
-        var tvMatchesLost: TextView = itemView.tvClassificationMatchesDrawn
+        var tvMatchesLost: TextView = itemView.tvClassificationMatchesLost
         var tvGoalsFor: TextView = itemView.tvClassificationGoalsFor
         var tvGoalsAgainst: TextView = itemView.tvClassificationGoalsAgainst
         var tvPoints: TextView = itemView.tvClassificationPoints

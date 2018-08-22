@@ -151,6 +151,7 @@ class MainActivity :
     }
 
     private fun syncCompetitions() {
+        Log.d(TAG, "syncCompetitions: ")
         showLoading()
         val retrofit = Retrofit.Builder()
                 .baseUrl(Utils.getServerUrl(applicationContext))

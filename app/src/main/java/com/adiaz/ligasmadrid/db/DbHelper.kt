@@ -18,7 +18,6 @@ import com.adiaz.ligasmadrid.db.DbContract.GroupEntry.SQL_DELETE_TABLE_GROUPS
 
 class DbHelper(private val mContext: Context) : SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
-
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_GROUPS)
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_FAVORITES)
     }

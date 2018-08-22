@@ -10,7 +10,7 @@ public class UtilsPreferences {
 
     public static final boolean isShowCompetitionsNumber(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String key = context.getString(R.string.pref_competitons_num_key);
+        String key = context.getString(R.string.pref_competitions_num_key);
         return sharedPreferences.getBoolean(key, false);
     }
     public static final boolean showNotifications(Context context) {

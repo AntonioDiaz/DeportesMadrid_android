@@ -77,9 +77,9 @@ class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarA
 
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         adapter = LigasMadridFragmentStatePagerAdapter(supportFragmentManager)
-        adapter?.addFragment(TabGroupCalendar(), "Calendario")
-        adapter?.addFragment(TabClassification(), "Clasificación")
-        adapter?.addFragment(TabGroupTeams(), "Equipos")
+        adapter?.addFragment(TabGroupCalendar(), getString(R.string.group_details_calendar))
+        adapter?.addFragment(TabClassification(), getString(R.string.group_details_classification))
+        adapter?.addFragment(TabGroupTeams(), getString(R.string.group_details_teams))
 
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

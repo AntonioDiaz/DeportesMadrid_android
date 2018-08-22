@@ -59,20 +59,18 @@
     <string name="WATERPOLO_IMG" translatable="false">ball_waterpolo</string>
     <string name="action_sync">Sincronizar</string>
     <string name="action_sync_with_date">Sincronizar (%1$s)</string>
-    <string name="action_preferences">Configuracion</string>
+    <string name="action_preferences">Configuración</string>
     <string name="action_about">Acerca de</string>
 
-    <string name="pref_competitons_num_key" translatable="false">pref_competitons_num_key</string>
-    <string name="pref_competitons_num_title">Mostrar número de competiciones</string>
-    <string name="pref_competitons_num_default" translatable="false">false</string>
-    <string name="pref_competitions_num_summary_off">No mostrar</string>
-    <string name="pref_competitions_num_summary_on">Mostrar</string>
+    <string name="pref_competitions_num_key" translatable="false">pref_competitions_num_key</string>
+    <string name="pref_competitions_num_title">Mostrar información extra</string>
+    <string name="pref_competitions_num_default" translatable="false">false</string>
+    <string name="pref_competitions_num_summary">Se muestra información adicional como el número de grupos de cada deporte o identificador de los grupos.</string>
 
     <string name="pref_notifications_key" translatable="false">pref_notifications_key</string>
     <string name="pref_notifications_title">Activar notificationes</string>
     <string name="pref_notifications_default" translatable="false">true</string>
-    <string name="pref_notifications_summary_off">No mostrar</string>
-    <string name="pref_notifications_summary_on">Mostrar</string>
+    <string name="pref_notifications_summary">Se recibirá una notificación cuando se actualice la información de su equipo o grupo favoritos, por ejemplo un cambio de horario o un resultado.</string>
     <string name="pref_year_title">Eliga la temporada</string>
     <string name="pref_year_key" translatable="false">pref_year_key</string>
     <string name="pref_year_default" translatable="false">2017</string>
@@ -97,6 +95,11 @@
 
     <string name="team_details_next_match">Próximo partido</string>
     <string name="team_details_next_match_finished">*No hay ningún partido pendiente.</string>
+
+
+    <string name="group_details_calendar">Calendario</string>
+    <string name="group_details_classification">Clasificación</string>
+    <string name="group_details_teams">Equipos</string>
 
     <string name="calendar_date">Fecha</string>
     <string name="calendar_place">Pista</string>

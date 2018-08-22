@@ -75,12 +75,10 @@
     <string name="action_sync_with_date">Synchronize (%1$s)</string>
     <string name="action_preferences">Settings</string>
     <string name="action_about">About</string>
-    <string name="pref_competitons_num_title">Show extra details</string>
-    <string name="pref_competitions_num_summary_on">Show</string>
-    <string name="pref_competitions_num_summary_off">Hide</string>
+    <string name="pref_competitions_num_title">Show extra details</string>
+    <string name="pref_competitions_num_summary">Additional information is displayed such as the number of groups of each sport or identifier of the groups.</string>
     <string name="pref_notifications_title">Nofitications</string>
-    <string name="pref_notifications_summary_off">Hide</string>
-    <string name="pref_notifications_summary_on">Show</string>
+    <string name="pref_notifications_summary">A notification will be received when the information of your favorite team or group is updated, for example a change in schedule or a result.</string>
     <string name="pref_year_title">Choose season</string>
     <string name="team_details_tab_information">Info</string>
     <string name="team_details_tab_calendar">Calendar</string>
@@ -104,4 +102,7 @@
     <string name="calendar_visitor">Visitor</string>
     <string name="team_subtitle">Group: %1$s</string>
     <string name="update_team_notification_body">Team: <b>%1$s</b> (%2$s - %3$s).</string>
+    <string name="group_details_calendar">Calendar</string>
+    <string name="group_details_classification">Classification</string>
+    <string name="group_details_teams">Teams</string>
 </resources>
