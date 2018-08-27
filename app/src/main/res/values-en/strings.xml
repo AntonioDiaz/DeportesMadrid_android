@@ -16,6 +16,7 @@
     <string name="favorites_team_added">Team added to favorites</string>
     <string name="favorites_team_removed">Team removed from favorites</string>
     <string name="error_getting_data">Error on retrieving information.</string>
+    <string name="error_searching">Error on retrieving search results.</string>
     <string name="type_team">Team</string>
     <string name="type_competicion">Competition</string>
     <string name="title_district">Districts</string>

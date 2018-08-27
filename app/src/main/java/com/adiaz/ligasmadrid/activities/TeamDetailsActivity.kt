@@ -1,6 +1,7 @@
 package com.adiaz.ligasmadrid.activities
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
@@ -9,6 +10,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -47,17 +49,23 @@ import java.util.*
 @Suppress("DEPRECATION")
 class TeamDetailsActivity : AppCompatActivity(), CompetitionCallback, TeamMatchesAdapter.ListItemClickListener {
 
+    companion object {
+        private val TAG = TeamDetailsActivity::class.java.simpleName
+    }
+
     internal var adapter: LigasMadridFragmentStatePagerAdapter? = null
 
     lateinit var mIdGroup: String
-    internal var mTeamId: Long? = null
-    internal var mTeamName: String? = null
-    internal var classificationRetrofitList: List<ClassificationRetrofit>? = null
-    internal var matchesRetrofitList: MutableList<MatchRetrofit>? = null
-    internal var mGroup: Group? = null
-    internal var mTeam: Team? = null
-    internal var mProgressDialog: ProgressDialog? = null
-    internal var mMatchRetrofit: MatchRetrofit? = null
+    var mTeamId: Long? = null
+    var mTeamName: String? = null
+    var classificationRetrofitList: List<ClassificationRetrofit>? = null
+    var matchesRetrofitList: MutableList<MatchRetrofit>? = null
+    var mGroup: Group? = null
+    var mTeam: Team? = null
+    var mProgressDialog: ProgressDialog? = null
+    var mMatchRetrofit: MatchRetrofit? = null
+    var retryCount = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +121,11 @@ class TeamDetailsActivity : AppCompatActivity(), CompetitionCallback, TeamMatche
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
             R.id.action_favorites -> {
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
                 val drawable: Drawable
@@ -233,8 +246,13 @@ class TeamDetailsActivity : AppCompatActivity(), CompetitionCallback, TeamMatche
         }
 
         override fun onFailure(call: Call<GroupDetailsRetrofit>, t: Throwable) {
-            hideLoading()
-            Utils.showSnack(mainView, getString(R.string.error_getting_data))
+            Log.v(TAG, "onFailure ($retryCount out of $Constants.TOTAL_RETRIES)")
+            if (retryCount++ < Constants.TOTAL_RETRIES) {
+                call.clone().enqueue(this)
+            } else {
+                hideLoading()
+                Utils.showSnack(mainView, getString(R.string.error_getting_data))
+            }
         }
     }
 }

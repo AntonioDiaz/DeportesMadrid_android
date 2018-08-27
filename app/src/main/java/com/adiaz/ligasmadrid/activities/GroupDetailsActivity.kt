@@ -3,6 +3,7 @@
 package com.adiaz.ligasmadrid.activities
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
@@ -11,6 +12,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
@@ -47,6 +49,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarAdapter.ListItemClickListener {
+
+    companion object {
+        private val TAG = GroupDetailsActivity::class.java.simpleName
+        var mIdGroup: String? = null
+        private var mMatchChild: MatchChildKotlin? = null
+        var retryCount = 0
+    }
+
 
     private var classificationList: List<ClassificationRetrofit> ? = null
     private var matchesList: List<MatchRetrofit> ? = null
@@ -120,6 +130,11 @@ class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarA
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
             R.id.action_favorites -> {
                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
                 val drawable: Drawable
@@ -207,9 +222,6 @@ class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarA
     }
 
     override fun openMenu(view: View) {
-        //registerForContextMenu(view)
-        //openContextMenu(view)
-
         registerForContextMenu(view)
         openContextMenu(view)
         unregisterForContextMenu(view)
@@ -243,14 +255,13 @@ class GroupDetailsActivity : AppCompatActivity(), CompetitionCallback, CalendarA
         }
 
         override fun onFailure(call: Call<GroupDetailsRetrofit>, t: Throwable) {
-            hideLoading()
-            Utils.showSnack(mainView, getString(R.string.error_getting_data))
+            Log.v(TAG, "onFailure ($retryCount out of $Constants.TOTAL_RETRIES)")
+            if (retryCount++ < Constants.TOTAL_RETRIES) {
+                call.clone().enqueue(this)
+            } else {
+                hideLoading()
+                Utils.showSnack(mainView, getString(R.string.error_getting_data))
+            }
         }
-    }
-
-    companion object {
-        private val TAG = GroupDetailsActivity::class.java.simpleName
-        var mIdGroup: String? = null
-        private var mMatchChild: MatchChildKotlin? = null
     }
 }

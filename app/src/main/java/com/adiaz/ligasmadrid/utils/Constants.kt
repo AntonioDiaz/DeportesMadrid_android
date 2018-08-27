@@ -25,4 +25,9 @@ object Constants {
     const val TOPICS = "/topics/"
     const val TOPICS_SYNC = "sync"
     const val TOPICS_GENERAL = "general"
+    const val TRY_MAX_COUNT = 3
+    const val RETRY_BACKOFF_DELAY = 2000
+
+    const val TOTAL_RETRIES = 3
+
 }

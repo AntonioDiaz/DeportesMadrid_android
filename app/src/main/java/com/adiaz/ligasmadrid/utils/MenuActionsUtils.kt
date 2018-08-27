@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
 import android.support.v4.app.ShareCompat
+import android.util.Log
 import com.adiaz.ligasmadrid.R
 import com.adiaz.ligasmadrid.adapters.expandable.MatchChildKotlin
 import com.adiaz.ligasmadrid.db.entities.Group

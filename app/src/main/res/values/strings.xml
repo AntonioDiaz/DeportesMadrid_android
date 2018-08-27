@@ -13,6 +13,7 @@
     <string name="favorites_team_added">Se añadió el equipo a la lista de favoritos.</string>
     <string name="favorites_team_removed">Se eliminó el equipo de la lista de favoritos.</string>
     <string name="error_getting_data">Error al obtener los datos.</string>
+    <string name="error_searching">Error al realizar la busqueda.</string>
     <string name="type_team">Equipo</string>
     <string name="type_competicion">Competición</string>
 

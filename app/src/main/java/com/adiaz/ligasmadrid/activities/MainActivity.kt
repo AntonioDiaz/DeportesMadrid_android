@@ -28,10 +28,8 @@ import com.adiaz.ligasmadrid.db.entities.Group
 import com.adiaz.ligasmadrid.retrofit.RetrofitApi
 import com.adiaz.ligasmadrid.retrofit.groupsdetails.Team
 import com.adiaz.ligasmadrid.retrofit.groupslist.GroupRetrofitEntity
-import com.adiaz.ligasmadrid.utils.Constants
-import com.adiaz.ligasmadrid.utils.ListItem
-import com.adiaz.ligasmadrid.utils.Utils
-import com.adiaz.ligasmadrid.utils.UtilsPreferences
+import com.adiaz.ligasmadrid.utils.*
+import com.adiaz.ligasmadrid.utils.Utils.showSnack
 import com.adiaz.ligasmadrid.utils.entities.TeamEntity
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,11 +49,18 @@ class MainActivity :
         LoaderManager.LoaderCallbacks<List<Group>>,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+        private const val SEARCH_GROUPS_LOADER = 22
+    }
+
     private var elementsList: List<ListItem>? = null
     private var mProgressDialog: ProgressDialog? = null
     private var mProgressDialogSearch: ProgressDialog? = null
     private var mTeamsSearch: MutableList<TeamEntity>? = null
     private var mMenu: Menu? = null
+    private var retryCountSync = 0
+    private var retryCountSearch = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppThemeNoActionBar)
@@ -70,17 +75,29 @@ class MainActivity :
         viewSports.visibility = View.VISIBLE
         viewSearchResults.visibility = View.INVISIBLE
         tvEmptyList.visibility = View.INVISIBLE
-        supportLoaderManager.initLoader(SEARCH_GROUPS_LOADER,  Bundle(), this)
-        val loaderManager = supportLoaderManager
-        val githubSearchLoader = loaderManager.getLoader<String>(SEARCH_GROUPS_LOADER)
-        if (githubSearchLoader == null) {
-            loaderManager.initLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
-        } else {
-            loaderManager.restartLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
-        }
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_SYNC)
         FirebaseMessaging.getInstance().subscribeToTopic(Constants.TOPICS_GENERAL)
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (supportActionBar != null) {
+            toolbar!!.subtitle = Utils.getYearDesc(this)
+        }
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
+            //syncCompetitions()
+        } else {
+            supportLoaderManager.initLoader(SEARCH_GROUPS_LOADER,  Bundle(), this)
+            val loaderManager = supportLoaderManager
+            val githubSearchLoader = loaderManager.getLoader<String>(SEARCH_GROUPS_LOADER)
+            if (githubSearchLoader == null) {
+                loaderManager.initLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
+            } else {
+                loaderManager.restartLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -106,18 +123,8 @@ class MainActivity :
             val retrofitApi = retrofit.create(RetrofitApi::class.java)
             val call = retrofitApi.queryTeams(teamName)
             viewSports!!.visibility = View.INVISIBLE
+            retryCountSearch = 0
             call.enqueue(SearchTeamCallBack())
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (supportActionBar != null) {
-            toolbar!!.subtitle = Utils.getYearDesc(this)
-        }
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
-            syncCompetitions()
         }
     }
 
@@ -151,7 +158,6 @@ class MainActivity :
     }
 
     private fun syncCompetitions() {
-        Log.d(TAG, "syncCompetitions: ")
         showLoading()
         val retrofit = Retrofit.Builder()
                 .baseUrl(Utils.getServerUrl(applicationContext))
@@ -159,7 +165,9 @@ class MainActivity :
                 .build()
         val retrofitApi = retrofit.create(RetrofitApi::class.java)
         val call = retrofitApi.queryAllGroups()
+        retryCountSync = 0
         call.enqueue(this)
+
     }
 
     override fun onResponse(call: Call<List<GroupRetrofitEntity>>, response: Response<List<GroupRetrofitEntity>>) {
@@ -169,13 +177,22 @@ class MainActivity :
             GroupsDAO.insertCompetitions(this, response.body()!!)
             //select all
             fillRecyclerview(GroupsDAO.queryAllCompetitions(this))
-            Log.d(TAG, "onResponse: syncDone")
             val preferences = PreferenceManager.getDefaultSharedPreferences(this)
             val editor = preferences.edit()
             editor.putString(getString(R.string.pref_last_udpate), Utils.formatDate(Date().time))
             editor.putBoolean(getString(R.string.pref_need_update), false)
             editor.apply()
             updateMenuSyncText()
+        }
+    }
+
+    override fun onFailure(call: Call<List<GroupRetrofitEntity>>, t: Throwable) {
+        Log.d(TAG, "onFailure ($retryCountSync out of ${Constants.TOTAL_RETRIES}")
+        if (retryCountSync++ < Constants.TOTAL_RETRIES) {
+            call.clone().enqueue(this)
+        } else {
+            hideLoading()
+            showSnack(mainView, getString(R.string.error_getting_data))
         }
     }
 
@@ -188,10 +205,6 @@ class MainActivity :
         }
         val item = mMenu!!.findItem(R.id.action_sync)
         item.title = syncMenu
-    }
-
-    override fun onFailure(call: Call<List<GroupRetrofitEntity>>, t: Throwable) {
-        Log.d(TAG, "onFailure: peto" + t.message)
     }
 
     override fun onDestroy() {
@@ -276,7 +289,8 @@ class MainActivity :
     }
 
     override fun onLoadFinished(loader: Loader<List<Group>>, data: List<Group>) {
-        if (data.isEmpty()) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        if (data.isEmpty() || preferences.getBoolean(getString(R.string.pref_need_update), true)) {
             syncCompetitions()
         } else {
             fillRecyclerview(data)
@@ -286,7 +300,6 @@ class MainActivity :
     override fun onLoaderReset(loader: Loader<List<Group>>) {}
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        Log.d(TAG, "onSharedPreferenceChanged: $key")
         if (key == getString(R.string.pref_year_key)) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(this)
             preferences.edit().putBoolean(getString(R.string.pref_need_update), true).apply()
@@ -325,13 +338,14 @@ class MainActivity :
         }
 
         override fun onFailure(call: Call<List<Team>>, t: Throwable) {
-            mProgressDialogSearch!!.dismiss()
-            viewSearchResults!!.visibility = View.VISIBLE
+            Log.v(TAG, "onFailure ($retryCountSync out of $Constants.TOTAL_RETRIES)")
+            if (retryCountSearch++ < Constants.TOTAL_RETRIES) {
+                call.clone().enqueue(this)
+            } else {
+                mProgressDialogSearch!!.dismiss()
+                viewSearchResults!!.visibility = View.VISIBLE
+                showSnack(mainView, getString(R.string.error_getting_data))
+            }
         }
-    }
-
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
-        private const val SEARCH_GROUPS_LOADER = 22
     }
 }
