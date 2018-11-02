@@ -85,18 +85,13 @@ class MainActivity :
         if (supportActionBar != null) {
             toolbar!!.subtitle = Utils.getYearDesc(this)
         }
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        if (preferences.getBoolean(getString(R.string.pref_need_update), true)) {
-            //syncCompetitions()
+        supportLoaderManager.initLoader(SEARCH_GROUPS_LOADER,  Bundle(), this)
+        val loaderManager = supportLoaderManager
+        val githubSearchLoader = loaderManager.getLoader<String>(SEARCH_GROUPS_LOADER)
+        if (githubSearchLoader == null) {
+            loaderManager.initLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
         } else {
-            supportLoaderManager.initLoader(SEARCH_GROUPS_LOADER,  Bundle(), this)
-            val loaderManager = supportLoaderManager
-            val githubSearchLoader = loaderManager.getLoader<String>(SEARCH_GROUPS_LOADER)
-            if (githubSearchLoader == null) {
-                loaderManager.initLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
-            } else {
-                loaderManager.restartLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
-            }
+            loaderManager.restartLoader(SEARCH_GROUPS_LOADER, Bundle(), this)
         }
     }
 

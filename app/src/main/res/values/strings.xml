@@ -74,7 +74,7 @@
     <string name="pref_notifications_summary">Se recibirá una notificación cuando se actualice la información de su equipo o grupo favoritos, por ejemplo un cambio de horario o un resultado.</string>
     <string name="pref_year_title">Eliga la temporada</string>
     <string name="pref_year_key" translatable="false">pref_year_key</string>
-    <string name="pref_year_default" translatable="false">2017</string>
+    <string name="pref_year_default" translatable="false">2019</string>
 
 
     <string name="pref_last_udpate" translatable="false">pref_last_update</string>
@@ -172,7 +172,8 @@
     <string name="pref_year_2019_value" translatable="false">2018</string>
     <string name="url_2017" translatable="false">https://deportes-madrid-2017.appspot.com</string>
     <string name="url_2018" translatable="false">https://deportes-madrid-2018.appspot.com</string>
-    <string name="url_2019" translatable="false">https://munisports-web.appspot.com/</string>
+    <string name="url_2019" translatable="false">https://deportes-madrid-2019.appspot.com</string>
+
 
     <string name="about_thanks">Esta aplicación es posible gracias a el programa <b>\"Datos Abiertos\"</b> del Ayuntamiento de Madrid. https://datos.madrid.es</string>
     <string name="example_about_version" translatable="false">1.1.1.snapshot</string>
