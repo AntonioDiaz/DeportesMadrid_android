@@ -198,8 +198,10 @@ class MainActivity :
         if (UtilsPreferences.isShowCompetitionsNumber(this) && mMenu != null && !TextUtils.isEmpty(lastUpdate)) {
             syncMenu = getString(R.string.action_sync_with_date, lastUpdate)
         }
-        val item = mMenu!!.findItem(R.id.action_sync)
-        item.title = syncMenu
+        if (mMenu!=null) {
+            val item = mMenu!!.findItem(R.id.action_sync)
+            item.title = syncMenu
+        }
     }
 
     override fun onDestroy() {

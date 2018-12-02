@@ -74,7 +74,7 @@
     <string name="pref_notifications_summary">Se recibirá una notificación cuando se actualice la información de su equipo o grupo favoritos, por ejemplo un cambio de horario o un resultado.</string>
     <string name="pref_year_title">Eliga la temporada</string>
     <string name="pref_year_key" translatable="false">pref_year_key</string>
-    <string name="pref_year_default" translatable="false">2019</string>
+    <string name="pref_year_default" translatable="false">2018</string>
 
 
     <string name="pref_last_udpate" translatable="false">pref_last_update</string>
